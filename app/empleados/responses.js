@@ -8,8 +8,7 @@ const empleadosFindAll = () => {
     return (req, res, next) => {
         empleadoServices.empleadosFindAll()
             .then(r => {
-                //r = [...r.empleados];
-                res.json(r);
+                res.json([...r.empleados]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

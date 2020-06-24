@@ -8,8 +8,7 @@ const saboresFindAll = () => {
     return (req, res, next) => {
         saborServices.saboresFindAll()
             .then(r => {
-                //r = [...responses.users];
-                res.json(r);
+                res.json([...r.sabores]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

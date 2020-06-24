@@ -8,8 +8,7 @@ const tortasFindAll = () => {
     return (req, res, next) => {
         tortaServices.tortasFindAll()
             .then(r => {
-                //r = [...responses.users];
-                res.json(r);
+                res.json([...r.tortas]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

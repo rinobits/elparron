@@ -1,8 +1,8 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom         = require('@hapi/boom');
 // imports & consts
-const UserServices              = require('./services');
-const userServices              = new UserServices();
+const UserServices = require('./services');
+const userServices = new UserServices();
 
 const cargosFindAll = () => {
     return (req, res, next) => {

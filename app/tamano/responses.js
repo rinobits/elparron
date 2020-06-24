@@ -8,8 +8,7 @@ const tamanosFindAll = () => {
     return (req, res, next) => {
         tamanoServices.tamanosFindAll()
             .then(r => {
-                //r = [...responses.users];
-                res.json(r);
+                res.json([...r.tamanos]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
