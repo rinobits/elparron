@@ -1,5 +1,5 @@
 // package
-const boom                      = require('@hapi/boom');
+const boom          = require('@hapi/boom');
 
 // imports & consts 
 const ArmarServices = require('./services');
@@ -9,7 +9,7 @@ const armarFindAll = () => {
     return (req, res, next) => {
         armarServices.armarFindAll()
             .then(responses => {
-                res.json(responses)
+                res.json([...responses])
             })
             .catch(e => next(boom.badImplementation(e)))
         }

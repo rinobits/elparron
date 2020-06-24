@@ -1,5 +1,4 @@
 const { Cargos } = require('../../lib/database');
-const bcrypt     = require('bcrypt'); 
 
 class CargoServices{
     cargosFindAll(){

@@ -1,5 +1,5 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom                          = require('@hapi/boom');
 // imports & consts
 const SucursalServices              = require('./services');
 const sucursalServices              = new SucursalServices();

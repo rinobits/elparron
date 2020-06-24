@@ -26,18 +26,20 @@ class ArmarServices{
         return new Promise((resolve, reject) => {
             Armar.update(body, { where: {id: id}})
             .then(r => {
-                if(r == 1) resolve({"MODIFY DATA": true})
+                if(r == 1) resolve({"MODIFY DATA:": true});
                 else reject({"MODIFY DATA:": false})
             })
             .catch(e => reject(e));
         });
     }
-    armarDeleteById(id){
+    armarDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
             Armar.update({estado: estado}, { where: {id: id}})
             .then(r => {
-                if(r == 1) resolve({"DELETE DATA": true})
-                else reject({"DELETE DATA:": false})
+                if(r == 1){
+                    resolve({"MODIFY DATA:": true});
+                }
+                else reject({"MODIFY DATA:": false})
             })
             .catch(e => reject(e));
         });

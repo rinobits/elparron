@@ -2,26 +2,29 @@
 const Joi              = require('@hapi/joi');
 // consts
 const nombre           = Joi.string();
+const ciudad           = Joi.string();
 const estado           = Joi.number().min(0).max(1);
 const id               = Joi.number().min(0);
 
-const idShema         = Joi.object({
+const idSchema         = Joi.object({
     id: id.required()
 })
-const masaSaborSchemaCreate = Joi.object({
-    nombre: nombre.required()
+const comunaSchemaCreate = Joi.object({
+    nombre: nombre.required(),
+    ciudad: ciudad.required()
 })
 
-const masaSaborSchemaUpdate = Joi.object({
+const comunaSchemaUpdate = Joi.object({
     nombre,
+    ciudad,
     estado
 });
-const masaSaborSchemaDelete = Joi.object({
+const comunaSchemaDelete = Joi.object({
     estado: estado.required()
 })
 module.exports = {
-    masaSaborSchemaCreate,
-    masaSaborSchemaUpdate,
-    masaSaborSchemaDelete,
-    idShema
+    comunaSchemaCreate,
+    comunaSchemaUpdate,
+    comunaSchemaDelete,
+    idSchema
 }

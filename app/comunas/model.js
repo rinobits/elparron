@@ -7,7 +7,8 @@ module.exports = (sequelize, type) => {
         },
         nombre: {
             type: type.STRING,
-            ciudad: false
+            ciudad: false,
+            unique: true
         },
         ciudad: {
             type: type.STRING,

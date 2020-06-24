@@ -6,7 +6,7 @@ const personas = Joi.string();
 const estado   = Joi.number().min(0).max(1);
 const id       = Joi.number().min(0);     
 
-const idShema = Joi.object({
+const idSchema = Joi.object({
     id: id.required()
 })
 const tamanoSchemaCreate = Joi.object({
@@ -26,5 +26,5 @@ module.exports = {
     tamanoSchemaCreate,
     tamanoSchemaUpdate,
     tamanoSchemaDelete,
-    idShema
+    idSchema
 }

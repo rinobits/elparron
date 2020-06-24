@@ -9,7 +9,7 @@ const masaTipoFindAll = () => {
         masaTipoServices.masaTipoFindAll()
             .then(r => {
                 //r = [...responses.users];
-                res.json(r);
+                res.json([...r.masaTipo]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

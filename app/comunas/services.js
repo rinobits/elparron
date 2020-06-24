@@ -1,31 +1,30 @@
-const {Comuna}                  = require('../../lib/database');
-const bcrypt                    = require('bcrypt'); 
+const {Comunas} = require('../../lib/database');
 
-class ComunaServices{
+class ComunasServices{
     comunaFindAll(){
         return new Promise((resolve, reject) => {
-            Comuna.findAll({where:{estado:1}})
-                .then(r => resolve({comuna: r})) 
+            Comunas.findAll({where:{estado:1}})
+                .then(r => resolve(r)) 
                 .catch(e => reject(e));
         });
     }
     comunaFindById(id){
         return new Promise((resolve, reject) => {
-            Comuna.findByPk(id)
+            Comunas.findByPk(id)
                 .then(r => resolve({'cargo':r}))
                 .catch(e => reject(e));
         });
     }
     comunaCreate(body){
         return new Promise((resolve, reject) => {
-            Comuna.create(body)
+            Comunas.create(body)
             .then(r => resolve(r))
             .catch(e => reject(e));
         });
     }
     comunaUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            Comuna.update(body, { where: {id: id}})
+            Comunas.update(body, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
@@ -37,7 +36,7 @@ class ComunaServices{
     }
     comunaDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
-            Comuna.update({estado: estado}, { where: {id: id}})
+            Comunas.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
@@ -49,4 +48,4 @@ class ComunaServices{
     }
     
 }
-module.exports = ComunaServices;
+module.exports = ComunasServices;

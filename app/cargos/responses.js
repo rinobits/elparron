@@ -8,8 +8,7 @@ const cargosFindAll = () => {
     return (req, res, next) => {
         userServices.cargosFindAll()
             .then(r => {
-                //r = [...responses.users];
-                res.json(r);
+                res.json([...r.cargos]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

@@ -12,7 +12,7 @@ const usersFindAll = () => {
                     delete r.users[i].dataValues.userPassword;
                 }
                 i = 0;
-                r = [...responses.users];
+                // r = [...responses.users];
                 res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))

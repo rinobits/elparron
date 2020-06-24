@@ -8,6 +8,7 @@ module.exports = (sequelize, type) => {
         rut: {
             type: type.STRING,
             allowNull: false,
+            unique: true
         },
         razonSocial: {
             type: type.STRING,

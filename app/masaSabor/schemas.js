@@ -5,7 +5,7 @@ const nombre           = Joi.string();
 const estado           = Joi.number().min(0).max(1);
 const id               = Joi.number().min(0);
 
-const idShema         = Joi.object({
+const idSchema         = Joi.object({
     id: id.required()
 })
 const masaSaborSchemaCreate = Joi.object({
@@ -23,5 +23,5 @@ module.exports = {
     masaSaborSchemaCreate,
     masaSaborSchemaUpdate,
     masaSaborSchemaDelete,
-    idShema
+    idSchema
 }

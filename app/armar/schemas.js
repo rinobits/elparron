@@ -12,21 +12,20 @@ const horaEntrega = Joi.string().min(2).max(5);
 const estado      = Joi.number().min(0).max(1);
 const id          = Joi.number().min(0);
 
-const idShema    = Joi.object({
+const idSchema    = Joi.object({
     id: id.required()
 })
 const armarSchemaCreate = Joi.object({
-    name:      name.required(),
-    phone:     phone.required(),
-    torta_id:  torta_id.required(),
-    tamano_id: tamano_id.required(),
+    name:        name.required(),
+    phone:       phone.required(),
+    torta_id:    torta_id.required(),
+    tamano_id:   tamano_id.required(),
     description,
     message,
-    value:     value.required(),
+    value:       value.required(),
     deposit,
     horaEntrega: horaEntrega.required()
 });
-
 const armarSchemaUpdate = Joi.object({
     name,
     phone,
@@ -47,5 +46,5 @@ module.exports = {
     armarSchemaCreate,
     armarSchemaUpdate,
     armarSchemaDelete,
-    idShema
+    idSchema
 }

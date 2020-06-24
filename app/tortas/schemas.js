@@ -6,7 +6,7 @@ const masaSabor_id  = Joi.number().min(0);
 const sabor_id      = Joi.number().min(0);
 const id            = Joi.number().min(0);
 
-const idShema     = Joi.object({
+const idSchema     = Joi.object({
     id: id.required()
 })
 const tortaSchemaCreate = Joi.object({
@@ -28,5 +28,5 @@ module.exports = {
     tortaSchemaCreate,
     tortaSchemaUpdate,
     tortaSchemaDelete,
-    idShema
+    idSchema
 }

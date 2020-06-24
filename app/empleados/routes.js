@@ -3,8 +3,8 @@ const express                                         = require('express');
 const router                                          = express.Router();
 // imports & cons                       
 const control                                         = require('./responses');
-const { empleadoSchemaCreate, empleadoSchemaUpdate} = require('./schemas');
-const { idSchema, empleadoSchemaDelete}              = require('./schemas');
+const { empleadoSchemaCreate, empleadoSchemaUpdate}   = require('./schemas');
+const { idSchema, empleadoSchemaDelete}               = require('./schemas');
 const validatorHandler                                = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
@@ -13,5 +13,5 @@ router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.emplead
 // admin
 router.post('/create', verifyToken, validatorHandler(empleadoSchemaCreate , 'body'), control.empleadosCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(empleadoSchemaUpdate, 'body'), control.empleadosUpdateById());
-router.put('/delete/:id', verifyToken, /* validatorHandler(idSchema, 'params'), validatorHandler(empleadoSchemaDelete, 'body'), */ control.empleadosDeleteById());
+router.put('/delete/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(empleadoSchemaDelete, 'body'), control.empleadosDeleteById());
 module.exports = router;

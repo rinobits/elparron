@@ -8,6 +8,7 @@ const tamano     = require('./tamano/routes');
 const tortas     = require('./tortas/routes');
 const auth       = require('./auth/routes');
 const sucursales = require('./sucursales/routes');
+const comunas    = require('./comunas/routes');
 const sabor      = require('./sabor/routes');
 const masaTipo   = require('./masaTipo/routes');
 const masaSabor  = require('./masaSabor/routes');
@@ -24,6 +25,7 @@ const index = (app) => {
     router.use('/tamano', tamano);
     router.use('/tortas', tortas);
     router.use('/sucursales', sucursales);
+    router.use('/comunas', comunas);
     router.use('/sabor', sabor);
     router.use('/masaTipo', masaTipo);
     router.use('/masaSabor', masaSabor);

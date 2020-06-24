@@ -10,7 +10,7 @@ const empleado_id      = Joi.number().min(0);
 const estado           = Joi.number().min(0).max(1);
 const id               = Joi.number().min(0);
 
-const idShema          = Joi.object({
+const idSchema          = Joi.object({
     id: id.required()
 })
 const userSchemaCreate = Joi.object({
@@ -32,5 +32,5 @@ module.exports = {
     userSchemaCreate,
     userSchemaUpdate,
     userSchemaDelete,
-    idShema
+    idSchema
 }

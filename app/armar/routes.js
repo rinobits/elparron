@@ -9,11 +9,11 @@ const validatorHandler                        = require('../../utils/middlewares
 const verifyToken                             = require('../../utils/middlewares/verifyToken');
 
 // developer
-router.get('/', control.armarFindAll());
-router.get('/:id', validatorHandler(idSchema, 'params'), control.armarFindById());
+router.get('/getall/', control.armarFindAll());
+router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.armarFindById());
 // admin
-router.post('/', verifyToken, validatorHandler(armarSchemaCreate, 'body'), control.armarCreate());
-router.put('/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(armarSchemaUpdate, 'body'), control.armarFindById());
-router.put('/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(armarSchemaDelete, 'params'), control.armarDeleteById());
+router.post('/create', verifyToken, validatorHandler(armarSchemaCreate, 'body'), control.armarCreate());
+router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(armarSchemaUpdate, 'body'), control.armarUpdateById());
+router.put('/delete/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(armarSchemaDelete, 'body'), control.armarDeleteById());
 
 module.exports = router;

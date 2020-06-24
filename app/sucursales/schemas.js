@@ -16,7 +16,7 @@ const contactoNombre = Joi.string();
 const colorFondo     = Joi.string();       
 const colorLetra     = Joi.string();
 
-const idShema       = Joi.object({
+const idSchema       = Joi.object({
     id: id.required()
 })
 
@@ -53,5 +53,5 @@ module.exports = {
     sucursalesSchemaCreate,
     sucursalesSchemaUpdate,
     sucursalesSchemaDelete,
-    idShema
+    idSchema
 }

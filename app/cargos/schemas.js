@@ -1,11 +1,11 @@
 // packages
 const Joi    = require('@hapi/joi');
-// consts      
+// consts       
 const nombre = Joi.string();
 const estado = Joi.number().min(0).max(1);
 const id     = Joi.number().min(0);
 
-const idShema  = Joi.object({
+const idSchema  = Joi.object({
     id: id.required()
 })
 const cargoSchemaCreate = Joi.object({
@@ -23,5 +23,5 @@ module.exports = {
     cargoSchemaCreate,
     cargoSchemaUpdate,
     cargoSchemaDelete,
-    idShema
+    idSchema
 }

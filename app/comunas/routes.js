@@ -3,8 +3,8 @@ const express                                         = require('express');
 const router                                          = express.Router();
 // imports & cons                       
 const control                                         = require('./responses');
-const { comunaSchemaCreate, comunaSchemaUpdate}         = require('./schemas');
-const { idSchema, comunaSchemaDelete}                  = require('./schemas');
+const { comunaSchemaCreate, comunaSchemaUpdate}       = require('./schemas');
+const { idSchema, comunaSchemaDelete}                 = require('./schemas');
 const validatorHandler                                = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer

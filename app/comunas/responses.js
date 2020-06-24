@@ -1,14 +1,13 @@
 // packages
 const boom                      = require('@hapi/boom');
 // imports & consts
-const ComunaServices              = require('./services');
-const comunaServices              = new ComunaServices();
+const ComunasServices           = require('./services');
+const comunaServices            = new ComunasServices();
 
 const comunaFindAll = () => {
     return (req, res, next) => {
         comunaServices.comunaFindAll()
             .then(r => {
-                //r = [...responses.users];
                 res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
