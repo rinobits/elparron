@@ -6,20 +6,32 @@ module.exports = (sequelize, type) => {
             autoIncrement: true
         },
         masaTipo_id: {
-            type: type.STRING,
-            allowNull: false
+            type: type.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'masaTipos',
+                key:    'id'
+            }
         },
         masaSabor_id: {
-            type: type.STRING,
-            allowNull: false
+            type: type.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'masaSabors',
+                key:   'id'
+            }
         },
         sabor_id: {
-            type: type.STRING,
-            allowNull: false
+            type: type.INTEGER,
+            allowNull: false,
+            references: {
+                model: 'sabores',
+                key:   'id'
+            }
         },
         estado: {
             type: type.INTEGER(1),
             defaultValue: 1
         }
-    })
+    }, {});
 }

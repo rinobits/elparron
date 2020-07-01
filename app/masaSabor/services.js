@@ -1,11 +1,10 @@
-const {MasaSabor}                  = require('../../lib/database');
-const bcrypt                    = require('bcrypt'); 
+const {MasaSabor} = require('../../lib/database');
 
 class MasaSaborServices{
     masaSaborFindAll(){
         return new Promise((resolve, reject) => {
             MasaSabor.findAll({where:{estado:1}})
-                .then(r => resolve({masaSabor: r})) 
+                .then(r => resolve(r)) 
                 .catch(e => reject(e));
         });
     }

@@ -1,10 +1,12 @@
-const {Tortas}                  = require('../../lib/database');
-const bcrypt                     = require('bcrypt'); 
+const {Tortas} = require('../../lib/database');
 
 class TortasServices{
     tortasFindAll(){
         return new Promise((resolve, reject) => {
-            Tortas.findAll({where:{estado:1}})
+            Tortas.findAll({
+                include: ['masaSabors', 'masaTipos', 'sabores'],
+                where:{estado:1}
+            })
                 .then(r => resolve({tortas: r})) 
                 .catch(e => reject(e));
         });

@@ -12,7 +12,7 @@ const idSchema     = Joi.object({
 const tortaSchemaCreate = Joi.object({
     masaTipo_id:  masaTipo_id.required(),
     masaSabor_id: masaSabor_id.required(),
-    sabor_id: sabor_id.required(),
+    sabor_id:     sabor_id.required(),
 });
 const tortaSchemaUpdate = Joi.object({
     masaTipo_id,

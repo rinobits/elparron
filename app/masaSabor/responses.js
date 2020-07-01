@@ -1,14 +1,13 @@
 // packages
-const boom                      = require('@hapi/boom');
-// imports & consts
-const MasaSaborServices              = require('./services');
-const masaSaborServices              = new MasaSaborServices();
+const boom              = require('@hapi/boom');
+// imports & consts     
+const MasaSaborServices = require('./services');
+const masaSaborServices = new MasaSaborServices();
 
 const masaSaborFindAll = () => {
     return (req, res, next) => {
         masaSaborServices.masaSaborFindAll()
             .then(r => {
-                //r = [...responses.users];
                 res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))

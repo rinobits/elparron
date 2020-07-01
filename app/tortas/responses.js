@@ -1,8 +1,8 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom           = require('@hapi/boom');
 // imports & consts
-const TortaServices              = require('./services');
-const tortaServices              = new TortaServices();
+const TortaServices  = require('./services');
+const tortaServices  = new TortaServices();
 
 const tortasFindAll = () => {
     return (req, res, next) => {
