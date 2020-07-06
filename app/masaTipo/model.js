@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    const MasaTipo = sequelize.define('masaTipo', {
+    const masaTipos = sequelize.define('masaTipos', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -15,8 +15,8 @@ module.exports = (sequelize, type) => {
             defaultValue: 1
         }
     }, {});
-    MasaTipo.associate = function(models) {
-        MasaTipo.belongsTo(models.tortas, {foreignKey: 'masaTipo_id', as: 'masatipo'})
+    masaTipos.associate = function(models) {
+        masaTipos.belongsTo(models.tortas, {foreignKey: 'masaTipo_id', targetKey: 'nombre', as:'masaSabors'})
     };
-    return MasaTipo;
+    return masaTipos;
 }

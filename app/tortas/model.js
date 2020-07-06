@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('tortas', {
+    const Tortas = sequelize.define('tortas', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -32,6 +32,12 @@ module.exports = (sequelize, type) => {
         estado: {
             type: type.INTEGER(1),
             defaultValue: 1
-        }
-    }, {});
+        },
+    });
+/*     Tortas.associate = function(models) {
+        Tortas.hasOne(models.masaTipos,  {foreignKey: 'masaTipo_id',  targetKey: 'nombre'});
+        Tortas.hasOne(models.masaSabors, {foreignKey: 'masaSabor_id', targetKey: 'nombre'});
+        Tortas.hasOne(models.sabores,    {foreignKey: 'sabor_id',     targetKey: 'nombre'});
+    }; */
+    return Tortas;
 }
