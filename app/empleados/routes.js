@@ -8,8 +8,8 @@ const { idSchema, empleadoSchemaDelete}               = require('./schemas');
 const validatorHandler                                = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
-router.get('/getall', control.empleadosFindAll());
-router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.empleadosFindById());
+router.get('/getall', verifyToken, control.empleadosFindAll());
+router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'), control.empleadosFindById());
 // admin
 router.post('/create', verifyToken, validatorHandler(empleadoSchemaCreate , 'body'), control.empleadosCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(empleadoSchemaUpdate, 'body'), control.empleadosUpdateById());
