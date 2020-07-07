@@ -8,26 +8,29 @@ module.exports = (sequelize, type) => {
         masaTipo_id: {
             type: type.INTEGER,
             allowNull: false,
-            references: {
+            unique: true,
+/*             references: {
                 model: 'masaTipos',
                 key:    'id'
-            }
+            } */
         },
         masaSabor_id: {
             type: type.INTEGER,
             allowNull: false,
-            references: {
+            unique: true,
+/*             references: {
                 model: 'masaSabors',
                 key:   'id'
-            }
+            } */
         },
         sabor_id: {
             type: type.INTEGER,
             allowNull: false,
-            references: {
+            unique: true,
+/*             references: {
                 model: 'sabores',
                 key:   'id'
-            }
+            } */
         },
         estado: {
             type: type.INTEGER(1),

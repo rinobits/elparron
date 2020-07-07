@@ -1,0 +1,3293 @@
+openapi: 3.0.0
+info:
+  title: API EL PARRON
+  description: API de panadería El Parron.
+  version: 1.0.0
+servers:
+- url: /
+tags:
+- name: auth
+  description: Acceso de usuario
+- name: users
+  description: Operaciones con usuarios
+- name: empleados
+  description: Operaciones con empleados
+- name: cargos
+  description: Operaciones con cargos
+- name: armar
+  description: Operaciones con armado de pedidos
+- name: tortas
+  description: Operaciones con tortas
+- name: masaTipo
+  description: Operaciones con tipos de masa
+- name: masaSabor
+  description: Operaciones con sabores de masa
+- name: sabor
+  description: Operaciones con sabores de torta (cobertura)
+- name: tamano
+  description: Operaciones con tamanos
+- name: sucursales
+  description: Operaciones con sucursales
+- name: comunas
+  description: Operaciones con comunas
+paths:
+  /auth:
+    post:
+      tags:
+      - auth
+      summary: Autenticación
+      description: Obtención de privilegios
+      operationId: authenticate
+      requestBody:
+        description: Usuario input
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+      responses:
+        "200":
+          description: Autenticación exitosa
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tokenResponse'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuthLogin'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Auth
+  /users/getbyid/{id}:
+    get:
+      tags:
+      - users
+      summary: Buscar usuario por su id.
+      description: Se requieren privilegos.
+      operationId: getUserById
+      parameters:
+      - name: id
+        in: path
+        description: Users ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Usuario obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUser'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /users/update/{id}:
+    put:
+      tags:
+      - users
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editUser
+      parameters:
+      - name: id
+        in: path
+        description: Users ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Usuario editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /users/delete/{id}:
+    put:
+      tags:
+      - users
+      summary: Eliminar usuario
+      description: Se requieren privilegios.
+      operationId: deleteUser
+      parameters:
+      - name: id
+        in: path
+        description: Order ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Usuario eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /users/getall:
+    get:
+      tags:
+      - users
+      summary: Listar usuarios
+      description: Se requieren privilegos.
+      operationId: getUsers
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getUsers'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /users/create:
+    post:
+      tags:
+      - users
+      summary: Crear usuario
+      description: Se requieren privilegios.
+      operationId: createUser
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/users'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Users
+  /empleados/getbyid/{id}:
+    get:
+      tags:
+      - empleados
+      summary: Buscar empleado por su id.
+      description: Se requieren privilegos.
+      operationId: getEmpleadoById
+      parameters:
+      - name: id
+        in: path
+        description: Empleados ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Empleado obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getEmpleado'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Empleados
+  /empleados/update/{id}:
+    put:
+      tags:
+      - empleados
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editEmpleado
+      parameters:
+      - name: id
+        in: path
+        description: Empleado ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Empleado editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/empleadoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Empleados
+  /empleados/delete/{id}:
+    put:
+      tags:
+      - empleados
+      summary: Eliminar empleado
+      description: Se requieren privilegios.
+      operationId: deleteEmpleado
+      parameters:
+      - name: id
+        in: path
+        description: Empleado ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Empleado eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Empleados
+  /empleados/getall:
+    get:
+      tags:
+      - empleados
+      summary: Listar empleados
+      description: Se requieren privilegos.
+      operationId: getEmpleados
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getEmpleados'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Empleados
+  /empleados/create:
+    post:
+      tags:
+      - empleados
+      summary: Crear empleado
+      description: Se requieren privilegios.
+      operationId: createEmpleado
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/empleados'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/empleadoBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Empleados
+  /cargos/getbyid/{id}:
+    get:
+      tags:
+      - cargos
+      summary: Buscar cargos por su id.
+      description: No requieren privilegos.
+      operationId: getCargosById
+      parameters:
+      - name: id
+        in: path
+        description: Cargos ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Cargo obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getCargo'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Cargos
+  /cargos/update/{id}:
+    put:
+      tags:
+      - cargos
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editCargo
+      parameters:
+      - name: id
+        in: path
+        description: Cargo ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Cargo editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/cargoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Cargos
+  /cargos/delete/{id}:
+    put:
+      tags:
+      - cargos
+      summary: Eliminar cargo
+      description: Se requieren privilegios.
+      operationId: deleteCargo
+      parameters:
+      - name: id
+        in: path
+        description: Cargo ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Cargo eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Cargos
+  /cargos/getall:
+    get:
+      tags:
+      - cargos
+      summary: Listar cargos
+      description: No se requieren privilegos.
+      operationId: getCargos
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getCargos'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Cargos
+  /cargos/create:
+    post:
+      tags:
+      - cargos
+      summary: Crear cargo
+      description: Se requieren privilegios.
+      operationId: createCargo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/cargos'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/userBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Cargos
+  /armar/getbyid/{id}:
+    get:
+      tags:
+      - armar
+      summary: Buscar pedidos por su id.
+      description: No se requieren privilegos.
+      operationId: getPedidosById
+      parameters:
+      - name: id
+        in: path
+        description: pedido ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Pedido obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPedido'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Armar
+  /armar/update/{id}:
+    put:
+      tags:
+      - armar
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editPedido
+      parameters:
+      - name: id
+        in: path
+        description: Pedido ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Pedido editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pedidoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Armar
+  /armar/delete/{id}:
+    put:
+      tags:
+      - armar
+      summary: Eliminar pedido
+      description: Se requieren privilegios.
+      operationId: deletePedido
+      parameters:
+      - name: id
+        in: path
+        description: Pedido ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Pedido eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Armar
+  /armar/getall:
+    get:
+      tags:
+      - armar
+      summary: Listar pedidos
+      description: No se requieren privilegos.
+      operationId: getPedidos
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPedidos'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Armar
+  /armar/create:
+    post:
+      tags:
+      - armar
+      summary: Crear pedido
+      description: Se requieren privilegios.
+      operationId: createPedido
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/pedidos'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/pedidoBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Armar
+  /tortas/getbyid/{id}:
+    get:
+      tags:
+      - tortas
+      summary: Buscar tortas por su id.
+      description: No se requieren privilegos.
+      operationId: getTortasById
+      parameters:
+      - name: id
+        in: path
+        description: torta ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Torta obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTorta'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tortas
+  /tortas/update/{id}:
+    put:
+      tags:
+      - tortas
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editTorta
+      parameters:
+      - name: id
+        in: path
+        description: Torta ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Torta editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tortaBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tortas
+  /tortas/delete/{id}:
+    put:
+      tags:
+      - tortas
+      summary: Eliminar torta
+      description: Se requieren privilegios.
+      operationId: deleteTorta
+      parameters:
+      - name: id
+        in: path
+        description: Torta ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Torta eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tortas
+  /tortas/getall:
+    get:
+      tags:
+      - tortas
+      summary: Listar tortas
+      description: No se requieren privilegos.
+      operationId: getTortas
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTortas'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tortas
+  /tortas/create:
+    post:
+      tags:
+      - tortas
+      summary: Crear torta
+      description: Se requieren privilegios.
+      operationId: createTorta
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tortas'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tortaBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tortas
+  /masatipo/getbyid/{id}:
+    get:
+      tags:
+      - masaTipo
+      summary: Buscar tipo de masa por su id.
+      description: No se requieren privilegos.
+      operationId: getMasaTipoById
+      parameters:
+      - name: id
+        in: path
+        description: masaTipo ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getMasaTipo'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaTipo
+  /masatipo/update/{id}:
+    put:
+      tags:
+      - masaTipo
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editMasaTipo
+      parameters:
+      - name: id
+        in: path
+        description: MasaTipo ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tipo de masa editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/masaTipoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaTipo
+  /masatipo/delete/{id}:
+    put:
+      tags:
+      - masaTipo
+      summary: Eliminar tipo de masa
+      description: Se requieren privilegios.
+      operationId: deleteMasaTipo
+      parameters:
+      - name: id
+        in: path
+        description: MasaTipo ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tipo de masa eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaTipo
+  /masatipo/getall:
+    get:
+      tags:
+      - masaTipo
+      summary: Listar tipo de masa
+      description: No se requieren privilegos.
+      operationId: getMasaTipo
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getMasaTipos'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaTipo
+  /masatipo/create:
+    post:
+      tags:
+      - masaTipo
+      summary: Crear tipo de masa
+      description: Se requieren privilegios.
+      operationId: createMasaTipo
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/masaTipo'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/masaTipoBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaTipo
+  /masasabor/getbyid/{id}:
+    get:
+      tags:
+      - masaSabor
+      summary: Buscar sabor de masa por su id.
+      description: No se requieren privilegos.
+      operationId: getMasaSaborById
+      parameters:
+      - name: id
+        in: path
+        description: masaSabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getMasaSabor'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaSabor
+  /masasabor/edit/{id}:
+    put:
+      tags:
+      - masaSabor
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editMasaSabor
+      parameters:
+      - name: id
+        in: path
+        description: MasaSabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tipo de masa editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/masaSaborBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaSabor
+  /masasabor/delete/{id}:
+    put:
+      tags:
+      - masaSabor
+      summary: Eliminar sabor de masa
+      description: Se requieren privilegios.
+      operationId: deleteMasaSabor
+      parameters:
+      - name: id
+        in: path
+        description: MasaSabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tipo de masa eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaSabor
+  /masasabor/getall:
+    get:
+      tags:
+      - masaSabor
+      summary: Listar sabor de masa
+      description: No se requieren privilegos.
+      operationId: getMasaSabor
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getMasaSabors'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaSabor
+  /masasabor/create:
+    post:
+      tags:
+      - masaSabor
+      summary: Crear sabor de masa
+      description: Se requieren privilegios.
+      operationId: createMasaSabor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/masaSabor'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/masaSaborBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: MasaSabor
+  /sabor/getbyid/{id}:
+    get:
+      tags:
+      - sabor
+      summary: Buscar tipo de masa por su id.
+      description: No se requieren privilegos.
+      operationId: getSaborById
+      parameters:
+      - name: id
+        in: path
+        description: sabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSabor'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sabor
+  /sabor/update/{id}:
+    put:
+      tags:
+      - sabor
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editSabor
+      parameters:
+      - name: id
+        in: path
+        description: Sabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Sabor editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/saborBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sabor
+  /sabor/delete/{id}:
+    put:
+      tags:
+      - sabor
+      summary: Eliminar sabor
+      description: Se requieren privilegios.
+      operationId: deleteSabor
+      parameters:
+      - name: id
+        in: path
+        description: Sabor ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tipo de masa eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sabor
+  /sabor/getall:
+    get:
+      tags:
+      - sabor
+      summary: Listar sabores
+      description: No se requieren privilegos.
+      operationId: getSabor
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSabores'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sabor
+  /sabor/create:
+    post:
+      tags:
+      - sabor
+      summary: Crear sabores
+      description: Se requieren privilegios.
+      operationId: createSabor
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sabor'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/saborBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sabor
+  /tamano/getbyid/{id}:
+    get:
+      tags:
+      - tamano
+      summary: Buscar tamaño por su id.
+      description: No se requieren privilegos
+      operationId: getTamanoById
+      parameters:
+      - name: id
+        in: path
+        description: tamano ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTamano'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tamano
+  /tamano/update/{id}:
+    put:
+      tags:
+      - tamano
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editTamano
+      parameters:
+      - name: id
+        in: path
+        description: Tamano ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tamaño editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tamanoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tamano
+  /tamano/delete/{id}:
+    put:
+      tags:
+      - tamano
+      summary: Eliminar tamano
+      description: Se requieren privilegios.
+      operationId: deleteTamano
+      parameters:
+      - name: id
+        in: path
+        description: Tamano ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Tamañoor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tamano
+  /tamano/getall:
+    get:
+      tags:
+      - tamano
+      summary: Listar tamaño
+      description: No se requieren privilegos.
+      operationId: getTamano
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getTamanos'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tamano
+  /tamano/create:
+    post:
+      tags:
+      - tamano
+      summary: Crear tamaño
+      description: Se requieren privilegios.
+      operationId: createTamano
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tamano'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/tamanoBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Tamano
+  /sucursales/getbyid/{id}:
+    get:
+      tags:
+      - sucursales
+      summary: Buscar sucursal por su id.
+      description: No se requieren privilegos
+      operationId: getSucursalById
+      parameters:
+      - name: id
+        in: path
+        description: sucursal ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSucursal'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sucursales
+  /sucursales/update/{id}:
+    put:
+      tags:
+      - sucursales
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editSucursales
+      parameters:
+      - name: id
+        in: path
+        description: Sucursal ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Sucursal editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sucursalBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sucursales
+  /sucursales/delete/{id}:
+    put:
+      tags:
+      - sucursales
+      summary: Eliminar sucursales
+      description: Se requieren privilegios.
+      operationId: deleteSucursales
+      parameters:
+      - name: id
+        in: path
+        description: Sucursal ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Sucursalor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sucursales
+  /sucursales/getall:
+    get:
+      tags:
+      - sucursales
+      summary: Listar sucursales
+      description: No se requieren privilegos.
+      operationId: getSucursales
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSucursales'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sucursales
+  /sucursales/create:
+    post:
+      tags:
+      - sucursales
+      summary: Crear sucursal
+      description: Se requieren privilegios.
+      operationId: createSucursales
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sucursales'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/sucursalBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sucursales
+  /comunas/getbyid/{id}:
+    get:
+      tags:
+      - comunas
+      summary: Buscar comuna por su id.
+      description: No se requieren privilegos
+      operationId: getComunaById
+      parameters:
+      - name: id
+        in: path
+        description: comuna ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getComuna'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Comunas
+  /comunas/update/{id}:
+    put:
+      tags:
+      - comunas
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editComunas
+      parameters:
+      - name: id
+        in: path
+        description: Comuna ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Comuna editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comunaBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Comunas
+  /comunas/delete/{id}:
+    put:
+      tags:
+      - comunas
+      summary: Eliminar comunas
+      description: Se requieren privilegios.
+      operationId: deleteComunas
+      parameters:
+      - name: id
+        in: path
+        description: Comuna ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Comunaor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Comunas
+  /comunas/getall:
+    get:
+      tags:
+      - comunas
+      summary: Listar comuna
+      description: No se requieren privilegos.
+      operationId: getComunas
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getComunas'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Comunas
+  /comunas/create:
+    post:
+      tags:
+      - comunas
+      summary: Crear comuna
+      description: Se requieren privilegios.
+      operationId: createComunas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comunas'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/comunaBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Comunas
+components:
+  schemas:
+    internalError:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 500
+        error:
+          type: string
+          example: Internal Server Error
+        message:
+          type: string
+          example: An internal server error occurred
+    tokenResponse:
+      type: object
+      properties:
+        token:
+          type: string
+          example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
+      example:
+        token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU
+    notAuthLogin:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: can't authenticate
+    notAuth:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 401
+        error:
+          type: string
+          example: Unauthorized
+        message:
+          type: string
+          example: Unauthorized
+    users:
+      required:
+      - userName
+      - userPassword
+      type: object
+      properties:
+        userName:
+          maxLength: 30
+          minLength: 3
+          type: string
+        userPassword:
+          maxLength: 32
+          minLength: 8
+          type: string
+    getUser:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        userName:
+          type: string
+          example: Arath
+        createdAt:
+          type: string
+          example: 2020-06-15T21:33:42.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-15T21:33:42.000Z
+      example:
+        createdAt: 2020-06-15T21:33:42.000Z
+        id: 1
+        userName: Arath
+        updatedAt: 2020-06-15T21:33:42.000Z
+    getUsers:
+      type: array
+      example:
+      - id: 0
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 17
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 21
+        userName: User
+        createdAt: 2020-06-16T23:05:14.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getUsers_inner'
+    userBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"userPassword" with value "Tklj%" fails to match the required
+            pattern: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,32})/'
+    empleados:
+      required:
+      - apellidoMaterno
+      - apellidoPaterno
+      - cargo_id
+      - email
+      - nombres
+      - rut
+      type: object
+      properties:
+        rut:
+          type: string
+        name:
+          type: string
+        apellidoPaterno:
+          type: string
+        apellidoMaterno:
+          type: string
+        cargo_id:
+          type: number
+        email:
+          type: string
+    getEmpleado:
+      properties:
+        id:
+          type: integer
+          example: 5
+        rut:
+          type: string
+          example: 18.562.123-4
+        nombres:
+          type: string
+          example: Juan Carlos
+        apellidoPaterno:
+          type: string
+          example: Ramirez
+        apellidoMaterno:
+          type: string
+          example: Sánchez
+        cargo_id:
+          type: integer
+          example: 2
+        email:
+          type: string
+          example: jc.webservicdes@agilesolutions.com
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        rut: 18.562.123-4
+        apellidoPaterno: Ramirez
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        cargo_id: 2
+        id: 5
+        email: jc.webservicdes@agilesolutions.com
+        nombres: Juan Carlos
+        apellidoMaterno: Sánchez
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getEmpleados:
+      type: array
+      example:
+      - id: 5
+        rut: 12.123.123-7
+        nombres: 'Jean '
+        apellidoPaterno: Rodriguez
+        apellidoMaterno: Paul
+        cargo_id: 1
+        email: ppaulpaul@gmail.com
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        rut: 12.123.123-7
+        nombres: 'Jean '
+        apellidoPaterno: Rodriguez
+        apellidoMaterno: Paul
+        cargo_id: 1
+        email: ppaulpaul@gmail.com
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        rut: 12.123.123-7
+        nombres: 'Jean '
+        apellidoPaterno: Rodriguez
+        apellidoMaterno: Paul
+        cargo_id: 1
+        email: ppaulpaul@gmail.com
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        rut: 12.123.123-7
+        nombres: 'Jean '
+        apellidoPaterno: Rodriguez
+        apellidoMaterno: Paul
+        cargo_id: 1
+        email: ppaulpaul@gmail.com
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getEmpleados_inner'
+    empleadoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"rut" is required'
+    cargos:
+      required:
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+    getCargo:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: QA
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        id: 5
+        nombre: QA
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getCargos:
+      type: array
+      example:
+      - id: 5
+        nombre: QA
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        nombre: QA
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        nombre: QA
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 5
+        nombres: QA
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getCargos_inner'
+    cargoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    pedidos:
+      required:
+      - horaEntrega
+      - nombre
+      - phone
+      - tamano_id
+      - torta_id
+      - value
+      type: object
+      properties:
+        name:
+          maxLength: 15
+          minLength: 8
+          type: string
+        phone:
+          maxLength: 15
+          minLength: 8
+          type: string
+        torta_id:
+          minimum: 0
+          type: integer
+        tamano_id:
+          minimum: 0
+          type: integer
+        description:
+          type: string
+        message:
+          type: string
+        imagen:
+          type: string
+        value:
+          maximum: 1000000
+          minimum: 0
+          type: integer
+        deposit:
+          maximum: 1000000
+          minimum: 0
+          type: integer
+        horaEntrega:
+          maxLength: 5
+          minLength: 2
+          type: string
+    getPedido:
+      properties:
+        id:
+          type: integer
+          example: 5
+        name:
+          type: string
+          example: QA
+        phone:
+          type: string
+          example: "9723123"
+        torta_id:
+          type: integer
+          example: 3
+        tamano_id:
+          type: integer
+          example: 2
+        descripcion:
+          type: string
+          example: dadada dadada daadada
+        message:
+          type: string
+          example: asdasdas dasdasd asdsa
+        value:
+          type: integer
+          example: 42000
+        deposit:
+          type: integer
+          example: 12000
+        horaEntrega:
+          type: string
+          example: 10:30
+        imagen:
+          type: string
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        descripcion: dadada dadada daadada
+        torta_id: 3
+        estado: 1
+        horaEntrega: 10:30
+        imagen: imagen
+        message: asdasdas dasdasd asdsa
+        createdAt: 2020-06-16T20:05:48.000Z
+        phone: "9723123"
+        name: QA
+        deposit: 12000
+        id: 5
+        tamano_id: 2
+        value: 42000
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getPedidos:
+      type: array
+      example:
+      - id: 5
+        name: QA
+        phone: "9723123"
+        torta_id: 3
+        tamano_id: 2
+        descripcion: dadada dadada daadada
+        message: asdasdas dasdasd asdsa
+        value: 42000
+        deposit: 12000
+        horaEntrega: 10:30
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        name: QA
+        phone: "9723123"
+        torta_id: 3
+        tamano_id: 2
+        descripcion: dadada dadada daadada
+        message: asdasdas dasdasd asdsa
+        value: 42000
+        deposit: 12000
+        horaEntrega: 10:30
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        name: QA
+        phone: "9723123"
+        torta_id: 3
+        tamano_id: 2
+        descripcion: dadada dadada daadada
+        message: asdasdas dasdasd asdsa
+        value: 42000
+        deposit: 12000
+        horaEntrega: 10:30
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 10
+        name: QA
+        phone: "9723123"
+        torta_id: 3
+        tamano_id: 2
+        descripcion: dadada dadada daadada
+        message: asdasdas dasdasd asdsa
+        value: 42000
+        deposit: 12000
+        horaEntrega: 10:30
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getPedidos_inner'
+    pedidoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"phone" is required'
+    tortas:
+      required:
+      - masaSabor_id
+      - masaTipo_id
+      - sabor_id
+      type: object
+      properties:
+        masaTipo_id:
+          minimum: 0
+          type: integer
+        masaSabor_id:
+          minimum: 0
+          type: integer
+        sabor_id:
+          minimum: 0
+          type: integer
+    getTorta:
+      properties:
+        id:
+          type: integer
+          example: 5
+        masaTipo_id:
+          type: integer
+          example: 1
+        masaSabor_id:
+          type: integer
+          example: 1
+        sabor_id:
+          type: integer
+          example: 1
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        masaSabor_id: 1
+        id: 5
+        sabor_id: 1
+        masaTipo_id: 1
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getTortas:
+      type: array
+      example:
+      - id: 5
+        masaTipo_id: 2
+        masaSabor_id: 2
+        sabor_id: 2
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        masaTipo_id: 2
+        masaSabor_id: 2
+        sabor_id: 2
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        masaTipo_id: 2
+        masaSabor_id: 2
+        sabor_id: 2
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 10
+        masaTipo_id: 2
+        masaSabor_id: 2
+        sabor_id: 2
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getTortas_inner'
+    tortaBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"masaSabor_id" is required'
+    masaTipo:
+      required:
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+    getMasaTipo:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: bizcocho
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        id: 5
+        nombre: bizcocho
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getMasaTipos:
+      type: array
+      example:
+      - id: 5
+        nombre: bizcocho
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        nombre: hoja
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: panqueque
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getMasaTipos_inner'
+    masaTipoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    masaSabor:
+      required:
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+    getMasaSabor:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: bizcocho
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        id: 5
+        nombre: bizcocho
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getMasaSabors:
+      type: array
+      example:
+      - id: 5
+        nombre: nuez
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        nombre: chocolate
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: vainilla
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getMasaTipos_inner'
+    masaSaborBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    sabor:
+      required:
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+    getSabor:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: bizcocho
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        id: 5
+        nombre: bizcocho
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getSabores:
+      type: array
+      example:
+      - id: 5
+        nombre: nueces
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        nombre: frambuesa
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: canela
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getMasaTipos_inner'
+    saborBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    tamano:
+      required:
+      - personas
+      - tamano
+      type: object
+      properties:
+        tamano:
+          type: string
+        personas:
+          type: string
+    getTamano:
+      properties:
+        id:
+          type: integer
+          example: 5
+        tamano:
+          type: string
+          example: 1/2
+        personas:
+          type: string
+          example: 6 personas
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        id: 5
+        personas: 6 personas
+        tamano: 1/2
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getTamanos:
+      type: array
+      example:
+      - id: 1
+        tamano: 1/2
+        personas: "6"
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        tamano: "1"
+        personas: "12"
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 3
+        tamano: "2"
+        personas: "18"
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 4
+        tamano: "3"
+        personas: "24"
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getTamanos_inner'
+    tamanoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"personas" is required'
+    sucursales:
+      required:
+      - colorFondo
+      - colorLetra
+      - comuna_id
+      - contactoEmail
+      - contactoNombre
+      - direccion
+      - giro
+      - nombre
+      - razonSocial
+      - rut
+      type: object
+      properties:
+        rut:
+          type: string
+        razonSocial:
+          type: string
+        giro:
+          type: string
+        direccion:
+          type: string
+        comuna_id:
+          type: integer
+        nombre:
+          type: string
+        contactoEmail:
+          type: string
+        contactoNombre:
+          type: string
+        colorFondo:
+          type: string
+        colorLetra:
+          type: string
+    getSucursal:
+      properties:
+        id:
+          type: integer
+          example: 5
+        rut:
+          type: string
+          example: 1.231.232-2
+        razonSocial:
+          type: string
+          example: Parron Pudahuel LTDA
+        giro:
+          type: string
+          example: servicios
+        direccion:
+          type: string
+          example: Pudahuel xyz 123
+        comuna_id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Sucursal Pudahuel
+        contactoEmail:
+          type: string
+          example: pudahuel@elparron.cl
+        contactoNombre:
+          type: string
+          example: Django
+        colorFondo:
+          type: string
+          example: negro
+        colorLetra:
+          type: string
+          example: rosa
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        contactoNombre: Django
+        estado: 1
+        direccion: Pudahuel xyz 123
+        colorLetra: rosa
+        nombre: Sucursal Pudahuel
+        giro: servicios
+        rut: 1.231.232-2
+        comuna_id: 1
+        contactoEmail: pudahuel@elparron.cl
+        colorFondo: negro
+        createdAt: 2020-06-16T20:05:48.000Z
+        razonSocial: Parron Pudahuel LTDA
+        id: 5
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getSucursales:
+      type: array
+      example:
+      - id: 1
+        rut: 2221234-1
+        razonSocial: Pudahuel El parroon ltda
+        giro: servicios
+        direccion: pudahuel xyz 123
+        comuna_id: "2"
+        nombre: pudahuel el parron
+        contactoEmail: pudahuel@elparron.cl
+        contactoNombre: Marta
+        colorFondo: blanco
+        colorLetra: rojo
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        rut: 2221234-1
+        razonSocial: Pudahuel El parroon ltda
+        giro: servicios
+        direccion: pudahuel xyz 123
+        comuna_id: "2"
+        nombre: pudahuel el parron
+        contactoEmail: pudahuel@elparron.cl
+        contactoNombre: Marta
+        colorFondo: blanco
+        colorLetra: rojo
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getSucursales_inner'
+    sucursalBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"comuna_id" is required'
+    comunas:
+      required:
+      - ciudad
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+        ciudad:
+          type: string
+    getComuna:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: Pudahuel
+        ciudad:
+          type: string
+          example: Santiago
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        ciudad: Santiago
+        id: 5
+        nombre: Pudahuel
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getComunas:
+      type: array
+      example:
+      - id: 1
+        nombre: Pudahuel
+        ciudad: Santiago
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: Pudahuel
+        ciudad: Santiago
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: Providencia
+        ciudad: Santiago
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        nombre: Las Condes
+        ciudad: Santiago
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getComunas_inner'
+    comunaBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"ciudad" is required'
+    badRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Bad Request
+    modifyTrue:
+      type: object
+      properties:
+        MODIFY DATA:
+          type: boolean
+          example: true
+      example:
+        MODIFY DATA: true
+    createTrue:
+      type: object
+      properties:
+        CREATED:
+          type: boolean
+          example: true
+      example:
+        CREATED: true
+    deleteTrue:
+      type: object
+      properties:
+        DELETE DATA:
+          type: boolean
+          example: true
+      example:
+        DELETE DATA: true
+    getUsers_inner:
+      type: object
+      properties:
+        id:
+          type: integer
+        userName:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getEmpleados_inner:
+      type: object
+      properties:
+        rut:
+          type: string
+        name:
+          type: string
+        apellidoPaterno:
+          type: string
+        apellidoMaterno:
+          type: string
+        cargo_id:
+          type: number
+        email:
+          type: string
+        estado:
+          type: integer
+    getCargos_inner:
+      type: object
+      properties:
+        name:
+          type: string
+        estado:
+          type: integer
+    getPedidos_inner:
+      type: object
+      properties:
+        name:
+          type: string
+        phone:
+          type: string
+        torta_id:
+          type: integer
+        tamano_id:
+          type: integer
+        descripcion:
+          type: string
+        message:
+          type: string
+        value:
+          type: integer
+        deposit:
+          type: integer
+        horaEntrega:
+          type: string
+        imagen:
+          type: string
+        estado:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getTortas_inner:
+      type: object
+      properties:
+        masaTipo_id:
+          type: string
+        masaSabor_id:
+          type: string
+        sabor_id:
+          type: string
+        estado:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getMasaTipos_inner:
+      type: object
+      properties:
+        nombre:
+          type: string
+        estado:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getTamanos_inner:
+      type: object
+      properties:
+        tamano:
+          type: string
+        personas:
+          type: string
+        estado:
+          type: string
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getSucursales_inner:
+      type: object
+      properties:
+        rut:
+          type: string
+        razonSocial:
+          type: string
+        giro:
+          type: string
+        direccion:
+          type: string
+        comuna_id:
+          type: integer
+        nombre:
+          type: string
+        contactoEmail:
+          type: string
+        contactoNombre:
+          type: string
+        colorFondo:
+          type: string
+        colorLetra:
+          type: string
+        estado:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getComunas_inner:
+      type: object
+      properties:
+        nombre:
+          type: string
+        ciudad:
+          type: string
+        estado:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string

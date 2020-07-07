@@ -14,9 +14,9 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER(1),
             defaultValue: 1
         }
-    }, {});
-    masaTipos.associate = function(models) {
+    });
+/*     masaTipos.associate = function(models) {
         masaTipos.belongsTo(models.tortas, {foreignKey: 'masaTipo_id', targetKey: 'nombre', as:'masaSabors'})
-    };
+    }; */
     return masaTipos;
 }

@@ -3,7 +3,6 @@ const boom         = require('@hapi/boom');
 // imports & consts
 const UserServices = require('./services');
 const userServices = new UserServices();
-
 const usersFindAll = () => {
     return (req, res, next) => {
         userServices.usersFindAll()
@@ -12,8 +11,7 @@ const usersFindAll = () => {
                     delete r.users[i].dataValues.userPassword;
                 }
                 i = 0;
-                // r = [...responses.users];
-                res.json(r);
+                res.json([...r.users]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

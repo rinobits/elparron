@@ -4,7 +4,6 @@ class TortasServices{
     tortasFindAll(){
         return new Promise((resolve, reject) => {
             Tortas.findAll({
-                include: ['masaSabors', 'masaTipos', 'sabores'],
                 where:{estado:1}
             })
                 .then(r => resolve({tortas: r})) 
