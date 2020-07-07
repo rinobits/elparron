@@ -8,8 +8,8 @@ const { idSchema, cargoSchemaDelete}          = require('./schemas');
 const validatorHandler                        = require('../../utils/middlewares/validatorHandler');
 const verifyToken                             = require('../../utils/middlewares/verifyToken');
 // developer
-router.get('/getall', control.cargosFindAll());
-router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.cargosFindById());
+router.get('/getall', verifyToken, control.cargosFindAll());
+router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'), control.cargosFindById());
 // admin
 router.post('/create', verifyToken, validatorHandler(cargoSchemaCreate , 'body'), control.cargosCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(cargoSchemaUpdate, 'body'), control.cargosUpdateById());

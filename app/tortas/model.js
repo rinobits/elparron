@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    const Tortas = sequelize.define('tortas', {
+    const Torta = sequelize.define('torta', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -8,7 +8,6 @@ module.exports = (sequelize, type) => {
         masaTipo_id: {
             type: type.INTEGER,
             allowNull: false,
-     
 /*             references: {
                 model: 'masaTipos',
                 key:    'id'
@@ -17,7 +16,6 @@ module.exports = (sequelize, type) => {
         masaSabor_id: {
             type: type.INTEGER,
             allowNull: false,
-          
 /*             references: {
                 model: 'masaSabors',
                 key:   'id'
@@ -26,7 +24,6 @@ module.exports = (sequelize, type) => {
         sabor_id: {
             type: type.INTEGER,
             allowNull: false,
-        
 /*             references: {
                 model: 'sabores',
                 key:   'id'
@@ -42,5 +39,5 @@ module.exports = (sequelize, type) => {
         Tortas.hasOne(models.masaSabors, {foreignKey: 'masaSabor_id', targetKey: 'nombre'});
         Tortas.hasOne(models.sabores,    {foreignKey: 'sabor_id',     targetKey: 'nombre'});
     }; */
-    return Tortas;
+    return Torta;
 }

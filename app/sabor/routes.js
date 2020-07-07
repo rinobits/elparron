@@ -8,8 +8,8 @@ const { idSchema, saborSchemaDelete}                  = require('./schemas');
 const validatorHandler                                = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
-router.get('/getall', control.saboresFindAll());
-router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.saboresFindById());
+router.get('/getall', verifyToken, control.saboresFindAll());
+router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'), control.saboresFindById());
 // admin
 router.post('/create', verifyToken, validatorHandler(saborSchemaCreate , 'body'), control.saboresCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(saborSchemaUpdate, 'body'), control.saboresUpdateById());

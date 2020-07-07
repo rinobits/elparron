@@ -11,7 +11,7 @@ class ComunasServices{
     comunaFindById(id){
         return new Promise((resolve, reject) => {
             Comunas.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }

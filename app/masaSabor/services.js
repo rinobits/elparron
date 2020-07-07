@@ -11,7 +11,7 @@ class MasaSaborServices{
     masaSaborFindById(id){
         return new Promise((resolve, reject) => {
             MasaSabor.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }

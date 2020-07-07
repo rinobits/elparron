@@ -1,15 +1,15 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('armados', {
+    return sequelize.define('armar', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        name: {
+        nombre: {
             type: type.STRING,
             allowNull: false
         },
-        phone: {
+        telefono: {
             type: type.STRING,
             allowNull: false
         },
@@ -21,19 +21,19 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         },
-        description:{
+        descripcion:{
             type: type.STRING,
             allowNull:true
         },
-        message: {
+        mensaje: {
             type: type.STRING,
             allowNull:true
         },
-        value: {
+        valor: {
             type: type.INTEGER,
             allowNull: false
         },
-        deposit: {
+        abono: {
             type: type.INTEGER,
             allowNull: false
         },

@@ -1,5 +1,4 @@
 const {Users}                   = require('../../lib/database');
-const bcrypt                    = require('bcrypt'); 
 class UserServices{
     usersFindAll(){
         return new Promise((resolve, reject) => {

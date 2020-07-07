@@ -12,7 +12,7 @@ class TamanoServices{
     tamanosFindById(id){
         return new Promise((resolve, reject) => {
             Tamanos.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }

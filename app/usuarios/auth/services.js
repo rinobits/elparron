@@ -1,7 +1,7 @@
-const {Users} = require('../../lib/database');
+const {Users} = require('../../../lib/database');
 const bcrypt  = require('bcrypt'); 
 const jwt     = require('jsonwebtoken');
-const {config: { authJwtSecret }} = require('../../config');
+const {config: { authJwtSecret }} = require('../../../config');
 class AuthServices{
     auth(username, password){
         return new Promise((resolve, reject) => {

@@ -9,8 +9,8 @@ const validatorHandler                        = require('../../utils/middlewares
 const verifyToken                             = require('../../utils/middlewares/verifyToken');
 
 // developer
-router.get('/getall/', control.armarFindAll());
-router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.armarFindById());
+router.get('/getall/', verifyToken, control.armarFindAll());
+router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'), control.armarFindById());
 // admin
 router.post('/create', verifyToken, validatorHandler(armarSchemaCreate, 'body'), control.armarCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(armarSchemaUpdate, 'body'), control.armarUpdateById());

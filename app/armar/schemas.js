@@ -1,13 +1,13 @@
 const Joi         = require('@hapi/joi');
 
-const name        = Joi.string().min(2).max(15);
-const phone       = Joi.string().min(8).max(15);
+const nombre      = Joi.string().min(2).max(15);
+const telefono    = Joi.string().min(8).max(15);
 const torta_id    = Joi.number().min(0); 
 const tamano_id   = Joi.number().min(0);
-const description = Joi.string().allow("");
-const message     = Joi.string().allow("");
-const value       = Joi.number().min(1).max(1000000);
-const deposit     = Joi.number().min(1).max(999999).allow("");
+const descripcion = Joi.string().allow("");
+const mensaje     = Joi.string().allow("");
+const valor       = Joi.number().min(1).max(1000000);
+const abono       = Joi.number().min(1).max(999999).allow("");
 const horaEntrega = Joi.string().min(2).max(5);
 const estado      = Joi.number().min(0).max(1);
 const id          = Joi.number().min(0);
@@ -16,25 +16,25 @@ const idSchema    = Joi.object({
     id: id.required()
 })
 const armarSchemaCreate = Joi.object({
-    name:        name.required(),
-    phone:       phone.required(),
-    torta_id:    torta_id.required(),
-    tamano_id:   tamano_id.required(),
-    description,
-    message,
-    value:       value.required(),
-    deposit,
+    nombre:        nombre.required(),
+    telefono:      telefono.required(),
+    torta_id:      torta_id.required(),
+    tamano_id:     tamano_id.required(),
+    descripcion,
+    mensaje,
+    valor:         valor.required(),
+    abono,
     horaEntrega: horaEntrega.required()
 });
 const armarSchemaUpdate = Joi.object({
-    name,
-    phone,
+    nombre,
+    telefono,
     torta_id,
     tamano_id,
-    description,
-    message,
-    value,
-    deposit,
+    descripcion,
+    mensaje,
+    valor,
+    abono,
     horaEntrega,
     estado
 });

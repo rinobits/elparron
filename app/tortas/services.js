@@ -13,7 +13,7 @@ class TortasServices{
     tortasFindById(id){
         return new Promise((resolve, reject) => {
             Tortas.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }

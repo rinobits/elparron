@@ -1,7 +1,5 @@
-const {MasaTipo}                  = require('../../lib/database');
-const bcrypt                    = require('bcrypt'); 
-
-class CargoServices{
+const {MasaTipo}                = require('../../lib/database');
+class MasaTipoServices{
     masaTipoFindAll(){
         return new Promise((resolve, reject) => {
             MasaTipo.findAll({where:{estado:1}})
@@ -12,7 +10,7 @@ class CargoServices{
     masaTipoFindById(id){
         return new Promise((resolve, reject) => {
             MasaTipo.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }
@@ -49,4 +47,4 @@ class CargoServices{
     }
     
 }
-module.exports = CargoServices;
+module.exports = MasaTipoServices;

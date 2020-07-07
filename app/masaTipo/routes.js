@@ -8,8 +8,8 @@ const { idSchema, masaTipoSchemaDelete}                  = require('./schemas');
 const validatorHandler                                = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
-router.get('/getall', control.masaTipoFindAll());
-router.get('/getbyid/:id', validatorHandler(idSchema, 'params'), control.masaTipoFindById());
+router.get('/getall', verifyToken, control.masaTipoFindAll());
+router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'), control.masaTipoFindById());
 // admin
 router.post('/create', verifyToken, validatorHandler(masaTipoSchemaCreate , 'body'), control.masaTipoCreate());
 router.put('/update/:id', verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(masaTipoSchemaUpdate, 'body'), control.masaTipoUpdateById());

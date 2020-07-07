@@ -21,4 +21,3 @@ const validatorHandler = (schema, data) => {
 }
 module.exports = validatorHandler;
 
-// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTkyNDA0NDY4LCJleHAiOjE1OTI0MDgwNjh9.syFGjh1VxmMHJ_T3-Al7tgU7bXqPFdvrOhg-NUWPC4A

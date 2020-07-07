@@ -12,7 +12,7 @@ class CargoServices{
     saboresFindById(id){
         return new Promise((resolve, reject) => {
             Sabores.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }

@@ -11,7 +11,7 @@ class CargoServices{
     cargosFindById(id){
         return new Promise((resolve, reject) => {
             Cargos.findByPk(id)
-                .then(r => resolve({'cargo':r}))
+                .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }
