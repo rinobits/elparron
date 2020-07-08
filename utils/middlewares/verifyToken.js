@@ -5,8 +5,8 @@ const boom = require('@hapi/boom');
 const {config:{authJwtSecret}}  = require('../../config');
 
 module.exports = (req, res, next) => {
-    const bearerHeader = req.headers['authorization'];
-    if(bearerHeader != undefined){ 
+    const bearerToken = req.headers['authorization'];
+    if(bearerToken != undefined){ 
         req.token = bearerToken;
         jwt.verify(req.token, authJwtSecret, (e, auth) => {
             if(e){
@@ -21,5 +21,3 @@ module.exports = (req, res, next) => {
         next(e.output.payload);
     }
 }
-
-

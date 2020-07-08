@@ -3,7 +3,6 @@ const express    = require('express');
 
 // imports & consts 
 const usuarios   = require('./usuarios/routes');
-const armar      = require('./armar/routes')
 const tamano     = require('./tamano/routes');
 const tortas     = require('./tortas/routes');
 const auth       = require('./usuarios/auth/routes');
@@ -12,8 +11,6 @@ const comunas    = require('./comunas/routes');
 const sabor      = require('./sabor/routes');
 const masaTipo   = require('./masaTipo/routes');
 const masaSabor  = require('./masaSabor/routes');
-const empleados  = require('./empleados/routes');
-const cargos     = require('./cargos/routes');
 
 
 const index = (app) => {
@@ -21,7 +18,6 @@ const index = (app) => {
     app.use('/', router);
     router.use('/usuarios/validate', auth);
     router.use('/usuarios',          usuarios);
-    router.use('/armar',             armar);
     router.use('/tamano',            tamano);
     router.use('/tortas',            tortas);
     router.use('/sucursales',        sucursales);
@@ -29,8 +25,6 @@ const index = (app) => {
     router.use('/sabor',             sabor);
     router.use('/masaTipo',          masaTipo);
     router.use('/masaSabor',         masaSabor);
-    router.use('/empleados',         empleados);
-    router.use('/cargos',            cargos);
 }
 
 module.exports = index;

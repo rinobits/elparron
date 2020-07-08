@@ -1,4 +1,3 @@
-
 const boom = require('@hapi/boom');
 const {config} = require('../../config');
 
@@ -7,7 +6,11 @@ const logError = (err, req, res, next) => {
     next(err);
 }
 const wrapError = (err, req, res, next) => {
-        if(!err.isBoom){
+        if(err.statusCode == 401 && !err.isBoom){
+            err = boom.unauthorized();
+            next(err);
+        }
+        else if(!err.isBoom){
             err = boom.badImplementation(err);
             next(err);
         }
@@ -21,7 +24,8 @@ const withErrorStack = (err, stack) => {
 }
 const errorHandler = (err, req, res, next) => {
     const {output: {statusCode, payload}} = err;
-    console.log(payload);
+/*      console.log(Object.keys(payload.message['0']));
+ */
     res.status(statusCode).json(payload);
 }
 module.exports = {
