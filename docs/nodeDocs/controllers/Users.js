@@ -3,6 +3,16 @@
 var utils = require('../utils/writer.js');
 var Users = require('../service/UsersService');
 
+module.exports.authenticate = function authenticate (req, res, next, body) {
+  Users.authenticate(body)
+    .then(function (response) {
+      utils.writeJson(res, response);
+    })
+    .catch(function (response) {
+      utils.writeJson(res, response);
+    });
+};
+
 module.exports.createUser = function createUser (req, res, next, body) {
   Users.createUser(body)
     .then(function (response) {

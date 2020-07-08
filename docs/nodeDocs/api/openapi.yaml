@@ -6,8 +6,6 @@ info:
 servers:
 - url: /
 tags:
-- name: auth
-  description: Acceso de usuario
 - name: users
   description: Operaciones con usuarios
 - name: empleados
@@ -31,10 +29,10 @@ tags:
 - name: comunas
   description: Operaciones con comunas
 paths:
-  /auth:
+  /usuarios/validate:
     post:
       tags:
-      - auth
+      - users
       summary: Autenticación
       description: Obtención de privilegios
       operationId: authenticate
@@ -63,8 +61,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Auth
-  /users/getbyid/{id}:
+      x-swagger-router-controller: Users
+  /usuarios/getbyid/{id}:
     get:
       tags:
       - users
@@ -101,7 +99,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
-  /users/update/{id}:
+  /usuarios/update/{id}:
     put:
       tags:
       - users
@@ -144,7 +142,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
-  /users/delete/{id}:
+  /usuarios/delete/{id}:
     put:
       tags:
       - users
@@ -187,7 +185,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
-  /users/getall:
+  /usuarios/getall:
     get:
       tags:
       - users
@@ -208,7 +206,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Users
-  /users/create:
+  /usuarios/create:
     post:
       tags:
       - users
