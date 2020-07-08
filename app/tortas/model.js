@@ -33,7 +33,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER(1),
             defaultValue: 1
         },
-    });
+    }, {  freezeTableName: true });
 /*     Tortas.associate = function(models) {
         Tortas.hasOne(models.masaTipos,  {foreignKey: 'masaTipo_id',  targetKey: 'nombre'});
         Tortas.hasOne(models.masaSabors, {foreignKey: 'masaSabor_id', targetKey: 'nombre'});
