@@ -3,30 +3,32 @@ const {Tortas} = require('../../lib/database');
 class TortasServices{
     tortasFindAll(){
         return new Promise((resolve, reject) => {
-            Tortas.findAll({
-                where:{estado:1}
-            })
+            Torta.findAll({
+                include: [MasaTipo, MasaSabor, Sabor],
+                where:{estado:1}})
                 .then(r => resolve({tortas: r})) 
                 .catch(e => reject(e));
         });
     }
     tortasFindById(id){
         return new Promise((resolve, reject) => {
-            Tortas.findByPk(id)
+            Torta.findByPk(id,{
+                include: [MasaTipo, MasaSabor, Sabor]
+            })
                 .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }
     tortasCreate(body){
         return new Promise((resolve, reject) => {
-            Tortas.create(body)
+            Torta.create(body)
             .then(r => resolve(r))
             .catch(e => reject(e));
         });
     }
     tortasUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            Tortas.update(body, { where: {id: id}})
+            Torta.update(body, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
@@ -38,7 +40,7 @@ class TortasServices{
     }
     tortasDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
-            Tortas.update({estado: estado}, { where: {id: id}})
+            Torta.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});

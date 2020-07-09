@@ -1,5 +1,8 @@
 module.exports = (sequelize, type) => {
-    const Torta = sequelize.define('torta', {
+    const MasaTipo  = require('../masaTipo/model');
+    const MasaSabor = require('../masaSabor/model');
+    const Sabor     = require('../sabor/model');
+    const Torta = sequelize.define('Torta', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -33,11 +36,15 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER(1),
             defaultValue: 1
         },
-    }, {  freezeTableName: true });
-/*     Tortas.associate = function(models) {
-        Tortas.hasOne(models.masaTipos,  {foreignKey: 'masaTipo_id',  targetKey: 'nombre'});
-        Tortas.hasOne(models.masaSabors, {foreignKey: 'masaSabor_id', targetKey: 'nombre'});
-        Tortas.hasOne(models.sabores,    {foreignKey: 'sabor_id',     targetKey: 'nombre'});
-    }; */
+    }, {  freezeTableName: true },);
+    MasaTipo
+        .hasMany(Torta, {foreignKey: 'masaTipo_id'});
+    MasaSabor
+        .hasMany(Torta, {foreignKey: 'masaSabor_id'});
+    Sabor
+        .hasMany(Torta, {foreignKey: 'sabor_id'});
+    Torta.belongsTo(MasaTipo,  {foreignKey: 'masaTipo_id'});
+    Torta.belongsTo(MasaSabor, {foreignKey: 'masaSabor_id'});
+    Torta.belongsTo(Sabor,     {foreignKey: 'sabor_id'});
     return Torta;
 }

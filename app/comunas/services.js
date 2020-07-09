@@ -1,30 +1,30 @@
-const {Comunas} = require('../../lib/database');
+const {Comuna} = require('../../lib/database');
 
 class ComunasServices{
     comunaFindAll(){
         return new Promise((resolve, reject) => {
-            Comunas.findAll({where:{estado:1}})
+            Comuna.findAll({where:{estado:1}})
                 .then(r => resolve(r)) 
                 .catch(e => reject(e));
         });
     }
     comunaFindById(id){
         return new Promise((resolve, reject) => {
-            Comunas.findByPk(id)
+            Comuna.findByPk(id)
                 .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }
     comunaCreate(body){
         return new Promise((resolve, reject) => {
-            Comunas.create(body)
+            Comuna.create(body)
             .then(r => resolve(r))
             .catch(e => reject(e));
         });
     }
     comunaUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            Comunas.update(body, { where: {id: id}})
+            Comuna.update(body, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
@@ -36,7 +36,7 @@ class ComunasServices{
     }
     comunaDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
-            Comunas.update({estado: estado}, { where: {id: id}})
+            Comuna.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});

@@ -7,14 +7,13 @@ const {config}                            = require('./config');
 const notFoundHandler                     = require('./utils/middlewares/notFoundHandler');
 const {logError, wrapError, errorHandler} = require('./utils/middlewares/errorsHandlers');
 const app                                 = express();
-
 // cors
 if(config.dev){
     app.use(cors());
 } else{
     const whitelist = config.cors.split(';');
     const corsOptions = {
-        origin: function (origin, callback) {
+        origin: (origin, callback) => {
             if (whitelist.indexOf(origin) !== -1) {
                 callback(null, true)
             } else {

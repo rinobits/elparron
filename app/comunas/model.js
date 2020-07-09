@@ -18,5 +18,5 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER(1),
             defaultValue: 1
         }
-    })
+    }, {  freezeTableName: true })
 }

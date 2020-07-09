@@ -16,16 +16,14 @@ const wrapError = (err, req, res, next) => {
         }
         next(err);
 }
-const withErrorStack = (err, stack) => {
+/* const withErrorStack = (err, stack) => {
     if(config.dev){
         return {error: err, stack}
     }
     return {error: err}
-}
+} */
 const errorHandler = (err, req, res, next) => {
     const {output: {statusCode, payload}} = err;
-/*      console.log(Object.keys(payload.message['0']));
- */
     res.status(statusCode).json(payload);
 }
 module.exports = {

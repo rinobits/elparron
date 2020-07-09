@@ -1,16 +1,16 @@
-const {Users} = require('../../lib/database');
-const bcrypt  = require('bcrypt');
+const {Usuario} = require('../../lib/database');
+const bcrypt    = require('bcrypt');
 class UserServices{
     usersFindAll(){
         return new Promise((resolve, reject) => {
-            Users.findAll({where:{estado:1}})
+            Usuario.findAll({where:{estado:1}})
                 .then(r => resolve({users: r})) 
                 .catch(e => reject(e));
         });
     }
     usersFindById(id){
         return new Promise((resolve, reject) => {
-            Users.findByPk(id)
+            Usuario.findByPk(id)
                 .then(r => resolve({'user':r}))
                 .catch(e => reject(e));
         });
@@ -20,7 +20,7 @@ class UserServices{
             bcrypt.hash(body.userPassword, 10)
             .then(hash => {
                 body.userPassword = hash;
-                Users.create(body)
+                Usuario.create(body)
                 .then(r => resolve(r))
                 .catch(e => reject(e));
                 
@@ -35,7 +35,7 @@ class UserServices{
                 .then(hash => body.userPassword = hash)
                 .catch(e => reject(e));
             }
-            Users.update(body, { where: {id: id}})
+            Usuario.update(body, { where: {id: id}})
             .then(r => {
                 if(r == 1) resolve({"MODIFY DATA:": true});
                 else reject({"MODIFY DATA:": false})
@@ -45,7 +45,7 @@ class UserServices{
     }
     usersDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
-            Users.update({estado: estado}, { where: {id: id}})
+            Usuario.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});

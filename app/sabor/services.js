@@ -1,31 +1,29 @@
-const {Sabores} = require('../../lib/database');
-const bcrypt    = require('bcrypt'); 
-
+const {Sabor} = require('../../lib/database');
 class CargoServices{
     saboresFindAll(){
         return new Promise((resolve, reject) => {
-            Sabores.findAll({where:{estado:1}})
+            Sabor.findAll({where:{estado:1}})
                 .then(r => resolve({sabores: r})) 
                 .catch(e => reject(e));
         });
     }
     saboresFindById(id){
         return new Promise((resolve, reject) => {
-            Sabores.findByPk(id)
+            Sabor.findByPk(id)
                 .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
     }
     saboresCreate(body){
         return new Promise((resolve, reject) => {
-            Sabores.create(body)
+            Sabor.create(body)
             .then(r => resolve(r))
             .catch(e => reject(e));
         });
     }
     saboresUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            Sabores.update(body, { where: {id: id}})
+            Sabor.update(body, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
@@ -37,7 +35,7 @@ class CargoServices{
     }
     saboresDeleteById(id, estado = 0){
         return new Promise((resolve, reject) => {
-            Sabores.update({estado: estado}, { where: {id: id}})
+            Sabor.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
                     resolve({"MODIFY DATA:": true});
