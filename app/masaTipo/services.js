@@ -1,4 +1,4 @@
-const {MasaTipo}                = require('../../lib/database');
+const {MasaTipo} = require('../../lib/database');
 class MasaTipoServices{
     masaTipoFindAll(){
         return new Promise((resolve, reject) => {

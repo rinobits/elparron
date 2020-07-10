@@ -12,7 +12,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false,
 /*             references: {
-                model: 'masaTipos',
+                model: 'masaTipo',
                 key:    'id'
             } */
         },
@@ -20,7 +20,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false,
 /*             references: {
-                model: 'masaSabors',
+                model: 'masaSabor',
                 key:   'id'
             } */
         },
@@ -28,7 +28,7 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false,
 /*             references: {
-                model: 'sabores',
+                model: 'sabor',
                 key:   'id'
             } */
         },

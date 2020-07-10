@@ -47,4 +47,4 @@ class CargoServices{
     }
     
 }
-module.exports = CargoServices;
+module.exports = Sabor;
