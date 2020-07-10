@@ -4,17 +4,16 @@ class TortasServices{
     tortasFindAll(){
         return new Promise((resolve, reject) => {
             Torta.findAll({
-                include: [MasaTipo, MasaSabor, Sabor],
-                where:{estado:1}})
+                where:{estado:1},
+                include:[{MasaTipo, MasaSabor, Sabor}] 
+            })
                 .then(r => resolve({tortas: r})) 
                 .catch(e => reject(e));
         });
     }
     tortasFindById(id){
         return new Promise((resolve, reject) => {
-            Torta.findByPk(id,{
-                include: [MasaTipo, MasaSabor, Sabor]
-            })
+            Torta.findByPk(id, {include:[{MasaTipo, MasaSabor, Sabor}]})
                 .then(r => resolve({r}))
                 .catch(e => reject(e));
         });
