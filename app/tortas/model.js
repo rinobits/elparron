@@ -1,7 +1,7 @@
+const MasaTipo  = require('../masaTipo/model');
+const MasaSabor = require('../masaSabor/model');
+const Sabor     = require('../sabor/model');
 module.exports = (sequelize, type) => {
-    const MasaTipo  = require('../masaTipo/model');
-    const MasaSabor = require('../masaSabor/model');
-    const Sabor     = require('../sabor/model');
     const Torta = sequelize.define('Torta', {
         id: {
             type: type.INTEGER,
