@@ -1,11 +1,24 @@
-const {Torta} = require('../../lib/database');
+const {MasaTipo, MasaSabor, Sabor, Torta} = require("../../lib/database");
 
-class TortasServices{
+MasaTipo
+    .hasMany(Torta,       {foreignKey: 'masaTipo_id'});
+MasaSabor
+    .hasMany(Torta,       {foreignKey: 'masaSabor_id'});
+Sabor
+    .hasMany(Torta,       {foreignKey: 'sabor_id'});
+Torta
+    .belongsTo(MasaTipo,  {foreignKey: 'masaTipo_id'});
+Torta
+    .belongsTo(MasaSabor, {foreignKey: 'masaSabor_id'});
+Torta
+    .belongsTo(Sabor,     {foreignKey: 'sabor_id'});
+
+class TortaServices{
     tortasFindAll(){
         return new Promise((resolve, reject) => {
             Torta.findAll({
                 where:{estado:1},
-                include:[{MasaTipo, MasaSabor, Sabor}] 
+                include:[MasaTipo, MasaSabor, Sabor] 
             })
                 .then(r => resolve({tortas: r})) 
                 .catch(e => reject(e));
@@ -51,4 +64,4 @@ class TortasServices{
     }
     
 }
-module.exports = TortasServices;
+module.exports = TortaServices;

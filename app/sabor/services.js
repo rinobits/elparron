@@ -1,5 +1,5 @@
 const {Sabor} = require('../../lib/database');
-class CargoServices{
+class SaborServices{
     saboresFindAll(){
         return new Promise((resolve, reject) => {
             Sabor.findAll({where:{estado:1}})
@@ -47,4 +47,4 @@ class CargoServices{
     }
     
 }
-module.exports = Sabor;
+module.exports = SaborServices;

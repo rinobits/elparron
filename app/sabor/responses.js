@@ -1,8 +1,8 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom          = require('@hapi/boom');
 // imports & consts
-const SaborServices              = require('./services');
-const saborServices              = new SaborServices();
+const SaborServices = require('./services');
+const saborServices = new SaborServices();
 
 const saboresFindAll = () => {
     return (req, res, next) => {
