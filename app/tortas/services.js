@@ -1,4 +1,4 @@
-const {Tortas} = require('../../lib/database');
+const {Torta} = require('../../lib/database');
 
 class TortasServices{
     tortasFindAll(){
