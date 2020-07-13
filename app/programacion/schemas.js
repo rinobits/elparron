@@ -19,7 +19,6 @@ const programacionSchemaCreate = Joi.object({
     tamano_id:   tamano_id.required(),
     cantidad,
 })
-
 const programacionSchemaUpdate = Joi.object({
     sucursal_id,
     dia,

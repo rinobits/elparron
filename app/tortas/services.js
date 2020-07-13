@@ -1,5 +1,4 @@
 const {MasaTipo, MasaSabor, Sabor, Torta} = require("../../lib/database");
-
 MasaTipo
     .hasMany(Torta,       {foreignKey: 'masaTipo_id'});
 MasaSabor
@@ -20,7 +19,7 @@ class TortaServices{
                 where:{estado:1},
                 include:[MasaTipo, MasaSabor, Sabor] 
             })
-                .then(r => resolve({tortas: r})) 
+                .then(r => resolve({"tortas": r})) 
                 .catch(e => reject(e));
         });
     }
@@ -62,6 +61,5 @@ class TortaServices{
             .catch(e => reject(e));
         });
     }
-    
 }
 module.exports = TortaServices;

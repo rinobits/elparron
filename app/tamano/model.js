@@ -1,5 +1,5 @@
 module.exports = (sequelize, type) => {
-    return sequelize.define('tamano', {
+    const Tamano = sequelize.define('tamano', {
         id: {
             type: type.INTEGER,
             primaryKey: true,
@@ -19,5 +19,6 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER(1),
             defaultValue: 1
         }
-    }, {  freezeTableName: true })
+    }, {  freezeTableName: true });
+    return Tamano;
 }

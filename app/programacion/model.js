@@ -5,18 +5,21 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true
         },
-        sucursal_id: {
-            type: type.INTEGER,
-            allowNull: false,
-            unique: true
-        },
         dia: {
+            type: type.INTEGER,
+            allowNull: false
+        },
+        sucursal_id: {
             type: type.INTEGER,
             allowNull: false
         },
         torta_id: {
             type: type.INTEGER,
             allowNull:false
+        },
+        tamano_id:{
+            type: type.INTEGER,
+            allowNull: false
         },
         cantidad: {
             type: type.INTEGER,
