@@ -5,21 +5,27 @@ const id          = Joi.number().min(0);
 const estado      = Joi.number().min(0).max(1);
 const dia         = Joi.number().min(1).max(6);
 const sucursal_id = Joi.number().min(0);
-const detalle     = Joi.array().items(Joi.object().keys({
+const cantidades  = Joi.object().keys({
+    tamano_id : Joi.number().min(0).required(),
+    cantidad  : Joi.number().min(0).required()
+})
+const tortas = Joi.object().keys({
     torta_id      : Joi.number().min(0).required(),
-    cantidades    : Joi.array().items(Joi.object().keys({
-        tamano_id : Joi.number().min(0).required(),
-        cantidad  : Joi.number().min(0).required()
-    })).required()
-}));
-
-const idSchema  = Joi.object({
-    id: id.required()
+    cantidades    : Joi.array().items(
+        cantidades, cantidades,
+        cantidades, cantidades).required()
 });
+const detalle = Joi.array().items(
+    tortas, tortas, tortas,
+    tortas, tortas, tortas,
+    tortas, tortas, tortas,
+    tortas, tortas, tortas,
+    tortas);
+const idSchema  = Joi.object({id: id.required()});
 const paramSchema = Joi.object({
     dia: dia.required(),
     sucursal_id: sucursal_id.required()
-})
+});
 const programacionSchemaCreate = Joi.object({
     dia        : dia.required(),
     sucursal_id: sucursal_id.required(),
@@ -33,7 +39,7 @@ const programacionSchemaUpdate = Joi.object({
 });
 const programacionSchemaDelete = Joi.object({
     estado: estado.required()
-})
+});
 module.exports = {
     programacionSchemaCreate,
     programacionSchemaUpdate,

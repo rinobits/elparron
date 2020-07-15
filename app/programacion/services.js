@@ -24,6 +24,17 @@ class ProgramacionServices{
                 .catch(e => reject(e));
         });
     }
+    programacionFindDeleted(){
+        return new Promise((resolve, reject) => {
+            Programacion.findAll({
+                where: {estado:0},
+            })
+                .then(r => {
+                    resolve({programacion: r}) 
+                })
+                .catch(e => reject(e));
+        });
+    }
     programacionFindByDiaYsucursal(_dia, _sucursal_id){
         return new Promise((resolve, reject) => {
             Programacion.findAll({
@@ -31,27 +42,17 @@ class ProgramacionServices{
                 where  : { dia : _dia, sucursal_id : _sucursal_id }
             })
             .then(r => resolve({r}))
-            .catch(e => reject(e));
-        });   
+            .catch(e => reject(e))
+        })
     }
     programacionCreate(body){
         return new Promise((resolve, reject) => {
             Programacion.create(body)
-            .then(r => resolve(r)) // SHALL RETURN ID
+            .then(r => resolve(r))
             .catch(e => reject(e));
         });
     }
     programacionUpdateById(id, body){
-        return new Promise((resolve, reject) => {
-            Programacion.update(body, { where: {id: id}})
-            .then(r => {
-                if(r == 1) resolve();
-                else reject();
-            })
-            .catch(e => reject(e));
-        });
-    }
-    pogramacionMultipleUpdate = (id, body) => {
         return new Promise((resolve, reject) => {
             Programacion.update(body, { where: {id: id}})
             .then(r => {
@@ -66,9 +67,9 @@ class ProgramacionServices{
             Programacion.update({estado: estado}, { where: {id: id}})
             .then(r => {
                 if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+                    resolve({"DELETE DATA:": true});
                 }
-                else reject({"MODIFY DATA:": false})
+                else reject({"DELETE DATA:": false})
             })
             .catch(e => reject(e));
         });
