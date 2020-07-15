@@ -18,21 +18,26 @@ class ProgramacionServices{
                 where: {estado:1},
                 include: [Torta, Tamano, Sucursal]
             })
-                .then(r => resolve({programacion: r})) 
+                .then(r => {
+                    resolve({programacion: r}) 
+                })
                 .catch(e => reject(e));
         });
     }
-    programacionFindById(id){
+    programacionFindByDiaYsucursal(_dia, _sucursal_id){
         return new Promise((resolve, reject) => {
-            Programacion.findByPk(id, {include: [{Torta, Tamano, Sucursal}]})
-                .then(r => resolve({r}))
-                .catch(e => reject(e));
-        });
+            Programacion.findAll({
+                include: [{Torta, Tamano, Sucursal}],
+                where  : { dia : _dia, sucursal_id : _sucursal_id }
+            })
+            .then(r => resolve({r}))
+            .catch(e => reject(e));
+        });   
     }
     programacionCreate(body){
         return new Promise((resolve, reject) => {
             Programacion.create(body)
-            .then(r => resolve(r))
+            .then(r => resolve(r)) // SHALL RETURN ID
             .catch(e => reject(e));
         });
     }
@@ -40,10 +45,18 @@ class ProgramacionServices{
         return new Promise((resolve, reject) => {
             Programacion.update(body, { where: {id: id}})
             .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
-                }
-                else reject({"MODIFY DATA:": false})
+                if(r == 1) resolve();
+                else reject();
+            })
+            .catch(e => reject(e));
+        });
+    }
+    pogramacionMultipleUpdate = (id, body) => {
+        return new Promise((resolve, reject) => {
+            Programacion.update(body, { where: {id: id}})
+            .then(r => {
+                if(r == 1) resolve();
+                else reject();
             })
             .catch(e => reject(e));
         });

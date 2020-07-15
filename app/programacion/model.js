@@ -1,11 +1,11 @@
 module.exports = (sequelize, type) => {
     const Programacion =  sequelize.define('Programacion', {
-        id: {
+        id:          {
             type: type.INTEGER,
             primaryKey: true,
             autoIncrement: true
         },
-        dia: {
+        dia:         {
             type: type.INTEGER,
             allowNull: false
         },
@@ -13,22 +13,21 @@ module.exports = (sequelize, type) => {
             type: type.INTEGER,
             allowNull: false
         },
-        torta_id: {
+        torta_id:    {
             type: type.INTEGER,
             allowNull:false
         },
-        tamano_id:{
+        tamano_id:   {
             type: type.INTEGER,
             allowNull: false
         },
-        cantidad: {
+        cantidad:    {
             type: type.INTEGER,
             defaultValue: 0
         },
-        estado: {
+        estado:      {
             type: type.INTEGER,
             defaultValue: 1
         }
-    }, {  freezeTableName: true });
-    return Programacion;
-}
+    }, { freezeTableName: true });
+    return Programacion;}
