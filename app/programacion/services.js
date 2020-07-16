@@ -48,8 +48,8 @@ class ProgramacionServices{
     programacionCreate(body){
         return new Promise((resolve, reject) => {
             Programacion.create(body)
-            .then(r => resolve(r))
-            .catch(e => reject(e));
+                .then(r => resolve(r))
+                .catch(e => reject(e));
         });
     }
     programacionUpdateById(id, body){

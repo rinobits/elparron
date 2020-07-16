@@ -30,4 +30,4 @@ module.exports = (sequelize, type) => {
             defaultValue: 1
         }
     }, { freezeTableName: true });
-    return Programacion;}
+    return Programacion}

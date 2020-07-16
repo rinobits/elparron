@@ -1,3 +1,4 @@
+const Promise              = require('bluebird');
 const ProgramacionServices = require('../../app/programacion/services');
 const programacionServices = new ProgramacionServices();
 
@@ -63,14 +64,13 @@ const jsonToTables = (action, body) => {
         });
         _id = 1;
         if(action == 'create'){
-            tables.forEach((table) => {
-                programacionServices.programacionCreate(table)
-                .then(r  => {
-                    console.log(`\n<!> T A B L E  |${_id}|  C R E A T E D <!>`)
-                    _id = _id + 1;
-                })
-                .catch(e => reject(e))
-            })
+            resolve(Promise.each(tables, (table) => {
+                return programacionServices.programacionCreate(table)
+                    .then(r  => {
+                        console.log('inserted');
+                    })
+                    .catch(e => reject(e))
+            }).then(r => console.log('done')));
         }else if(action == 'update'){
             tables.forEach(table => {
                 _id = _id + 1;
@@ -79,7 +79,7 @@ const jsonToTables = (action, body) => {
                 .catch(e => reject(e))
             })
         }
-        resolve()
+        resolve();
     })
 }
 const moveToEnd = () => {
