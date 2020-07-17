@@ -2,6 +2,7 @@
 const boom                 = require('@hapi/boom');
 // imports & consts
 const ProgramacionServices = require('./services');
+const { detalle } = require('./schemas/programacion');
 const programacionServices = new ProgramacionServices();
 
 const programacionFindByDiaYsucursal = () => {
@@ -9,11 +10,12 @@ const programacionFindByDiaYsucursal = () => {
         const { dia, sucursal_id } = req.query;
         programacionServices.programacionFindByDiaYsucursal(dia, sucursal_id)
         .then(r  => { 
-            var jsonData         = require('./schemas/programacion');
-            jsonData.sucursal_id = sucursal_id;
-            jsonData.dia         = dia;
-            jsonData.detalle      = programacionServices.tablesToJson([...jsonData.detalle], r)
-            res.json(jsonData);
+            programacionServices.sortTables(r)
+            .then(response => {
+                tables = [...response];
+                programacionServices.tablesToJson(tables)
+                .then(tables => res.json(tables));
+            })
         })
         .catch(e => next(boom.badImplementation(e)))
     }
@@ -43,7 +45,9 @@ const programacionCreateSucursal = () => {
     return (req, res, next) => {
         programacionServices.createSucursal(req.body)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badImplementation(e)));
+        .catch(e => {
+            next(boom.badRequest("Ya existe la sucursal"));
+        });
     }
 }
 const programacionDeleteSucursal = () => {
