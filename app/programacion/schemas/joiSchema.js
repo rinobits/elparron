@@ -21,15 +21,12 @@ const detalle = Joi.array().items(
     tortas, tortas, tortas,
     tortas, tortas, tortas,
     tortas);
-const idSchema  = Joi.object({id: id.required()});
 const paramSchema = Joi.object({
     dia: dia.required(),
     sucursal_id: sucursal_id.required()
 });
-const programacionSchemaCreate = Joi.object({
-    dia        : dia.required(),
-    sucursal_id: sucursal_id.required(),
-    detalle    : detalle.required()
+const sucursalSchema = Joi.object({
+    sucursal_id: sucursal_id.required()
 });
 const programacionSchemaUpdate = Joi.object({
     dia,
@@ -37,13 +34,8 @@ const programacionSchemaUpdate = Joi.object({
     detalle,
     estado
 });
-const programacionSchemaDelete = Joi.object({
-    estado: estado.required()
-});
 module.exports = {
-    programacionSchemaCreate,
     programacionSchemaUpdate,
-    programacionSchemaDelete,
     paramSchema,
-    idSchema
+    sucursalSchema
 }

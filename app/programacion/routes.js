@@ -3,16 +3,17 @@ const express                        = require('express');
 const router                         = express.Router();
 // imports & cons                       
 const control                        = require('./responses');
-const { programacionSchemaCreate }   = require('./schemas/joiSchema');
 const { programacionSchemaUpdate }   = require('./schemas/joiSchema');
-const { idSchema }                   = require('./schemas/joiSchema');
 const { paramSchema }                = require('./schemas/joiSchema');
+const { sucursalSchema }             = require('./schemas/joiSchema');
 const validatorHandler               = require('../../utils/middlewares/validatorHandler');
 const verifyToken                    = require('../../utils/middlewares/verifyToken');
+const { dia } = require('./schemas/programacion');
 
-router.get('/getall',        verifyToken, control.programacionFindAll());
-router.get('/diaysucursal',  verifyToken, validatorHandler(paramSchema, 'params'), control.programacionFindByDiaYsucursal());
-router.post('/create',       verifyToken, control.programacionMultipleCreate());
-router.put('/update',        verifyToken, validatorHandler(idSchema, 'params'), validatorHandler(programacionSchemaUpdate, 'body'), control.programacionMultipleUpdate());
-router.put('/movetoend',     verifyToken, control.programacionEmptyCurrentWeek());
+router.get('/diaysucursal',   verifyToken, validatorHandler(paramSchema, 'query'), control.programacionFindByDiaYsucursal());
+router.put('/update',         verifyToken, validatorHandler(programacionSchemaUpdate, 'body'), control.programacionMultipleUpdate());
+router.put('/emptyday',       verifyToken, validatorHandler(paramSchema, 'query'), control.programacionEmptyOneDay());
+router.put('/emptyweek',      verifyToken, validatorHandler(sucursalSchema, 'query'), control.programacionEmptyWeek());
+/* router.delete('/deletesucursal', verifyToken, validatorHandler(sucursalSchema, 'query'), control.programacionDeleteSucursal());*/
+router.post('/createsucursal', verifyToken, validatorHandler(sucursalSchema, 'query'), control.programacionCreateSucursal());
 module.exports = router;
