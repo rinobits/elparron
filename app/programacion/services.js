@@ -96,55 +96,49 @@ class ProgramacionServices{
             }
         });
     }
-    programacionUpdateById(id, body){
-        return new Promise(async(resolve, reject) => {
-            try{
-                await Programacion.update(body, { where: {id: id}});
-                resolve();
-            }catch(e){
-                reject(e);
-            }
-        });
-    }
     empty(params){
         return new Promise(async(resolve, reject) => {
             try{
                 const {sucursal_id, dia} = params;
                 var r = await this.programacionFindAll();
+                var flag = false;
+                r = [...r];
                 if(!dia){
                     for(var rr of r){
+                        rr = rr.dataValues;
                         if(sucursal_id == rr.sucursal_id){
-                            await this.programacionUpdateById(rr.id, {cantidad:0});
+                            await Programacion.update({cantidad:0}, {where:{id: rr.id}})
                             console.log(`${rr.id}  E M P T I E D`);
+                            flag = true;
                         }
                     }
                 }else{
                     for(var rr of r){
+                        rr = rr.dataValues;
                         if(dia == rr.dia && sucursal_id == rr.sucursal_id){
-                            await this.programacionUpdateById(rr.id, {cantidad:0});
+                            await Programacion.update({cantidad:0}, {where:{id: rr.id}})
                             console.log(`${rr.id}  E M P T I E D`);
+                            flag = true;
                         }
                     }
                 }
+                if(!flag) reject('Not exists');
                 resolve();
             }catch(e){
                 reject(e);
             }
         });
-
     }
     createSucursal(params) {
         return new Promise(async(resolve, reject) => {
+            var {sucursal_id} = params;
+            let r = await Programacion.findAll({where:{sucursal_id:sucursal_id}});
+            if(r.length != 0) reject("Sucursal exists");
             try{
                 var {sucursal_id} = params;
-                var res = await this.programacionFindAll();
+                let r = await Programacion.findAll({where:{sucursal_id:sucursal_id}});
                 sucursal_id = Number(sucursal_id);
-                var i = 0
-                for(const element of [...res]){
-                    if(element.dataValues.sucursal_id == sucursal_id) {
-                        throw Error('e');
-                    }
-                }
+                var i = 0;
                 var table = require('../../app/programacion/schemas/programacion'); 
                 for( i; i < 6; i++){
                     table.sucursal_id = sucursal_id;
@@ -176,7 +170,7 @@ class ProgramacionServices{
                     await Programacion.destroy({where:{sucursal_id}});
                     resolve();
                 }else{
-                    reject();
+                    reject('Not exists');
                 }
             }catch(e){
                 reject(e);
@@ -191,37 +185,41 @@ class ProgramacionServices{
                 var   detalle      = [...body.detalle];
                 var   tables       = [];
                 var   _id          = 1;
-                    detalle.forEach(torta => {
-                        let _torta_id = torta.torta_id;
-                        for(let i = 0; i < 4; i++){
-                            tables.push({
-                                dia:         _dia,
-                                sucursal_id: _sucursal_id,
-                                torta_id:    _torta_id,
-                                tamano_id:   torta.cantidades[i].tamano_id,
-                                cantidad:    torta.cantidades[i].cantidad
-                            });
-                        }
-                    });
-                    _id = 1;
-                    var r = await this.programacionFindAll();
-                    r = [...r];
-                    if(action === 'create'){
-                        for(const table of tables){
-                            await this.programacionCreate(table);
-                            console.log(`${_id++} C R E A T E D`);
-                        }
-                        console.log('ALL TABLES INSERTED');
-                    }else if(action === 'update'){
-                        for(var rr of r){
-                            if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
-                                await this.programacionUpdateById(rr.id, tables[_id-1]);
-                                console.log(`${_id++} U P D A T E D`);
-                            }
-                        }
-                        console.log('ALL TABLES UPDATED');
+                detalle.forEach(torta => {
+                    let _torta_id = torta.torta_id;
+                    for(let i = 0; i < 4; i++){
+                        tables.push({
+                            dia:         _dia,
+                            sucursal_id: _sucursal_id,
+                            torta_id:    _torta_id,
+                            tamano_id:   torta.cantidades[i].tamano_id,
+                            cantidad:    torta.cantidades[i].cantidad
+                        });
                     }
-                    resolve();
+                });
+                var r = await this.programacionFindAll();
+                r = [...r];
+                if(action === 'create'){
+                    for(const table of tables){
+                        await this.programacionCreate(table);
+                        console.log(`${_id++} C R E A T E D`);
+                        flag = true;
+                    }
+                    console.log('ALL TABLES INSERTED');
+                }else if(action === 'update'){
+                    var _id = 0;
+                    var flag = false;
+                    for(var rr of r){
+                        rr = rr.dataValues;
+                        if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
+                            await Programacion.update(tables[_id], {where:{id:rr.id}});
+                            console.log(`${_id++} U P D A T E D`);
+                            flag = true;
+                        }
+                    }
+                }
+                if(!flag) reject('not found');
+                resolve();
             }catch(e){
                 reject(e);
             }
