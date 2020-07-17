@@ -31,7 +31,7 @@ class ProgramacionServices{
             include: [Torta, Tamano, Sucursal],
             where  : { dia , sucursal_id, estado: 1 }
         })
-        return r;        next(boom.badImplementation());
+        return r; 
 
     }
     async programacionCreate(body){
@@ -39,13 +39,6 @@ class ProgramacionServices{
     }
     async programacionUpdateById(id, body){
         await Programacion.update(body, { where: {id: id}})
-    }
-    async programacionDeleteById(id, estado = 0){
-        const r = await Programacion.destroy(id, { where: {id: id}})
-        if(r == 1){
-            resolve({"DELETE DATA:": true});
-        }
-        else reject({"DELETE DATA:": false})
     }
     async empty(params){
         const {sucursal_id, dia} = params;
@@ -86,26 +79,28 @@ class ProgramacionServices{
         }
         return true;
     }
-/*     async deleteSucursal(params) {
+    async deleteSucursal(params) {
         var {sucursal_id} = params;
-        let flag = false;
-        let res = await this.programacionFindAll();
-        res = [...res];
-        const tableLen = res.length;
+        let flag          = false;
+        let res           = await this.programacionFindAll();
+        res               = [...res];
         sucursal_id = Number(sucursal_id);
-        for(const element of [...res]){
-            if(element.dataValues.sucursal_id = sucursal_id) flag = true
-        }
-        if(flag){
-            for(const table of res){
-                if(table.sucursal_id == sucursal_id){
-                    this.programacionDeleteById()
-                }
-                console.log(`${table.dia} DAY DELETED FOR SUCURSAL ${sucursal_id}`);
+        for(const field of res){
+            if(field.dataValues.sucursal_id = sucursal_id){
+                flag = true;
+                break;
             }
         }
-        return flag;
-    } */
+        if(flag){
+            const r = await Programacion.destroy({where:{sucursal_id}});
+            if(r == 1) return true
+            else       return Error("not done");
+        }
+        else{
+            return Error('Not exists');
+        }
+        
+    }
     async jsonToTables(action, body) {
         const _sucursal_id = body.sucursal_id;
         const _dia         = body.dia;

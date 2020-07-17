@@ -40,24 +40,24 @@ const programacionEmptyWeek = () => {
     }
 }
 const programacionCreateSucursal = () => {
-    return async(req, res, next) => {
+    return (req, res, next) => {
         programacionServices.createSucursal(req.body)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
         .catch(e => next(boom.badImplementation(e)));
     }
 }
-/* const programacionDeleteSucursal = () => {
-    return async(req, res, next) => {
-        let x = await programacionServices.deleteSucursal(req.query);
-        if(x) res.json({'OPERATION': 'SUCCESS'})
-        next(boom.badImplementation());
+const programacionDeleteSucursal = () => {
+    return (req, res, next) => {
+        programacionServices.deleteSucursal(req.query)
+        .then(r => res.json({'OPERATION': 'SUCCESS'}))
+        .catch(e => next(boom.badImplementation(e)));
     }
-} */
+}
 module.exports = {
     programacionFindByDiaYsucursal,
     programacionMultipleUpdate,
     programacionEmptyOneDay,
     programacionEmptyWeek,
     programacionCreateSucursal,
-/*     programacionDeleteSucursal*/
+    programacionDeleteSucursal
 };
