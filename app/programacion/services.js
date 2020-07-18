@@ -75,8 +75,10 @@ class ProgramacionServices{
     }
     programacionFindByDiaYsucursal(dia, sucursal_id){
         return new Promise(async(resolve, reject) => {
+            var r = await Programacion.findAll({where:{dia:dia}});
+            if(r.length == 0) reject('no data');
             try{
-                const r = await Programacion.findAll({
+                r = await Programacion.findAll({
                     where  : { dia:dia , sucursal_id:sucursal_id, estado: 1 },
                     include: [Torta, Tamano, Sucursal],
                 })
@@ -231,8 +233,10 @@ class ProgramacionServices{
                 var schema = require('./schemas/programacion');
                 var i = 0;
                 var j = 0;
+                tables = [...tables];
                 schema.sucursal_id = tables[0].dataValues.sucursal_id;
                 schema.dia         = tables[0].dataValues.dia;
+                console.log(schema);
                 var detalle        = schema.detalle;
                 for(var table of tables){ 
                     table = table.dataValues;
@@ -242,7 +246,7 @@ class ProgramacionServices{
                     i++;
                     if(i == 4){
                         i = 0;
-                        j++
+                        j++;
                     }
                 }     
                 schema.detalle = detalle;               
