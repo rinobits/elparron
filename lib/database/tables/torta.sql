@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
 
-CREATE TABLE IF NOT EXISTS usuario (
+CREATE TABLE IF NOT EXISTS torta (
   id            INT(11) NOT NULL AUTO_INCREMENT,
   masaTipo_id   INT(11) NOT NULL,
   masaSabor_id  INT(11) NOT NULL,
@@ -11,5 +11,5 @@ CREATE TABLE IF NOT EXISTS usuario (
   PRIMARY KEY(id)
 );
 
-DESCRIBE usuario;
+DESCRIBE torta;
 

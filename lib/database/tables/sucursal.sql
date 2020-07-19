@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
 
-CREATE TABLE IF NOT EXISTS programacion (
+CREATE TABLE IF NOT EXISTS sucursal (
   id             INT(11)      NOT NULL AUTO_INCREMENT,
   rut            VARCHAR(12)  NOT NULL UNIQUE,
   razonSocial    VARCHAR(60)  NOT NULL,
@@ -18,6 +18,6 @@ CREATE TABLE IF NOT EXISTS programacion (
   PRIMARY KEY(id)
 );
 
-DESCRIBE programacion;
+DESCRIBE sucursal;
 
 
