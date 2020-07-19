@@ -30,7 +30,7 @@ class MasaTipoServices{
             const query      = `
                 SET @id     = ?;
                 SET @nombre = ?;
-                CALL AddEditMasaTipo(@id, @nombre);
+                CALL addEditMasaTipo(@id, @nombre);
             `
             mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
@@ -47,7 +47,7 @@ class MasaTipoServices{
             const query = `
                 SET @id     = ?;
                 SET @nombre = ?;
-                CALL AddEditMasaTipo(@id, @nombre);
+                CALL addEditMasaTipo(@id, @nombre);
             `
             mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
