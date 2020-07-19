@@ -11,14 +11,14 @@ CREATE TABLE IF NOT EXISTS sabor (
 
 DESCRIBE sabor;
 
-INSERT INTO sabor (id, nombre) values (
+INSERT INTO sabor (id, nombre) values
   (1, 'Piña'),
   (2, 'Lúcuma'),
   (3, 'Nueces'),
   (4, 'Frambuesa'),
   (5, 'Chocolate'),
   (6, 'Manjar'),
-  (7, 'Vainilla'));
+  (7, 'Vainilla');
   
 SELECT * FROM sabor;
 

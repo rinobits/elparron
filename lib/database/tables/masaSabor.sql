@@ -11,10 +11,10 @@ CREATE TABLE IF NOT EXISTS masaSabor (
 
 DESCRIBE masaSabor;
 
-INSERT INTO masaSabor (id, nombre) values (
+INSERT INTO masaSabor (id, nombre) values
   (1, 'Blanco'),
   (2, 'Chocolate'),
-  (3, 'Nuez'));
+  (3, 'Nuez');
   
 SELECT * FROM masaSabor;
 
