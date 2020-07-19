@@ -1,4 +1,4 @@
-USE `parron`$$
+USE `parron`$$;
 CREATE PROCEDURE `addOrEditTamano` (
     IN _id INT(11),
     IN _tamano VARCHAR(200),

@@ -1,4 +1,4 @@
-USE `parron`$$
+USE `parron`$$;
 CREATE PROCEDURE `addOrEditUsuario` (
     IN _id INT(11) DEFAULT 0,
     IN _userName VARCHAR(200),

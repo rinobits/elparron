@@ -1,4 +1,4 @@
-USE `parron`$$
+USE `parron`$$;
 CREATE PROCEDURE `addOrEditMasaSabor` (
     IN _id INT(11),
     IN _nombre VARCHAR(200))

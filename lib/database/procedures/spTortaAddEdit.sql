@@ -1,4 +1,4 @@
-USE `parron`$$
+USE `parron`$$;
 CREATE PROCEDURE `addOrEditTorta` (
     IN _id INT(11),
     IN _masaTipo_id  VARCHAR(200),
