@@ -4,55 +4,55 @@ const boom                      = require('@hapi/boom');
 const TamanoServices              = require('./services');
 const tamanoServices              = new TamanoServices();
 
-const tamanosFindAll = () => {
+const tamanoFindAll = () => {
     return (req, res, next) => {
-        tamanoServices.tamanosFindAll()
+        tamanoServices.tamanoFindAll()
             .then(r => {
-                res.json([...r.tamanos]);
+                res.json([...r.tamano]);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanosFindById = () => {
+const tamanoFindById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanosFindById(id)
+        tamanoServices.tamanoFindById(id)
             .then(r => {
                 res.json(r)
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanosCreate = () => {
+const tamanoCreate = () => {
     return (req, res, next) => {
         const {body} = req;
-        tamanoServices.tamanosCreate(body)
+        tamanoServices.tamanoCreate(body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanosUpdateById = () => {
+const tamanoUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        tamanoServices.tamanosUpdateById(id, body) 
+        tamanoServices.tamanoUpdateById(id, body) 
         .then(r  => res.json({"MODIFY DATA": true}))
         .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanosDeleteById = () => {
+const tamanoDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanosDeleteById(id)
+        tamanoServices.tamanoDeleteById(id)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {
-    tamanosFindAll,
-    tamanosFindById,
-    tamanosCreate,
-    tamanosUpdateById,
-    tamanosDeleteById
+    tamanoFindAll,
+    tamanoFindById,
+    tamanoCreate,
+    tamanoUpdateById,
+    tamanoDeleteById
 };
 

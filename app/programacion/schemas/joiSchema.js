@@ -1,7 +1,6 @@
 // packages
 const Joi         = require('@hapi/joi');
 // consts
-const id          = Joi.number().min(0); 
 const estado      = Joi.number().min(0).max(1);
 const dia         = Joi.number().min(1).max(6);
 const sucursal_id = Joi.number().min(0);

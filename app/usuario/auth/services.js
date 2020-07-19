@@ -1,16 +1,16 @@
-const {Usuario} = require('../../../lib/database');
+const mysqlConnection = require('../../lib/database');
 const bcrypt    = require('bcrypt'); 
 const jwt       = require('jsonwebtoken');
 const {config: { authJwtSecret }} = require('../../../config');
+
 class AuthServices{
     auth(username, password){
         return new Promise((resolve, reject) => {
-            Usuario.findAll({ where:{userName: username}})
-                .then(user => {
-                    bcrypt.compare(password, user[0].dataValues.userPassword)
+            mysqlConnection.query(`SELECT * FROM usuario WHERE userName = ?`, [username], (err, usuario) => {
+                if(!err){
+                    bcrypt.compare(password, usuario[0].userPassword)
                         .then(r => {
                             if(r == true){
-                                
                                 const payload = {check:true};
                                 const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'1h'});
                                 resolve(token);
@@ -21,10 +21,12 @@ class AuthServices{
                         .catch(e => {
                             reject("can't authenticate");
                         })
-                })
-                .catch(err => {
+                }
+                else{
                     reject("can't authenticate");
-                });
+                }
+            });
+                    
         });
     }
 }

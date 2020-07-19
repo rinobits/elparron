@@ -1,48 +1,72 @@
-const {MasaTipo} = require('../../lib/database');
+const mysqlConnection = require('../../lib/database');
+
 class MasaTipoServices{
     masaTipoFindAll(){
         return new Promise((resolve, reject) => {
-            MasaTipo.findAll({where:{estado:1}})
-                .then(r => resolve({masaTipo: r})) 
-                .catch(e => reject(e));
+            mysqlConnection.query(`SELECT * FROM masaTipo`, (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            })
         });
     }
     masaTipoFindById(id){
         return new Promise((resolve, reject) => {
-            MasaTipo.findByPk(id)
-                .then(r => resolve({r}))
-                .catch(e => reject(e));
+            mysqlConnection.query(`SELECT * FROM masaTipo WHERE ID = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
     masaTipoCreate(body){
         return new Promise((resolve, reject) => {
-            MasaTipo.create(body)
-            .then(r => resolve(r))
-            .catch(e => reject(e));
+            const { nombre } = body;
+            const id         = 0;
+            const query      = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL AddEditMasaTipo(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
-    masaTipoUpdateById(id, body){
+    masaTipoUpdateById(body){
         return new Promise((resolve, reject) => {
-            MasaTipo.update(body, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            const { id, nombre } = body;
+            const query = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL AddEditMasaTipo(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
         });
     }
-    masaTipoDeleteById(id, estado = 0){
+    masaTipoDeleteById(id){
         return new Promise((resolve, reject) => {
-            MasaTipo.update({estado: estado}, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`DELETE FROM masaTipo  WHERE id = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
         });
     }
     

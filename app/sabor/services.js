@@ -1,48 +1,72 @@
-const {Sabor} = require('../../lib/database');
+const mysqlConnection = require('../../lib/database');
+
 class SaborServices{
-    saboresFindAll(){
+    saborFindAll(){
         return new Promise((resolve, reject) => {
-            Sabor.findAll({where:{estado:1}})
-                .then(r => resolve({sabores: r})) 
-                .catch(e => reject(e));
-        });
-    }
-    saboresFindById(id){
-        return new Promise((resolve, reject) => {
-            Sabor.findByPk(id)
-                .then(r => resolve({r}))
-                .catch(e => reject(e));
-        });
-    }
-    saboresCreate(body){
-        return new Promise((resolve, reject) => {
-            Sabor.create(body)
-            .then(r => resolve(r))
-            .catch(e => reject(e));
-        });
-    }
-    saboresUpdateById(id, body){
-        return new Promise((resolve, reject) => {
-            Sabor.update(body, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`SELECT * FROM sabor`, (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
             })
-            .catch(e => reject(e));
         });
     }
-    saboresDeleteById(id, estado = 0){
+    saborFindById(id){
         return new Promise((resolve, reject) => {
-            Sabor.update({estado: estado}, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`SELECT * FROM sabor WHERE ID = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
+        });
+    }
+    saborCreate(body){
+        return new Promise((resolve, reject) => {
+            const { nombre } = body;
+            const id         = 0;
+            const query      = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditSabor(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
+        });
+    }
+    saborUpdateById(id, body){
+        return new Promise((resolve, reject) => {
+            const { nombre } = body;
+            const query = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditSabor(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
+        });
+    }
+    saborDeleteById(id){
+        return new Promise((resolve, reject) => {
+            mysqlConnection.query(`DELETE FROM sabor  WHERE id = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
     

@@ -2,7 +2,6 @@
 const boom                 = require('@hapi/boom');
 // imports & consts
 const ProgramacionServices = require('./services');
-const { detalle } = require('./schemas/programacion');
 const programacionServices = new ProgramacionServices();
 
 const programacionFindByDiaYsucursal = () => {
@@ -22,7 +21,7 @@ const programacionFindByDiaYsucursal = () => {
 }
 const programacionMultipleUpdate = () => {
     return (req, res, next) => {
-        programacionServices.jsonToTables('update', req.body)
+        programacionServices.jsontortables('update', req.body)
         .then(r => res.json({'TABLES UPDATED': true}))
         .catch(e => next(boom.badImplementation(e)))
     }

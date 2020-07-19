@@ -1,49 +1,72 @@
-const {MasaSabor} = require('../../lib/database');
+const mysqlConnection = require('../../lib/database');
 
 class MasaSaborServices{
     masaSaborFindAll(){
         return new Promise((resolve, reject) => {
-            MasaSabor.findAll({where:{estado:1}})
-                .then(r => resolve(r)) 
-                .catch(e => reject(e));
+            mysqlConnection.query(`SELECT * FROM masaSabor`, (err, rows) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            })
         });
     }
     masaSaborFindById(id){
         return new Promise((resolve, reject) => {
-            MasaSabor.findByPk(id)
-                .then(r => resolve({r}))
-                .catch(e => reject(e));
+            mysqlConnection.query(`SELECT * FROM masaSabor WHERE ID = ?`, [id], (err, rows) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
     masaSaborCreate(body){
         return new Promise((resolve, reject) => {
-            MasaSabor.create(body)
-            .then(r => resolve(r))
-            .catch(e => reject(e));
+            const { nombre } = body;
+            const id         = 0;
+            const query      = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditMasaSabor(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
     masaSaborUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            MasaSabor.update(body, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            const { nombre } = body;
+            const query = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditMasaSabor(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
         });
     }
-    masaSaborDeleteById(id, estado = 0){
+    masaSaborDeleteById(id){
         return new Promise((resolve, reject) => {
-            MasaSabor.update({estado: estado}, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`DELETE FROM masaSabor WHERE id = ?`, [id], (err, rows) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
         });
     }
     

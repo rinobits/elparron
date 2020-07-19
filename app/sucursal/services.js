@@ -1,9 +1,9 @@
 const mysqlConnection = require('../../lib/database');
 
-class TortaServices{
-    tortaFindAll(){
+class SucursalServices{
+    sucursalFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM torta`, (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM sucursal`, (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -12,9 +12,9 @@ class TortaServices{
             })
         });
     }
-    tortaFindById(id){
+    sucursalFindById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM torta WHERE ID = ?`, [id], (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM sucursal WHERE ID = ?`, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -23,18 +23,16 @@ class TortaServices{
             });
         });
     }
-    tortaCreate(body){
+    sucursalCreate(body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
+            const { nombre } = body;
             const id         = 0;
             const query      = `
-                SET @id = ?;
-                SET @masaTipo_id = ?;
-                SET @masaSabor_id = ?;
-                SET @sabor_id = ?;
-                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_idw);
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditSucursal(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -43,17 +41,15 @@ class TortaServices{
             });
         });
     }
-    tortaUpdateById(id, body){
+    sucursalUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
+            const { nombre } = body;
             const query = `
-                SET @id = ?;
-                SET @masaTipo_id = ?;
-                SET @masaSabor_id = ?;
-                SET @sabor_id = ?;
-                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_id);
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditSucursal(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -62,9 +58,9 @@ class TortaServices{
             });
         });
     }
-    tortaDeleteById(id){
+    sucursalDeleteById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM torta  WHERE id = ?`, [id], (err, rows, fields) => {
+            mysqlConnection.query(`DELETE FROM sucursal  WHERE id = ?`, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -75,4 +71,4 @@ class TortaServices{
     }
     
 }
-module.exports = TortaServices;
+module.exports = SucursalServices;

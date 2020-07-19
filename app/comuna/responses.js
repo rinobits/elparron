@@ -1,8 +1,8 @@
 // packages
 const boom                      = require('@hapi/boom');
 // imports & consts
-const ComunasServices           = require('./services');
-const comunaServices            = new ComunasServices();
+const ComunaServices           = require('./services');
+const comunaServices            = new ComunaServices();
 
 const comunaFindAll = () => {
     return (req, res, next) => {

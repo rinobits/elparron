@@ -1,9 +1,9 @@
 const mysqlConnection = require('../../lib/database');
 
-class TortaServices{
-    tortaFindAll(){
+class ComunaServices{
+    comunaFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM torta`, (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM comuna`, (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -12,9 +12,9 @@ class TortaServices{
             })
         });
     }
-    tortaFindById(id){
+    comunaFindById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM torta WHERE ID = ?`, [id], (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM comuna WHERE ID = ?`, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -23,18 +23,16 @@ class TortaServices{
             });
         });
     }
-    tortaCreate(body){
+    comunaCreate(body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
+            const { nombre } = body;
             const id         = 0;
             const query      = `
-                SET @id = ?;
-                SET @masaTipo_id = ?;
-                SET @masaSabor_id = ?;
-                SET @sabor_id = ?;
-                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_idw);
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditComuna(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -43,17 +41,15 @@ class TortaServices{
             });
         });
     }
-    tortaUpdateById(id, body){
+    comunaUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
+            const { nombre } = body;
             const query = `
-                SET @id = ?;
-                SET @masaTipo_id = ?;
-                SET @masaSabor_id = ?;
-                SET @sabor_id = ?;
-                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_id);
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditComuna(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -62,9 +58,9 @@ class TortaServices{
             });
         });
     }
-    tortaDeleteById(id){
+    comunaDeleteById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM torta  WHERE id = ?`, [id], (err, rows, fields) => {
+            mysqlConnection.query(`DELETE FROM comuna  WHERE id = ?`, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -75,4 +71,4 @@ class TortaServices{
     }
     
 }
-module.exports = TortaServices;
+module.exports = ComunaServices;

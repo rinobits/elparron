@@ -25,7 +25,7 @@ const masaSaborFindById = () => {
 }
 const masaSaborCreate = () => {
     return (req, res, next) => {
-        const {body} = req;
+        const {body} = req.body;
         masaSaborServices.masaSaborCreate(body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))

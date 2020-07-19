@@ -1,11 +1,11 @@
 // packages
-const Joi              = require('@hapi/joi');
+const Joi    = require('@hapi/joi');
 // consts
-const nombre           = Joi.string();
-const estado           = Joi.number().min(0).max(1);
-const id               = Joi.number().min(0);
+const nombre = Joi.string();
+const estado = Joi.number().min(0).max(1);
+const id     = Joi.number().min(0);
 
-const idSchema         = Joi.object({
+const idSchema = Joi.object({
     id: id.required()
 })
 const masaSaborSchemaCreate = Joi.object({

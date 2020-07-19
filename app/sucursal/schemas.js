@@ -20,7 +20,7 @@ const idSchema       = Joi.object({
     id: id.required()
 })
 
-const sucursalesSchemaCreate = Joi.object({
+const sucursalSchemaCreate = Joi.object({
     rut            : rut.required(), 
     razonSocial    : razonSocial.required(),         
     giro           : giro.required(), 
@@ -32,7 +32,7 @@ const sucursalesSchemaCreate = Joi.object({
     colorFondo     : colorFondo.required(),     
     colorLetra     : colorLetra.required()     
 })
-const sucursalesSchemaUpdate = Joi.object({
+const sucursalSchemaUpdate = Joi.object({
     rut,
     razonSocial,
     giro,
@@ -45,13 +45,13 @@ const sucursalesSchemaUpdate = Joi.object({
     colorLetra,
     estado
 });
-const sucursalesSchemaDelete = Joi.object({
+const sucursalSchemaDelete = Joi.object({
     estado: estado.required()
 })
 
 module.exports = {
-    sucursalesSchemaCreate,
-    sucursalesSchemaUpdate,
-    sucursalesSchemaDelete,
+    sucursalSchemaCreate,
+    sucursalSchemaUpdate,
+    sucursalSchemaDelete,
     idSchema
 }

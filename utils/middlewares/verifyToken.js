@@ -8,7 +8,7 @@ module.exports = (req, res, next) => {
     const bearerToken = req.headers['authorization'];
     if(bearerToken != undefined){ 
         req.token = bearerToken;
-        jwt.verify(req.token, authJwtSecret, (e, auth) => {
+        jwt.verify(req.token, authJwtSecret, (es) => {
             if(e){
                 e = boom.unauthorized(e);
                 next(e);

@@ -1,49 +1,72 @@
-const {Tamano}  = require('../../lib/database');
+const mysqlConnection = require('../../lib/database');
 
 class TamanoServices{
-    tamanosFindAll(){
+    tamanoFindAll(){
         return new Promise((resolve, reject) => {
-            Tamano.findAll({where:{estado:1}})
-                .then(r => resolve({tamanos: r})) 
-                .catch(e => reject(e));
-        });
-    }
-    tamanosFindById(id){
-        return new Promise((resolve, reject) => {
-            Tamano.findByPk(id)
-                .then(r => resolve({r}))
-                .catch(e => reject(e));
-        });
-    }
-    tamanosCreate(body){
-        return new Promise((resolve, reject) => {
-            Tamano.create(body)
-            .then(r => resolve(r))
-            .catch(e => reject(e));
-        });
-    }
-    tamanosUpdateById(id, body){
-        return new Promise((resolve, reject) => {
-            Tamano.update(body, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`SELECT * FROM tamano`, (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
             })
-            .catch(e => reject(e));
         });
     }
-    tamanosDeleteById(id, estado = 0){
+    tamanoFindById(id){
         return new Promise((resolve, reject) => {
-            Tamano.update({estado: estado}, { where: {id: id}})
-            .then(r => {
-                if(r == 1){
-                    resolve({"MODIFY DATA:": true});
+            mysqlConnection.query(`SELECT * FROM tamano WHERE ID = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
                 }
-                else reject({"MODIFY DATA:": false})
-            })
-            .catch(e => reject(e));
+            });
+        });
+    }
+    tamanoCreate(body){
+        return new Promise((resolve, reject) => {
+            const { nombre } = body;
+            const id         = 0;
+            const query      = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditTamano(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
+        });
+    }
+    tamanoUpdateById(id, body){
+        return new Promise((resolve, reject) => {
+            const { nombre } = body;
+            const query = `
+                SET @id     = ?;
+                SET @nombre = ?;
+                CALL addOrEditTamano(@id, @nombre);
+            `
+            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                if(!err){
+                    resolve('Done');
+                }else{
+                    reject('Not found');
+                }
+            });
+        });
+    }
+    tamanoDeleteById(id){
+        return new Promise((resolve, reject) => {
+            mysqlConnection.query(`DELETE FROM tamano  WHERE id = ?`, [id], (err, rows, fields) => {
+                if(!err){
+                    resolve(rows[0]);
+                }else{
+                    reject('Not found');
+                }
+            });
         });
     }
     

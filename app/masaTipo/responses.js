@@ -8,8 +8,7 @@ const masaTipoFindAll = () => {
     return (req, res, next) => {
         masaTipoServices.masaTipoFindAll()
             .then(r => {
-                //r = [...responses.users];
-                res.json([...r.masaTipo]);
+                res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -26,7 +25,7 @@ const masaTipoFindById = () => {
 }
 const masaTipoCreate = () => {
     return (req, res, next) => {
-        const {body} = req;
+        const {body} = req.body;
         masaTipoServices.masaTipoCreate(body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
@@ -34,7 +33,7 @@ const masaTipoCreate = () => {
 }
 const masaTipoUpdateById = () => {
     return (req, res, next) => {
-        const {body} = req;
+        const {body} = req.body;
         const {id}   = req.params;
         masaTipoServices.masaTipoUpdateById(id, body) 
         .then(r  => res.json({"MODIFY DATA": true}))
