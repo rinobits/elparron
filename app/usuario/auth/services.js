@@ -1,4 +1,4 @@
-const mysqlConnection = require('../../lib/database');
+const mysqlConnection = require('../../../lib/database/database');
 const bcrypt    = require('bcrypt'); 
 const jwt       = require('jsonwebtoken');
 const {config: { authJwtSecret }} = require('../../../config');

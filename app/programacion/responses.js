@@ -9,6 +9,7 @@ const programacionFindByDiaYsucursal = () => {
         const { dia, sucursal_id } = req.query;
         programacionServices.programacionFindByDiaYsucursal(dia, sucursal_id)
         .then(r  => { 
+            if(r.length == 0) next(boom.badRequest('Sucursal no existe'));
             programacionServices.sortTables(r)
             .then(response => {
                 tables = [...response];
@@ -23,21 +24,21 @@ const programacionMultipleUpdate = () => {
     return (req, res, next) => {
         programacionServices.jsontortables('update', req.body)
         .then(r => res.json({'TABLES UPDATED': true}))
-        .catch(e => next(boom.badImplementation(e)))
+        .catch(e => next(boom.badRequest(e)))
     }
 }
 const programacionEmptyOneDay = () => {
     return (req, res, next) => {
         programacionServices.empty(req.query)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badImplementation(e)));
+        .catch(e => next(boom.badRequest(e)));
     }
 }
 const programacionEmptyWeek = () => {
     return (req, res, next) => {
         programacionServices.empty(req.query)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badImplementation(e)));
+        .catch(e => next(boom.badRequest(e)));
     }
 }
 const programacionCreateSucursal = () => {
@@ -45,7 +46,7 @@ const programacionCreateSucursal = () => {
         programacionServices.createSucursal(req.body)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
         .catch(e => {
-            next(boom.badRequest("Ya existe la sucursal"));
+            next(boom.badRequest(e));
         });
     }
 }
@@ -53,7 +54,7 @@ const programacionDeleteSucursal = () => {
     return (req, res, next) => {
         programacionServices.deleteSucursal(req.query)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badImplementation(e)));
+        .catch(e => next(boom.badRequest(e)));
     }
 }
 module.exports = {

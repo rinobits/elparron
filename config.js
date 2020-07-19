@@ -3,7 +3,7 @@ const config = {
     db:                   process.env.DB_NAME,
     user:                 process.env.DB_USER,
     password:             process.env.DB_PASSWORD,
-    _host:                process.env.DB_HOST,
+    host:                 process.env.DB_HOST,
     port:                 process.env.PORT,
     dbPort:               process.env.DB_PORT,
     defaultAdminName:     process.env.DEFAULT_ADMIN_USER,

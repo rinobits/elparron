@@ -1,4 +1,4 @@
-const mysqlConnection = require('../../lib/database');
+const mysqlConnection = require('../../lib/database/database');
 
 class ComunaServices{
     comunaFindAll(){
