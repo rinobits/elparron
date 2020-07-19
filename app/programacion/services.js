@@ -48,6 +48,10 @@ class ProgramacionServices{
 
     }
     programacionFindByDiaYsucursal(dia, sucursal_id){
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT * FROM programacion WHERE dia = ? AND sucursal_id = ?;
@@ -82,9 +86,42 @@ class ProgramacionServices{
             });
         });
     }
+<<<<<<< HEAD
     empty(params){
         return new Promise((resolve, reject) => {
                 const {sucursal_id, dia} = params;
+=======
+=======
+        return new Promise(async(resolve, reject) => {
+            var r = await Programacion.findAll({where:{dia:dia}});
+            if(r.length == 0) reject('no data');
+            try{
+                r = await Programacion.findAll({
+                    where  : { dia:dia , sucursal_id:sucursal_id, estado: 1 },
+                    include: [Torta, Tamano, Sucursal],
+                })
+                resolve(r); 
+            }catch(e){
+                reject(e);
+            }
+        });
+    }
+    programacionCreate(body){
+        return new Promise(async(resolve, reject) => {
+            try{
+                await Programacion.create(body);
+                resolve();
+            }catch(e){
+                reject(e);
+            }
+        });
+    }
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+    empty(params){
+        return new Promise((resolve, reject) => {
+                const {sucursal_id, dia} = params;
+<<<<<<< HEAD
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
                 const query = `
                     UPDATE programacion SET cantidad = 0 WHERE id = ?
                 `
@@ -112,16 +149,57 @@ class ProgramacionServices{
                                     });
                                 }
                             }
+<<<<<<< HEAD
+=======
+=======
+                var r = await this.programacionFindAll();
+                var flag = false;
+                r = [...r];
+                if(!dia){
+                    for(var rr of r){
+                        rr = rr.dataValues;
+                        if(sucursal_id == rr.sucursal_id){
+                            await Programacion.update({cantidad:0}, {where:{id: rr.id}})
+                            console.log(`${rr.id}  E M P T I E D`);
+                            flag = true;
+                        }
+                    }
+                }else{
+                    for(var rr of r){
+                        rr = rr.dataValues;
+                        if(dia == rr.dia && sucursal_id == rr.sucursal_id){
+                            await Programacion.update({cantidad:0}, {where:{id: rr.id}})
+                            console.log(`${rr.id}  E M P T I E D`);
+                            flag = true;
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
                         }
                         resolve();
                     }else{
                         reject();
                     }
+<<<<<<< HEAD
                 })
+=======
+<<<<<<< HEAD
+                })
+=======
+                }
+                if(!flag) reject('Not exists');
+                resolve();
+            }catch(e){
+                reject(e);
+            }
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
         });
 
     }
     createSucursal(params) {
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
         return new Promise((resolve, reject) => {
                 var {sucursal_id} = params;
                 mysqlConnection.query(`SELECT * FROM programacion`, async(err, res) => {
@@ -145,6 +223,31 @@ class ProgramacionServices{
                         reject(err);
                     }
                 });
+<<<<<<< HEAD
+=======
+=======
+        return new Promise(async(resolve, reject) => {
+            var {sucursal_id} = params;
+            let r = await Programacion.findAll({where:{sucursal_id:sucursal_id}});
+            if(r.length != 0) reject("Sucursal exists");
+            try{
+                var {sucursal_id} = params;
+                let r = await Programacion.findAll({where:{sucursal_id:sucursal_id}});
+                sucursal_id = Number(sucursal_id);
+                var i = 0;
+                var table = require('../../app/programacion/schemas/programacion'); 
+                for( i; i < 6; i++){
+                    table.sucursal_id = sucursal_id;
+                    table.dia         = i+1;
+                    await this.jsonToTables('create', table);
+                    console.log(`${i+1} DAY CREATED FOR SUCURSAL ${sucursal_id}`);
+                }
+                resolve();
+            }catch(e){
+                reject(e);
+            }
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
         });
     }
     deleteSucursal(params) {
@@ -157,11 +260,23 @@ class ProgramacionServices{
                         else   reject();
                     })
                 }else{
+<<<<<<< HEAD
                     reject(e);
+=======
+<<<<<<< HEAD
+                    reject(e);
+=======
+                    reject('Not exists');
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
                 }
             })
         });
     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
     jsontortables(action, body) {
         return new Promise((resolve, reject) => {
             mysqlConnection(`SELECT * FROM pedidos`, async(e, r) => {
@@ -197,9 +312,56 @@ class ProgramacionServices{
                                 await this.programacionAddEddit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
                             }
+<<<<<<< HEAD
+=======
+=======
+    jsonToTables(action, body) {
+        return new Promise(async(resolve, reject) => {
+            try{
+                const _sucursal_id = body.sucursal_id;
+                const _dia         = body.dia;
+                var   detalle      = [...body.detalle];
+                var   tables       = [];
+                var   _id          = 1;
+                detalle.forEach(torta => {
+                    let _torta_id = torta.torta_id;
+                    for(let i = 0; i < 4; i++){
+                        tables.push({
+                            dia:         _dia,
+                            sucursal_id: _sucursal_id,
+                            torta_id:    _torta_id,
+                            tamano_id:   torta.cantidades[i].tamano_id,
+                            cantidad:    torta.cantidades[i].cantidad
+                        });
+                    }
+                });
+                var r = await this.programacionFindAll();
+                r = [...r];
+                if(action === 'create'){
+                    for(const table of tables){
+                        await this.programacionCreate(table);
+                        console.log(`${_id++} C R E A T E D`);
+                        flag = true;
+                    }
+                    console.log('ALL TABLES INSERTED');
+                }else if(action === 'update'){
+                    var _id = 0;
+                    var flag = false;
+                    for(var rr of r){
+                        rr = rr.dataValues;
+                        if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
+                            await Programacion.update(tables[_id], {where:{id:rr.id}});
+                            console.log(`${_id++} U P D A T E D`);
+                            flag = true;
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
                         }
                         console.log('ALL TABLES UPDATED');
                     }
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
                     resolve();
                 }else{
                     reject(e);
@@ -229,6 +391,46 @@ class ProgramacionServices{
             }     
             schema.detalle = detalle;               
             resolve(schema);
+<<<<<<< HEAD
+=======
+=======
+                }
+                if(!flag) reject('not found');
+                resolve();
+            }catch(e){
+                reject(e);
+            }
+        });
+    }
+    tablesToJson(tables) {
+        return new Promise(async(resolve, reject) => {
+            try{
+                var schema = require('./schemas/programacion');
+                var i = 0;
+                var j = 0;
+                tables = [...tables];
+                schema.sucursal_id = tables[0].dataValues.sucursal_id;
+                schema.dia         = tables[0].dataValues.dia;
+                console.log(schema);
+                var detalle        = schema.detalle;
+                for(var table of tables){ 
+                    table = table.dataValues;
+                    schema.detalle[j].torta_id                = table.torta_id;
+                    schema.detalle[j].cantidades[i].tamano_id = table.tamano_id;
+                    schema.detalle[j].cantidades[i].cantidad  = table.cantidad;
+                    i++;
+                    if(i == 4){
+                        i = 0;
+                        j++;
+                    }
+                }     
+                schema.detalle = detalle;               
+                resolve(schema);
+            }catch(e){
+                reject(e);
+            }
+>>>>>>> 626477485bcf6823dd60008ce1c6f477652ebe27
+>>>>>>> 7f604e05cb990e28449422e2ab1cb6f48c846c0e
         });
     }
 }
