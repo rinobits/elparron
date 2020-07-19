@@ -11,7 +11,7 @@ BEGIN
     IF _id = 0 THEN
         INSERT	INTO comuna (
 		    nombre,
-            ciudad
+            ciudad)
         VALUES(
             _nombre,
             _ciudad);

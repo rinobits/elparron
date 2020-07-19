@@ -7,7 +7,7 @@ BEGIN
     IF _id = 0 THEN
         INSERT	INTO usuario (
             userName,
-            userPassowrd
+            userPassowrd)
         VALUES(
             _userName,
             _userPassword

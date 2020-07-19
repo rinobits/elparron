@@ -5,7 +5,7 @@ CREATE PROCEDURE `addOrEditMasaSabor` (
 BEGIN
     IF _id = 0 THEN
         INSERT	INTO masaSabor (
-            nombre
+            nombre)
         VALUES(
             _nombre
         );
