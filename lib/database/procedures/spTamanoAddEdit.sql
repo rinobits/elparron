@@ -1,4 +1,6 @@
-USE `parron`$$;
+USE `parron`;
+DROP PROCEDURE IF EXISTS `addOrEditTamano`;
+DELIMITER $$
 CREATE PROCEDURE `addOrEditTamano` (
     IN _id INT(11),
     IN _tamano VARCHAR(200),

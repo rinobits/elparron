@@ -1,4 +1,6 @@
-USE `parron`$$;
+USE `parron`;
+DROP PROCEDURE IF EXISTS `addOrEditSabor`;
+DELIMITER $$
 CREATE PROCEDURE `addOrEditSabor` (
     IN _id INT(11),
     IN _nombre VARCHAR(200))

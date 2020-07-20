@@ -1,7 +1,6 @@
 USE `parron`;
 DROP PROCEDURE IF EXISTS `addOrEditComuna`;
 DELIMITER $$
-USE `parron`$$
 CREATE PROCEDURE `addOrEditComuna` (
     IN _id INT(11),
     IN _nombre VARCHAR(200),

@@ -1,6 +1,7 @@
 USE `parron`;
 DROP PROCEDURE IF EXISTS `addOrEditProduccion`;
 DELIMITER $$
+
 USE `parron`$$
 CREATE PROCEDURE `addOrEditProduccion` (
     IN _id INT(11),
