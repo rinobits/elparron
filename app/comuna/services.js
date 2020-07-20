@@ -5,7 +5,7 @@ class ComunaServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM comuna`, (err, rows, fields) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }

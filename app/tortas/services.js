@@ -5,7 +5,7 @@ class TortaServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM torta`, (err, rows) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }

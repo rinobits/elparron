@@ -4,55 +4,55 @@ const boom           = require('@hapi/boom');
 const TortaServices  = require('./services');
 const tortaServices  = new TortaServices();
 
-const tortasFindAll = () => {
+const tortaFindAll = () => {
     return (req, res, next) => {
-        tortaServices.tortasFindAll()
+        tortaServices.tortaFindAll()
             .then(r => {
-                res.json([...r.tortas]);
+                res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tortasFindById = () => {
+const tortaFindById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tortaServices.tortasFindById(id)
+        tortaServices.tortaFindById(id)
             .then(r => {
                 res.json(r)
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tortasCreate = () => {
+const tortaCreate = () => {
     return (req, res, next) => {
         const {body} = req;
-        tortaServices.tortasCreate(body)
+        tortaServices.tortaCreate(body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tortasUpdateById = () => {
+const tortaUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        tortaServices.tortasUpdateById(id, body) 
+        tortaServices.tortaUpdateById(id, body) 
         .then(r  => res.json({"MODIFY DATA": true}))
         .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tortasDeleteById = () => {
+const tortaDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tortaServices.tortasDeleteById(id)
+        tortaServices.tortaDeleteById(id)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {
-    tortasFindAll,
-    tortasFindById,
-    tortasCreate,
-    tortasUpdateById,
-    tortasDeleteById
+    tortaFindAll,
+    tortaFindById,
+    tortaCreate,
+    tortaUpdateById,
+    tortaDeleteById
 };
 

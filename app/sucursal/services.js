@@ -5,7 +5,7 @@ class SucursalServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM sucursal`, (err, rows, fields) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }

@@ -1,9 +1,9 @@
 USE `parron`;
-DROP PROCEDURE IF EXISTS `addOrEditProduccion`;
+DROP PROCEDURE IF EXISTS `addOrEditProgramacion`;
 DELIMITER $$
 
 USE `parron`$$
-CREATE PROCEDURE `addOrEditProduccion` (
+CREATE PROCEDURE `addOrEditProgramacion` (
     IN _id INT(11),
     IN _dia INT(1),
     IN _sucursal_id INT(11),
@@ -12,7 +12,7 @@ CREATE PROCEDURE `addOrEditProduccion` (
     IN _cantidad INT(3))
 BEGIN
     IF _id = 0 THEN
-        INSERT	INTO produccion (
+        INSERT	INTO programacion (
 		    dia,
             sucursal_id,
             torta_id,
@@ -26,7 +26,7 @@ BEGIN
             _cantidad);
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE produccion
+        UPDATE programacion
         SET 
             dia         = _dia,
             sucursal_id = _sucursal_id,

@@ -22,7 +22,6 @@ const programacionFindByDiaYsucursal = () => {
         })
         .catch(e => next(boom.badImplementation(e)))
     }
-
 }
 const programacionMultipleUpdate = () => {
     return (req, res, next) => {

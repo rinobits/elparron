@@ -2,14 +2,14 @@ USE `parron`;
 DROP PROCEDURE IF EXISTS `addOrEditUsuario`;
 DELIMITER $$
 CREATE PROCEDURE `addOrEditUsuario` (
-    IN _id INT(11) DEFAULT 0,
+    IN _id INT(11),
     IN _userName VARCHAR(200),
     IN _userPassword VARCHAR(200))
 BEGIN
     IF _id = 0 THEN
         INSERT	INTO usuario (
             userName,
-            userPassowrd)
+            userPassword)
         VALUES(
             _userName,
             _userPassword

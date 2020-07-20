@@ -7,11 +7,11 @@ const usuarioFindAll = () => {
     return (req, res, next) => {
         usuarioServices.usuarioFindAll()
             .then(r => {
-                for(let i = 0; i < r.usuario.length; i++){
-                    delete r.usuario[i].dataValues.usuarioPassword;
+                console.log(r);
+                for(let i = 0; i < r.length; i++){
+                    delete r[0].userPassword;
                 }
-                i = 0;
-                res.json([...r.usuario]);
+                res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

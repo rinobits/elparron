@@ -8,7 +8,7 @@ const sucursalFindAll = () => {
     return (req, res, next) => {
         sucursalServices.sucursalFindAll()
             .then(r => {
-                res.json([...r.sucursal]);
+                res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }

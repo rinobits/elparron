@@ -5,7 +5,7 @@ class MasaTipoServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM masaTipo`, (err, rows, fields) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }

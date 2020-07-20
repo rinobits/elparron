@@ -1,4 +1,3 @@
-
 // packages
 const Joi              = require('@hapi/joi');
 // consts
@@ -16,11 +15,12 @@ const idSchema          = Joi.object({
 const usuarioSchemaCreate = Joi.object({
     userName: userName.required(),
     userPassword: userPassword.required(),
-})
+    empleado_id: empleado_id.required(})
 
 const usuarioSchemaUpdate = Joi.object({
     userName,
     userPassword,
+    empleado_id,
     estado
 });
 const usuarioSchemaDelete = Joi.object({

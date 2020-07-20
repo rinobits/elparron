@@ -5,7 +5,7 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario`, (e, r) => {
                 if(!e){
-                    resolve(r[0]);
+                    resolve(r);
                 }
                 else{
                     reject(e);
@@ -60,12 +60,12 @@ class UsuarioServices{
                     }
                     const { userName, userPassword }  = body;
                     const query = `
-                        SET @id           = ?
+                        SET @id           = ?;
                         SET @userName     = ?;
                         SET @userPassword = ?;
                         CALL addOrEditUsuario(@id, @userName, @userPassword);
                     `;
-                    mysqlConnection(query, [id, userName, userPassword], (e) => {
+                    mysqlConnection.query(query, [id, userName, userPassword], (e) => {
                         if(!e){
                             resolve('Done');
                         }else{
@@ -75,7 +75,7 @@ class UsuarioServices{
                 }else{
                     reject(e);
                 }
-            })
+            });
         });
     }
     usuarioDeleteById(id, estado = 0){

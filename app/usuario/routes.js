@@ -12,7 +12,7 @@ const verifyToken                            = require('../../utils/middlewares/
 router.get('/getall',      verifyToken, control.usuarioFindAll());
 router.get('/getbyid/:id', verifyToken, validatorHandler(idSchema, 'params'),        control.usuarioFindById());
 // admin
-router.post('/create',     verifyToken, validatorHandler(usuarioSchemaCreate, 'body'), control.usuarioCreate());
+router.post('/create',     /* verifyToken,*/ validatorHandler(usuarioSchemaCreate, 'body'), control.usuarioCreate());
 router.put('/update/:id',  verifyToken, validatorHandler(idSchema, 'params'),          validatorHandler(usuarioSchemaUpdate, 'body'), control.usuarioUpdateById());
 router.put('/delete/:id',  verifyToken, validatorHandler(idSchema, 'params'),          validatorHandler(usuarioSchemaDelete, 'body'), control.usuarioDeleteById());
 module.exports = router;

@@ -8,7 +8,7 @@ const tamanoFindAll = () => {
     return (req, res, next) => {
         tamanoServices.tamanoFindAll()
             .then(r => {
-                res.json([...r.tamano]);
+                res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
