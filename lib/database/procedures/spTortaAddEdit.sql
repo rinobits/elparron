@@ -1,9 +1,11 @@
-USE `parron`$$;
+USE `parron`;
+DROP PROCEDURE IF EXISTS `addOrEditTorta`;
+DELIMITER $$
 CREATE PROCEDURE `addOrEditTorta` (
     IN _id INT(11),
     IN _masaTipo_id  VARCHAR(200),
     IN _masaSabor_id VARCHAR(200),
-    IN _sabor_id     VARCHAR(200)
+    IN _sabor_id     VARCHAR(200))
 
 BEGIN
     IF _id = 0 THEN

@@ -29,6 +29,7 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             bcrypt.hash(body.userPassword, 10)
             .then(hash => {
+                const id       = 0
                 const password = hash;
                 const user     = body.userName;
                 const query = `
@@ -37,7 +38,7 @@ class UsuarioServices{
                     SET @userPassword = ?;
                     CALL addOrEditUsuario(@id, @userName, @userPassword);
                 `;
-                mysqlConnection.query(query, [user, password], (e) => {
+                mysqlConnection.query(query, [id, user, password], (e) => {
                     if(!e){
                         resolve('Done');
                     }else{
@@ -64,7 +65,7 @@ class UsuarioServices{
                         SET @userPassword = ?;
                         CALL addOrEditUsuario(@id, @userName, @userPassword);
                     `;
-                    mysqlConnection(query, [userName, userPassword], (e) => {
+                    mysqlConnection(query, [id, userName, userPassword], (e) => {
                         if(!e){
                             resolve('Done');
                         }else{
