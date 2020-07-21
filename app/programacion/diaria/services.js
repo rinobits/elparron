@@ -1,5 +1,5 @@
 // ADD JOINS AFTER END
-const mysqlConnection = require('../../lib/database/database');
+const mysqlConnection = require('../../../lib/database/database');
 
 class ProgramacionServices{
     sortTables(tables){
@@ -39,7 +39,8 @@ class ProgramacionServices{
     }
     programacionFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM programacion`, (err, rows, fields) => {
+            mysqlConnection.query(`SELECT * FROM programacion`, (err, rows) => {
+                if(rows.length == 0) reject('No data found');
                 if(!err){
                     resolve(rows);
                 }else{
@@ -55,8 +56,8 @@ class ProgramacionServices{
                 SELECT * FROM programacion WHERE dia = ? AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [dia, sucursal_id], (err, rows) => {
+                if(rows.length == 0) reject('No data found');
                 if(!err){
-                    if(!rows) reject('Empty');
                     resolve(rows);
                 }else{
                     reject('Not found');
@@ -92,6 +93,7 @@ class ProgramacionServices{
                     UPDATE programacion SET cantidad = 0 WHERE id = ?
                 `
                 mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+                    if(r.length == 0) reject('No data found');
                     if(!e){
                         if(!dia){
                             for(var rr of r){
@@ -127,15 +129,17 @@ class ProgramacionServices{
         return new Promise((resolve, reject) => {
             var {sucursal_id} = params;
             mysqlConnection.query(`SELECT * FROM programacion`, async(err, res) => {
+                if(res.length == 0) reject('No data found');
                 if(!err){
                     sucursal_id = Number(sucursal_id);
                     var i = 0
                     for(const element of res){
-                        if(element.sucursal_id == sucursal_id) {
-                            reject('Already exists')
+                        if(element.sucursal_id == sucursal_id){
+                            reject('Already exists');
+                            return;
                         }
                     }
-                    var table = require('../../app/programacion/schemas/programacion'); 
+                    var table = require('./schemas/programacion'); 
                     for(i; i < 6; i++){
                         table.sucursal_id = sucursal_id;
                         table.dia         = i+1;
@@ -153,6 +157,7 @@ class ProgramacionServices{
         return new Promise((resolve, reject) => {
             var {sucursal_id} = params;
             mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+                if(r.length == 0) reject('No data found');
                 if(!e){
                     mysqlConnection(`DELETE FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e) => {
                         if(!e) resolve();
@@ -167,6 +172,7 @@ class ProgramacionServices{
     jsonToTables(action, body) {
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM programacion`, async(e, r) => {
+                if(r.length == 0) reject('No data found');
                 if(!e){
                     const _sucursal_id = body.sucursal_id;
                     const _dia         = body.dia;
@@ -194,6 +200,7 @@ class ProgramacionServices{
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
                         for(var rr of r){
+                            console.log(_dia);
                             if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
                                 await this.programacionAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);

@@ -2,7 +2,7 @@
 const express                             = require('express');
 const cors                                = require('cors');
 // imports & consts
-const routes                              = require('./app/routes'); 
+const routes                              = require('./app/router'); 
 const {config}                            = require('./config');
 const notFoundHandler                     = require('./utils/middlewares/notFoundHandler');
 const {logError, wrapError, errorHandler} = require('./utils/middlewares/errorsHandlers');

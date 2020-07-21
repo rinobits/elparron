@@ -2,7 +2,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
 
-CREATE TABLE IF NOT EXISTS programacion (
+CREATE TABLE IF NOT EXISTS sobrante (
   id           INT(11)      NOT NULL AUTO_INCREMENT,
   dia          VARCHAR(10)  NOT NULL,
   sucursal_id  INT(11)      NOT NULL,
@@ -13,5 +13,5 @@ CREATE TABLE IF NOT EXISTS programacion (
   PRIMARY KEY(id)
 );
 
-DESCRIBE programacion;
+DESCRIBE sobrante;
 

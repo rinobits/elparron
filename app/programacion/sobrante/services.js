@@ -1,7 +1,7 @@
 // ADD JOINS AFTER END
-const mysqlConnection = require('../../lib/database/database');
+const mysqlConnection = require('../../../lib/database/database');
 
-class ProgramacionServices{
+class SobranteServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
             try{
@@ -37,26 +37,26 @@ class ProgramacionServices{
             }
         })
     }
-    programacionFindAll(){
+    sobranteFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM programacion`, (err, rows, fields) => {
+            mysqlConnection.query(`SELECT * FROM sobrante`, (err, rows) => {
                 if(!err){
+                    if(rows.length == 0) reject('No data found');
                     resolve(rows);
                 }else{
                     reject('Not found');
                 }
             })
         });
-
     }
-    programacionFindByDiaYsucursal(dia, sucursal_id){
-        return new Promise((resolve, reject) => {
+    sobranteFindByDiaYsucursal(dia, sucursal_id){
+        return new Promise((resolve, reject) => { 
             const query = `
-                SELECT * FROM programacion WHERE dia = ? AND sucursal_id = ?;
+                SELECT * FROM sobrante WHERE dia = ? AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [dia, sucursal_id], (err, rows) => {
+                if(rows.length == 0) reject('No data found');
                 if(!err){
-                    if(!rows) reject('Empty');
                     resolve(rows);
                 }else{
                     reject('Not found');
@@ -64,7 +64,7 @@ class ProgramacionServices{
             })
         });
     }
-    programacionAddEdit(body, id = 0){
+    sobranteAddEdit(body, id = 0){
         return new Promise((resolve, reject) => {
             const { dia, sucursal_id, torta_id, tamano_id, cantidad } = body;
             const query = `
@@ -74,13 +74,13 @@ class ProgramacionServices{
                 SET @torta_id    = ?;
                 SET @tamano_id   = ?;
                 SET @cantidad    = ?;
-                CALL addOrEditProgramacion(@id, @dia, @sucursal_id, @torta_id, @tamano_id, @cantidad);
-            `
+                CALL addOrEditSobrante(@id, @dia, @sucursal_id, @torta_id, @tamano_id, @cantidad);
+            `;
             mysqlConnection.query(query, [id, dia, sucursal_id, torta_id, tamano_id, cantidad], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
@@ -89,10 +89,11 @@ class ProgramacionServices{
         return new Promise((resolve, reject) => {
                 const {sucursal_id, dia} = params;
                 const query = `
-                    UPDATE programacion SET cantidad = 0 WHERE id = ?
+                    UPDATE sobrante SET cantidad = 0 WHERE id = ?
                 `
-                mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+                mysqlConnection.query(`SELECT * FROM sobrante WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
                     if(!e){
+                        if(r.length == 0) reject('No data found');
                         if(!dia){
                             for(var rr of r){
                                 mysqlConnection.query(query, [rr.id], (err) => {
@@ -122,25 +123,27 @@ class ProgramacionServices{
                     }
                 });
             });
-        }
-    createSucursal(params) {
+    }
+    createSobrante(params) {
         return new Promise((resolve, reject) => {
             var {sucursal_id} = params;
-            mysqlConnection.query(`SELECT * FROM programacion`, async(err, res) => {
+            mysqlConnection.query(`SELECT * FROM sobrante`, async(err, res) => {
+                if(res.length == 0) reject('No data found');
                 if(!err){
                     sucursal_id = Number(sucursal_id);
                     var i = 0
                     for(const element of res){
                         if(element.sucursal_id == sucursal_id) {
-                            reject('Already exists')
+                            reject('Already exists');
+                            return;
                         }
                     }
-                    var table = require('../../app/programacion/schemas/programacion'); 
+                    var table = require('./schemas/sobrante'); 
                     for(i; i < 6; i++){
                         table.sucursal_id = sucursal_id;
                         table.dia         = i+1;
                         await this.jsonToTables('create', table);
-                        console.log(`${i+1} DAY CREATED FOR SUCURSAL ${sucursal_id}`);
+                        console.log(`(SOB) ${i+1} DAY CREATED FOR SUCURSAL ${sucursal_id}`);
                     }
                     resolve();
                 }else{
@@ -149,12 +152,13 @@ class ProgramacionServices{
             });
         });
     }
-    deleteSucursal(params) {
+    deleteSobrante(params) {
         return new Promise((resolve, reject) => {
             var {sucursal_id} = params;
-            mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+            mysqlConnection.query(`SELECT * FROM sobrante WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+                if(r.length == 0) reject('No data found');
                 if(!e){
-                    mysqlConnection(`DELETE FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e) => {
+                    mysqlConnection(`DELETE FROM sobrante WHERE sucursal_id = ?`, [sucursal_id], (e) => {
                         if(!e) resolve();
                         else   reject();
                     })
@@ -166,13 +170,18 @@ class ProgramacionServices{
     }
     jsonToTables(action, body) {
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM programacion`, async(e, r) => {
+            mysqlConnection.query(`SELECT * FROM sobrante`, async(e, r) => {
+                if(r.length == 0) reject('No data found');
                 if(!e){
                     const _sucursal_id = body.sucursal_id;
-                    const _dia         = body.dia;
+                    var   _dia         = body.dia;
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
                     var   _id          = 1;
+                    if(action == 'update'){
+                        if(_dia == 6) _dia = 1; 
+                        else          _dia++;   
+                    }
                     detalle.forEach(torta => {
                         let _torta_id = torta.torta_id;
                         for(let i = 0; i < 4; i++){
@@ -188,14 +197,14 @@ class ProgramacionServices{
                     _id = 1;
                     if(action === 'create'){
                         for(const table of tables){
-                            await this.programacionAddEdit(table);
+                            await this.sobranteAddEdit(table);
                             console.log(`${_id++} C R E A T E D`);
                         }
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
                         for(var rr of r){
                             if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
-                                await this.programacionAddEdit(tables[_id-1], rr.id);
+                                await this.sobranteAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
                             }
                         }
@@ -210,7 +219,7 @@ class ProgramacionServices{
     tablesToJson(tables) {
         return new Promise((resolve, reject) => {
             if(!tables) reject();
-            var schema = require('./schemas/programacion');
+            var schema = require('./schemas/sobrante');
             var i = 0;
             var j = 0;
             schema.sucursal_id = tables[0].sucursal_id;
@@ -231,4 +240,4 @@ class ProgramacionServices{
         });
     }
 }
-module.exports = ProgramacionServices;
+module.exports = SobranteServices;

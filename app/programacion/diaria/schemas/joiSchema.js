@@ -2,7 +2,7 @@
 const Joi         = require('@hapi/joi');
 // consts
 const estado      = Joi.number().min(0).max(1);
-const dia         = Joi.number().min(1).max(6);
+const dia         = Joi.string().min(10).max(10).required();
 const sucursal_id = Joi.number().min(0);
 const cantidades  = Joi.object().keys({
     tamano_id : Joi.number().min(0).required(),
