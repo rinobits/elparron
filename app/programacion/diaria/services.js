@@ -222,7 +222,6 @@ class ProgramacionServices{
             var j = 0;
             schema.sucursal_id = tables[0].sucursal_id;
             schema.dia         = tables[0].dia;
-            var detalle        = schema.detalle;
             for(var table of tables){ 
                 schema.detalle[j].torta_id                = table.torta_id;
                 schema.detalle[j].cantidades[i].tamano_id = table.tamano_id;
@@ -233,7 +232,6 @@ class ProgramacionServices{
                     j++
                 }
             }     
-            schema.detalle = detalle;               
             resolve(schema);
         });
     }

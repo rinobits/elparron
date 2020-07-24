@@ -30,6 +30,7 @@ const programacionFindByDiaYsucursal = () => {
 const programacionMultipleUpdate = () => {
     return (req, res, next) => {
         req.body.dia = moment(req.body.dia).format('e');
+        console.log(req.body);
         programacionServices.jsonToTables('update', req.body)
         .then(r => res.json({'TABLES UPDATED': true}))
         .catch(e => next(boom.badRequest(e)))
