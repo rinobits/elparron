@@ -1,6 +1,5 @@
-// ADD JOINS AFTER END
-const mysqlConnection = require('../../../lib/database/database');
-
+ const mysqlConnection = require('../../../lib/database/database');
+ const moment          = require('moment');
 class ProgramacionServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
@@ -36,19 +35,6 @@ class ProgramacionServices{
                 reject(e);
             }
         })
-    }
-    programacionFindAll(){
-        return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM programacion`, (err, rows) => {
-                if(rows.length == 0) reject('No data found');
-                if(!err){
-                    resolve(rows);
-                }else{
-                    reject('Not found');
-                }
-            })
-        });
-
     }
     programacionFindByDiaYsucursal(dia, sucursal_id){
         return new Promise((resolve, reject) => {
@@ -124,34 +110,6 @@ class ProgramacionServices{
                     }
                 });
             });
-        }
-    createSucursal(params) {
-        return new Promise((resolve, reject) => {
-            var {sucursal_id} = params;
-            mysqlConnection.query(`SELECT * FROM programacion`, async(err, res) => {
-                if(res.length == 0) reject('No data found');
-                if(!err){
-                    sucursal_id = Number(sucursal_id);
-                    var i = 0
-                    for(const element of res){
-                        if(element.sucursal_id == sucursal_id){
-                            reject('Already exists');
-                            return;
-                        }
-                    }
-                    var table = require('./schemas/programacion'); 
-                    for(i; i < 6; i++){
-                        table.sucursal_id = sucursal_id;
-                        table.dia         = i+1;
-                        await this.jsonToTables('create', table);
-                        console.log(`${i+1} DAY CREATED FOR SUCURSAL ${sucursal_id}`);
-                    }
-                    resolve();
-                }else{
-                    reject(err);
-                }
-            });
-        });
     }
     deleteSucursal(params) {
         return new Promise((resolve, reject) => {
@@ -169,13 +127,12 @@ class ProgramacionServices{
             });
         })
     }
-    jsonToTables(action, body) {
+    jsonToTables(action, body, params) {
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM programacion`, async(e, r) => {
-                if(r.length == 0) reject('No data found');
                 if(!e){
-                    const _sucursal_id = body.sucursal_id;
-                    const _dia         = body.dia;
+                    const { fecha, sucursal_id } = params;
+                    const _dia         = moment(fecha).format('e');
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
                     var   _id          = 1;
@@ -184,7 +141,7 @@ class ProgramacionServices{
                         for(let i = 0; i < 4; i++){
                             tables.push({
                                 dia:         _dia,
-                                sucursal_id: _sucursal_id,
+                                sucursal_id: sucursal_id,
                                 torta_id:    _torta_id,
                                 tamano_id:   torta.cantidades[i].tamano_id,
                                 cantidad:    torta.cantidades[i].cantidad
@@ -201,7 +158,7 @@ class ProgramacionServices{
                     }else if(action === 'update'){
                         for(var rr of r){
                             console.log(_dia);
-                            if(_dia == rr.dia && _sucursal_id == rr.sucursal_id){
+                            if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.programacionAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
                             }

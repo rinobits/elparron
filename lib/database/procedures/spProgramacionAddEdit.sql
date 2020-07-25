@@ -32,8 +32,10 @@ BEGIN
             sucursal_id = _sucursal_id,
             torta_id    = _torta_id,
             tamano_id   = _tamano_id,
-            cantidad    = _cantidad
+            cantidad    = _cantidad,
+            updatedAt = CURRENT_TIMESTAMP
         WHERE id = _id;
+        
     END IF;
     SELECT _id as id;
 END;$$

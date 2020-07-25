@@ -17,13 +17,15 @@ BEGIN
             sucursal_id,
             torta_id,
             tamano_id,
-            cantidad)
+            cantidad,
+            updatedAt)
         VALUES(
             _dia,
             _sucursal_id,
             _torta_id,
             _tamano_id,
-            _cantidad);
+            _cantidad,
+            CURRENT_TIMESTAMP);
         SET _id = LAST_INSERT_ID();
     ELSE
         UPDATE sobrante
@@ -32,7 +34,8 @@ BEGIN
             sucursal_id = _sucursal_id,
             torta_id    = _torta_id,
             tamano_id   = _tamano_id,
-            cantidad    = _cantidad
+            cantidad    = _cantidad,
+            updatedAt   = CURRENT_TIMESTAMP
         WHERE id = _id;
     END IF;
     SELECT _id as id;

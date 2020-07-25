@@ -3,15 +3,21 @@ const boom                 = require('@hapi/boom');
 const moment               = require('moment');
 // imports & consts
 const ProgramacionServices = require('./services');
-const SobranteServices     = require('../sobrante/services');
+const { resolve } = require('bluebird');
 const programacionServices = new ProgramacionServices();
-const sobranteServices     = new SobranteServices();
 
+const programacionFindAll => () => {
+    return (req, res, next) => {
+        programacionServices.programacionFindAll()
+            .then(r => res.json(r))
+            .catch(e => next(boom.badRequest(e)));
+    }
+}
 const programacionFindByDiaYsucursal = () => {
     return (req, res, next) => {
-        var { dia, sucursal_id } = req.query;
-        dia = moment(dia).format('e');
-        programacionServices.programacionFindByDiaYsucursal(dia, sucursal_id)
+        var { fecha, sucursal_id } = req.query;
+        fecha = moment(fecha).format('e');
+        programacionServices.programacionFindByDiaYsucursal(fecha, sucursal_id)
         .then(r  => { 
             if(r.length == 0){
                 next(boom.badRequest('Sucursal o día inexistente'));
@@ -29,9 +35,7 @@ const programacionFindByDiaYsucursal = () => {
 }
 const programacionMultipleUpdate = () => {
     return (req, res, next) => {
-        req.body.dia = moment(req.body.dia).format('e');
-        console.log(req.body);
-        programacionServices.jsonToTables('update', req.body)
+        programacionServices.jsonToTables('update', req.body, req.query)
         .then(r => res.json({'TABLES UPDATED': true}))
         .catch(e => next(boom.badRequest(e)))
     }
@@ -51,23 +55,11 @@ const programacionEmptyWeek = () => {
         .catch(e => next(boom.badRequest(e)));
     }
 }
-const programacionCreateSucursal = () => {
+const programacionMultipleCreate = () => {
     return (req, res, next) => {
-        programacionServices.createSucursal(req.body)
-        .then(r => {
-            console.log('<SUCURSAL> SUCCESSFULLY CREATED');
-            console.log("CREATING <SOBRANTES> TABLE");
-            sobranteServices.createSobrante(req.body)
-                .then(rr => {
-                    res.json({MSG: 'ALL TABLES SUCCESFULLY CREATED'});
-                })
-                .catch(e => {
-                    next(boom.badRequest(e));
-                })
-        })
-        .catch(e => {
-            next(boom.badRequest(e));
-        });
+        programacionServices.jsonToTables('create', req.body, req.query)
+        .then(r => res.json({'TABLES CREATED': true}))
+        .catch(e => next(boom.badRequest(e)))
     }
 }
 const programacionDeleteSucursal = () => {
@@ -75,14 +67,6 @@ const programacionDeleteSucursal = () => {
         programacionServices.deleteSucursal(req.query)
         .then(r => {
             console.log('<SUCURSAL> SUCCESSFULLY DELETED');
-            console.log("DELETING <SOBRANTES> TABLE");
-            sobranteServices.deleteSobrante(req.query)
-                .then(rr => {
-                    res.json({MSG: 'ALL TABLES SUCCESFULLY DELETED'});
-                })
-                .catch(e => {
-                    next(boom.badRequest(e));
-                })
         })
         .catch(e => next(boom.badRequest(e)));
     }
@@ -90,8 +74,8 @@ const programacionDeleteSucursal = () => {
 module.exports = {
     programacionFindByDiaYsucursal,
     programacionMultipleUpdate,
+    programacionMultipleCreate,
     programacionEmptyOneDay,
     programacionEmptyWeek,
-    programacionCreateSucursal,
     programacionDeleteSucursal
 };
