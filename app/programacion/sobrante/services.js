@@ -54,6 +54,10 @@ class SobranteServices{
     }
     sobranteAddEdit(body, id = 0){
         return new Promise((resolve, reject) => {
+            console.log("###############################");
+            console.log("body=> ");
+            console.log(body);
+            console.log("###############################");
             const { dia, sucursal_id, torta_id, tamano_id, cantidad } = body;
             const query = `
                 SET @id          = ?;
@@ -76,7 +80,6 @@ class SobranteServices{
     jsonToTables(action, body, params) {
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM sobrante`, async(e, r) => {
-                if(r.length == 0) reject('No data found');
                 if(!e){
                     const { fecha, sucursal_id } = params;
                     var   _dia         = moment(fecha).format('e');
@@ -107,7 +110,7 @@ class SobranteServices{
                         }
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
-                        for(var rr of r){
+                        for(const rr of r){
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.sobranteAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
@@ -123,13 +126,14 @@ class SobranteServices{
     }
     tablesToJson(tables) {
         return new Promise((resolve, reject) => {
-            if(!tables) reject();
+            if(!tables) reject('There\'s no data');
             var schema = require('./schemas/sobrante');
             var i = 0;
             var j = 0;
             schema.sucursal_id = tables[0].sucursal_id;
             schema.dia         = tables[0].dia;
             for(const table of tables){ 
+                console.log(table.id, table.torta_id);
                 schema.detalle[j].torta_id                = table.torta_id;
                 schema.detalle[j].cantidades[i].tamano_id = table.tamano_id;
                 schema.detalle[j].cantidades[i].cantidad  = table.cantidad;

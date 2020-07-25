@@ -3,10 +3,9 @@ const boom                 = require('@hapi/boom');
 const moment               = require('moment');
 // imports & consts
 const ProgramacionServices = require('./services');
-const { resolve } = require('bluebird');
 const programacionServices = new ProgramacionServices();
 
-const programacionFindAll => () => {
+const programacionFindAll = () => {
     return (req, res, next) => {
         programacionServices.programacionFindAll()
             .then(r => res.json(r))
@@ -73,6 +72,7 @@ const programacionDeleteSucursal = () => {
 }
 module.exports = {
     programacionFindByDiaYsucursal,
+    programacionFindAll,
     programacionMultipleUpdate,
     programacionMultipleCreate,
     programacionEmptyOneDay,

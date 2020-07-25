@@ -36,6 +36,15 @@ class ProgramacionServices{
             }
         })
     }
+    programacionFindAll(){
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM programacion`;
+            mysqlConnection.query(query, (e, r) => {
+                if(!e) resolve(r)
+                else   reject(e)
+            })
+        })
+    }
     programacionFindByDiaYsucursal(dia, sucursal_id){
         return new Promise((resolve, reject) => {
             const query = `

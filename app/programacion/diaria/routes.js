@@ -13,6 +13,9 @@ router.get('/diaysucursal',
     /* verifyToken, */
     validatorHandler(paramSchema, 'query'),
     control.programacionFindByDiaYsucursal());
+router.get('/findall',
+    /* verifyToken, */
+    control.programacionFindAll());
 router.put('/update',
     /* verifyToken, */
     validatorHandler(paramSchema, 'query'),
