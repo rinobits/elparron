@@ -166,7 +166,6 @@ class ProgramacionServices{
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
                         for(var rr of r){
-                            console.log(_dia);
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.programacionAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);

@@ -53,11 +53,7 @@ class SobranteServices{
         });
     }
     sobranteAddEdit(body, id = 0){
-        return new Promise((resolve, reject) => {
-            console.log("###############################");
-            console.log("body=> ");
-            console.log(body);
-            console.log("###############################");
+        return new Promise((resolve, reject) => { 
             const { dia, sucursal_id, torta_id, tamano_id, cantidad } = body;
             const query = `
                 SET @id          = ?;
@@ -104,6 +100,7 @@ class SobranteServices{
                     });
                     _id = 1;
                     if(action === 'create'){
+                        
                         for(const table of tables){
                             await this.sobranteAddEdit(table);
                             console.log(`${_id++} C R E A T E D`);
@@ -133,7 +130,6 @@ class SobranteServices{
             schema.sucursal_id = tables[0].sucursal_id;
             schema.dia         = tables[0].dia;
             for(const table of tables){ 
-                console.log(table.id, table.torta_id);
                 schema.detalle[j].torta_id                = table.torta_id;
                 schema.detalle[j].cantidades[i].tamano_id = table.tamano_id;
                 schema.detalle[j].cantidades[i].cantidad  = table.cantidad;

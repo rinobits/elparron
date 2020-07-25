@@ -54,13 +54,13 @@ const programacionEmptyWeek = () => {
         .catch(e => next(boom.badRequest(e)));
     }
 }
-const programacionMultipleCreate = () => {
-    return (req, res, next) => {
+const programacionMultipleCreate = () => { 
+    return (req, res, next) => { 
         programacionServices.jsonToTables('create', req.body, req.query)
         .then(r => res.json({'TABLES CREATED': true}))
         .catch(e => next(boom.badRequest(e)))
-    }
-}
+    } 
+} 
 const programacionDeleteSucursal = () => {
     return (req, res, next) => {
         programacionServices.deleteSucursal(req.query)
@@ -78,4 +78,4 @@ module.exports = {
     programacionEmptyOneDay,
     programacionEmptyWeek,
     programacionDeleteSucursal
-};
+}
