@@ -4,16 +4,11 @@ info:
   description: API de panadería El Parron.
   version: 1.0.0
 servers:
-- url: /
+- url: https://virtserver.swaggerhub.com/rinobitapis/elparron/1.0.0
+  description: SwaggerHub API Auto Mocking
 tags:
-- name: users
+- name: usuarios
   description: Operaciones con usuarios
-- name: empleados
-  description: Operaciones con empleados
-- name: cargos
-  description: Operaciones con cargos
-- name: armar
-  description: Operaciones con armado de pedidos
 - name: tortas
   description: Operaciones con tortas
 - name: masaTipo
@@ -28,11 +23,15 @@ tags:
   description: Operaciones con sucursales
 - name: comunas
   description: Operaciones con comunas
+- name: diaria
+  description: Operaciones con producción diaria
+- name: sobrante
+  description: Operaciones con sobrantes
 paths:
-  /usuarios/validate:
+  /usuario/validate:
     post:
       tags:
-      - users
+      - usuarios
       summary: Autenticación
       description: Obtención de privilegios
       operationId: authenticate
@@ -41,7 +40,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/usuarios'
       responses:
         "200":
           description: Autenticación exitosa
@@ -61,11 +60,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /usuarios/getbyid/{id}:
+      x-swagger-router-controller: Usuarios
+  /usuario/getbyid/{id}:
     get:
       tags:
-      - users
+      - usuarios
       summary: Buscar usuario por su id.
       description: Se requieren privilegos.
       operationId: getUserById
@@ -92,17 +91,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /usuarios/update/{id}:
+      x-swagger-router-controller: Usuarios
+  /usuario/update/{id}:
     put:
       tags:
-      - users
+      - usuarios
       summary: Editar información
       description: Se requieren privilegios.
       operationId: editUser
@@ -141,11 +146,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /usuarios/delete/{id}:
+      x-swagger-router-controller: Usuarios
+  /usuario/delete/{id}:
     put:
       tags:
-      - users
+      - usuarios
       summary: Eliminar usuario
       description: Se requieren privilegios.
       operationId: deleteUser
@@ -184,11 +189,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /usuarios/getall:
+      x-swagger-router-controller: Usuarios
+  /usuario/getall:
     get:
       tags:
-      - users
+      - usuarios
       summary: Listar usuarios
       description: Se requieren privilegos.
       operationId: getUsers
@@ -199,17 +204,23 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getUsers'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /usuarios/create:
+      x-swagger-router-controller: Usuarios
+  /usuario/create:
     post:
       tags:
-      - users
+      - usuarios
       summary: Crear usuario
       description: Se requieren privilegios.
       operationId: createUser
@@ -217,7 +228,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/users'
+              $ref: '#/components/schemas/usuarios'
       responses:
         "200":
           description: Se requieren privilegios
@@ -243,559 +254,13 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Users
-  /empleados/getbyid/{id}:
-    get:
-      tags:
-      - empleados
-      summary: Buscar empleado por su id.
-      description: Se requieren privilegos.
-      operationId: getEmpleadoById
-      parameters:
-      - name: id
-        in: path
-        description: Empleados ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Empleado obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getEmpleado'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Empleados
-  /empleados/update/{id}:
-    put:
-      tags:
-      - empleados
-      summary: Editar información
-      description: Se requieren privilegios.
-      operationId: editEmpleado
-      parameters:
-      - name: id
-        in: path
-        description: Empleado ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Empleado editado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/modifyTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/empleadoBadRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Empleados
-  /empleados/delete/{id}:
-    put:
-      tags:
-      - empleados
-      summary: Eliminar empleado
-      description: Se requieren privilegios.
-      operationId: deleteEmpleado
-      parameters:
-      - name: id
-        in: path
-        description: Empleado ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Empleado eliminado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/deleteTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Empleados
-  /empleados/getall:
-    get:
-      tags:
-      - empleados
-      summary: Listar empleados
-      description: Se requieren privilegos.
-      operationId: getEmpleados
-      responses:
-        "200":
-          description: Lista generada exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getEmpleados'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Empleados
-  /empleados/create:
-    post:
-      tags:
-      - empleados
-      summary: Crear empleado
-      description: Se requieren privilegios.
-      operationId: createEmpleado
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/empleados'
-      responses:
-        "200":
-          description: Se requieren privilegios
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/empleadoBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Empleados
-  /cargos/getbyid/{id}:
-    get:
-      tags:
-      - cargos
-      summary: Buscar cargos por su id.
-      description: No requieren privilegos.
-      operationId: getCargosById
-      parameters:
-      - name: id
-        in: path
-        description: Cargos ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Cargo obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getCargo'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Cargos
-  /cargos/update/{id}:
-    put:
-      tags:
-      - cargos
-      summary: Editar información
-      description: Se requieren privilegios.
-      operationId: editCargo
-      parameters:
-      - name: id
-        in: path
-        description: Cargo ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Cargo editado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/modifyTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/cargoBadRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Cargos
-  /cargos/delete/{id}:
-    put:
-      tags:
-      - cargos
-      summary: Eliminar cargo
-      description: Se requieren privilegios.
-      operationId: deleteCargo
-      parameters:
-      - name: id
-        in: path
-        description: Cargo ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Cargo eliminado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/deleteTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Cargos
-  /cargos/getall:
-    get:
-      tags:
-      - cargos
-      summary: Listar cargos
-      description: No se requieren privilegos.
-      operationId: getCargos
-      responses:
-        "200":
-          description: Lista generada exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getCargos'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Cargos
-  /cargos/create:
-    post:
-      tags:
-      - cargos
-      summary: Crear cargo
-      description: Se requieren privilegios.
-      operationId: createCargo
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/cargos'
-      responses:
-        "200":
-          description: Se requieren privilegios
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/userBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Cargos
-  /armar/getbyid/{id}:
-    get:
-      tags:
-      - armar
-      summary: Buscar pedidos por su id.
-      description: No se requieren privilegos.
-      operationId: getPedidosById
-      parameters:
-      - name: id
-        in: path
-        description: pedido ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Pedido obtenido exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getPedido'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Armar
-  /armar/update/{id}:
-    put:
-      tags:
-      - armar
-      summary: Editar información
-      description: Se requieren privilegios.
-      operationId: editPedido
-      parameters:
-      - name: id
-        in: path
-        description: Pedido ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Pedido editado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/modifyTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/pedidoBadRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Armar
-  /armar/delete/{id}:
-    put:
-      tags:
-      - armar
-      summary: Eliminar pedido
-      description: Se requieren privilegios.
-      operationId: deletePedido
-      parameters:
-      - name: id
-        in: path
-        description: Pedido ID
-        required: true
-        style: simple
-        explode: false
-        schema:
-          type: integer
-          format: int64
-      responses:
-        "200":
-          description: Pedido eliminado exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/deleteTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/badRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Armar
-  /armar/getall:
-    get:
-      tags:
-      - armar
-      summary: Listar pedidos
-      description: No se requieren privilegos.
-      operationId: getPedidos
-      responses:
-        "200":
-          description: Lista generada exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getPedidos'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Armar
-  /armar/create:
-    post:
-      tags:
-      - armar
-      summary: Crear pedido
-      description: Se requieren privilegios.
-      operationId: createPedido
-      requestBody:
-        content:
-          application/json:
-            schema:
-              $ref: '#/components/schemas/pedidos'
-      responses:
-        "200":
-          description: Se requieren privilegios
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/pedidoBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Armar
+      x-swagger-router-controller: Usuarios
   /tortas/getbyid/{id}:
     get:
       tags:
       - tortas
       summary: Buscar tortas por su id.
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getTortasById
       parameters:
       - name: id
@@ -820,6 +285,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -918,7 +389,7 @@ paths:
       tags:
       - tortas
       summary: Listar tortas
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getTortas
       responses:
         "200":
@@ -927,6 +398,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getTortas'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -977,7 +454,7 @@ paths:
       tags:
       - masaTipo
       summary: Buscar tipo de masa por su id.
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getMasaTipoById
       parameters:
       - name: id
@@ -1002,6 +479,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1100,7 +583,7 @@ paths:
       tags:
       - masaTipo
       summary: Listar tipo de masa
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getMasaTipo
       responses:
         "200":
@@ -1109,6 +592,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getMasaTipos'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1159,7 +648,7 @@ paths:
       tags:
       - masaSabor
       summary: Buscar sabor de masa por su id.
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getMasaSaborById
       parameters:
       - name: id
@@ -1184,6 +673,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1282,7 +777,7 @@ paths:
       tags:
       - masaSabor
       summary: Listar sabor de masa
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getMasaSabor
       responses:
         "200":
@@ -1291,6 +786,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getMasaSabors'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1341,7 +842,7 @@ paths:
       tags:
       - sabor
       summary: Buscar tipo de masa por su id.
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getSaborById
       parameters:
       - name: id
@@ -1366,6 +867,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1464,7 +971,7 @@ paths:
       tags:
       - sabor
       summary: Listar sabores
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getSabor
       responses:
         "200":
@@ -1473,6 +980,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getSabores'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1523,7 +1036,7 @@ paths:
       tags:
       - tamano
       summary: Buscar tamaño por su id.
-      description: No se requieren privilegos
+      description: Se requieren privilegos
       operationId: getTamanoById
       parameters:
       - name: id
@@ -1548,6 +1061,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1646,7 +1165,7 @@ paths:
       tags:
       - tamano
       summary: Listar tamaño
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getTamano
       responses:
         "200":
@@ -1655,6 +1174,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getTamanos'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1700,12 +1225,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /sucursales/getbyid/{id}:
+  /sucursal/getbyid/{id}:
     get:
       tags:
       - sucursales
       summary: Buscar sucursal por su id.
-      description: No se requieren privilegos
+      description: Se requieren privilegos
       operationId: getSucursalById
       parameters:
       - name: id
@@ -1730,6 +1255,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1737,7 +1268,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursales/update/{id}:
+  /sucursal/update/{id}:
     put:
       tags:
       - sucursales
@@ -1780,7 +1311,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursales/delete/{id}:
+  /sucursal/delete/{id}:
     put:
       tags:
       - sucursales
@@ -1823,12 +1354,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursales/getall:
+  /sucursal/getall:
     get:
       tags:
       - sucursales
       summary: Listar sucursales
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getSucursales
       responses:
         "200":
@@ -1837,6 +1368,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getSucursales'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1844,7 +1381,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursales/create:
+  /sucursal/create:
     post:
       tags:
       - sucursales
@@ -1882,12 +1419,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /comunas/getbyid/{id}:
+  /comuna/getbyid/{id}:
     get:
       tags:
       - comunas
       summary: Buscar comuna por su id.
-      description: No se requieren privilegos
+      description: Se requieren privilegos
       operationId: getComunaById
       parameters:
       - name: id
@@ -1912,6 +1449,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -1919,7 +1462,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comunas/update/{id}:
+  /comuna/update/{id}:
     put:
       tags:
       - comunas
@@ -1962,7 +1505,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comunas/delete/{id}:
+  /comuna/delete/{id}:
     put:
       tags:
       - comunas
@@ -2005,12 +1548,12 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comunas/getall:
+  /comuna/getall:
     get:
       tags:
       - comunas
       summary: Listar comuna
-      description: No se requieren privilegos.
+      description: Se requieren privilegos.
       operationId: getComunas
       responses:
         "200":
@@ -2019,6 +1562,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/getComunas'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
         "500":
           description: Error en el servidor
           content:
@@ -2026,7 +1575,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comunas/create:
+  /comuna/create:
     post:
       tags:
       - comunas
@@ -2064,8 +1613,473 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
+  /programacion/diaria/diaysucursal:
+    get:
+      tags:
+      - diaria
+      summary: Buscar dia por fecha e id de la sucursal. Devuelve Json con 13 tortas
+        y sus cantidades.
+      description: Se requieren privilegos
+      operationId: getDiariaById
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJsonData'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/diaria/update:
+    put:
+      tags:
+      - diaria
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editDiarias
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Dia editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/diaria/getall:
+    get:
+      tags:
+      - diaria
+      summary: Listar todo
+      description: Se requieren privilegos.
+      operationId: getDiarias
+      responses:
+        "200":
+          description: Lista generada exitosamente.  Devuelve toda la información
+            de la base de datos en formato JSON.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getDiasListAll'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/diaria/create:
+    post:
+      tags:
+      - diaria
+      summary: Crear programación diaria
+      description: Se requieren privilegios.
+      operationId: createDiarias
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/diaria/emptyday:
+    put:
+      tags:
+      - diaria
+      summary: Vaciar día
+      description: Se requieren privilegios.
+      operationId: deleteDiarias
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Día vaciado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/emptyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/diaria/emptyweek:
+    put:
+      tags:
+      - diaria
+      summary: Vaciar semana correspondiente a una sucursal
+      description: Se requieren privilegios.
+      operationId: deleteWeek
+      parameters:
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Semana vaciada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/emptyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Diaria
+  /programacion/sobrante/diaysucursal:
+    get:
+      tags:
+      - sobrante
+      summary: Buscar dia por fecha e id de la sucursal.
+      description: Se requieren privilegos
+      operationId: getSobranteById
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJsonData'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sobrante
+  /programacion/sobrante/update:
+    put:
+      tags:
+      - sobrante
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editSobrantes
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Dia editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sobrante
+  /programacion/sobrante/create:
+    post:
+      tags:
+      - sobrante
+      summary: Crear sobrante
+      description: Se requieren privilegios.
+      operationId: createSobrantes
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Sobrante
 components:
   schemas:
+    emptyTrue:
+      type: object
+      properties:
+        OPERATION:
+          type: string
+          example: SUCCESS
+      example:
+        OPERATION: SUCCESS
+    getDiasListAll:
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
+        - $ref: '#/components/schemas/jsonData'
     internalError:
       type: object
       properties:
@@ -2110,7 +2124,7 @@ components:
         message:
           type: string
           example: Unauthorized
-    users:
+    usuarios:
       required:
       - userName
       - userPassword
@@ -2178,364 +2192,6 @@ components:
           type: string
           example: '"userPassword" with value "Tklj%" fails to match the required
             pattern: /^(((?=.*[a-z])(?=.*[A-Z]))|((?=.*[a-z])(?=.*[0-9]))|((?=.*[A-Z])(?=.*[0-9])))(?=.{8,32})/'
-    empleados:
-      required:
-      - apellidoMaterno
-      - apellidoPaterno
-      - cargo_id
-      - email
-      - nombres
-      - rut
-      type: object
-      properties:
-        rut:
-          type: string
-        name:
-          type: string
-        apellidoPaterno:
-          type: string
-        apellidoMaterno:
-          type: string
-        cargo_id:
-          type: number
-        email:
-          type: string
-    getEmpleado:
-      properties:
-        id:
-          type: integer
-          example: 5
-        rut:
-          type: string
-          example: 18.562.123-4
-        nombres:
-          type: string
-          example: Juan Carlos
-        apellidoPaterno:
-          type: string
-          example: Ramirez
-        apellidoMaterno:
-          type: string
-          example: Sánchez
-        cargo_id:
-          type: integer
-          example: 2
-        email:
-          type: string
-          example: jc.webservicdes@agilesolutions.com
-        estado:
-          type: integer
-          example: 1
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        rut: 18.562.123-4
-        apellidoPaterno: Ramirez
-        createdAt: 2020-06-16T20:05:48.000Z
-        estado: 1
-        cargo_id: 2
-        id: 5
-        email: jc.webservicdes@agilesolutions.com
-        nombres: Juan Carlos
-        apellidoMaterno: Sánchez
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getEmpleados:
-      type: array
-      example:
-      - id: 5
-        rut: 12.123.123-7
-        nombres: 'Jean '
-        apellidoPaterno: Rodriguez
-        apellidoMaterno: Paul
-        cargo_id: 1
-        email: ppaulpaul@gmail.com
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        rut: 12.123.123-7
-        nombres: 'Jean '
-        apellidoPaterno: Rodriguez
-        apellidoMaterno: Paul
-        cargo_id: 1
-        email: ppaulpaul@gmail.com
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        rut: 12.123.123-7
-        nombres: 'Jean '
-        apellidoPaterno: Rodriguez
-        apellidoMaterno: Paul
-        cargo_id: 1
-        email: ppaulpaul@gmail.com
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        rut: 12.123.123-7
-        nombres: 'Jean '
-        apellidoPaterno: Rodriguez
-        apellidoMaterno: Paul
-        cargo_id: 1
-        email: ppaulpaul@gmail.com
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      items:
-        $ref: '#/components/schemas/getEmpleados_inner'
-    empleadoBadRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 400
-        error:
-          type: string
-          example: Bad Request
-        message:
-          type: string
-          example: '"rut" is required'
-    cargos:
-      required:
-      - nombre
-      type: object
-      properties:
-        nombre:
-          type: string
-    getCargo:
-      properties:
-        id:
-          type: integer
-          example: 5
-        nombre:
-          type: string
-          example: QA
-        estado:
-          type: integer
-          example: 1
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        createdAt: 2020-06-16T20:05:48.000Z
-        estado: 1
-        id: 5
-        nombre: QA
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getCargos:
-      type: array
-      example:
-      - id: 5
-        nombre: QA
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        nombre: QA
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        nombre: QA
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 5
-        nombres: QA
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      items:
-        $ref: '#/components/schemas/getCargos_inner'
-    cargoBadRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 400
-        error:
-          type: string
-          example: Bad Request
-        message:
-          type: string
-          example: '"nombre" is required'
-    pedidos:
-      required:
-      - horaEntrega
-      - nombre
-      - phone
-      - tamano_id
-      - torta_id
-      - value
-      type: object
-      properties:
-        name:
-          maxLength: 15
-          minLength: 8
-          type: string
-        phone:
-          maxLength: 15
-          minLength: 8
-          type: string
-        torta_id:
-          minimum: 0
-          type: integer
-        tamano_id:
-          minimum: 0
-          type: integer
-        description:
-          type: string
-        message:
-          type: string
-        imagen:
-          type: string
-        value:
-          maximum: 1000000
-          minimum: 0
-          type: integer
-        deposit:
-          maximum: 1000000
-          minimum: 0
-          type: integer
-        horaEntrega:
-          maxLength: 5
-          minLength: 2
-          type: string
-    getPedido:
-      properties:
-        id:
-          type: integer
-          example: 5
-        name:
-          type: string
-          example: QA
-        phone:
-          type: string
-          example: "9723123"
-        torta_id:
-          type: integer
-          example: 3
-        tamano_id:
-          type: integer
-          example: 2
-        descripcion:
-          type: string
-          example: dadada dadada daadada
-        message:
-          type: string
-          example: asdasdas dasdasd asdsa
-        value:
-          type: integer
-          example: 42000
-        deposit:
-          type: integer
-          example: 12000
-        horaEntrega:
-          type: string
-          example: 10:30
-        imagen:
-          type: string
-        estado:
-          type: integer
-          example: 1
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
-      example:
-        descripcion: dadada dadada daadada
-        torta_id: 3
-        estado: 1
-        horaEntrega: 10:30
-        imagen: imagen
-        message: asdasdas dasdasd asdsa
-        createdAt: 2020-06-16T20:05:48.000Z
-        phone: "9723123"
-        name: QA
-        deposit: 12000
-        id: 5
-        tamano_id: 2
-        value: 42000
-        updatedAt: 2020-06-16T23:05:14.000Z
-    getPedidos:
-      type: array
-      example:
-      - id: 5
-        name: QA
-        phone: "9723123"
-        torta_id: 3
-        tamano_id: 2
-        descripcion: dadada dadada daadada
-        message: asdasdas dasdasd asdsa
-        value: 42000
-        deposit: 12000
-        horaEntrega: 10:30
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 3
-        name: QA
-        phone: "9723123"
-        torta_id: 3
-        tamano_id: 2
-        descripcion: dadada dadada daadada
-        message: asdasdas dasdasd asdsa
-        value: 42000
-        deposit: 12000
-        horaEntrega: 10:30
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 2
-        name: QA
-        phone: "9723123"
-        torta_id: 3
-        tamano_id: 2
-        descripcion: dadada dadada daadada
-        message: asdasdas dasdasd asdsa
-        value: 42000
-        deposit: 12000
-        horaEntrega: 10:30
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      - id: 10
-        name: QA
-        phone: "9723123"
-        torta_id: 3
-        tamano_id: 2
-        descripcion: dadada dadada daadada
-        message: asdasdas dasdasd asdsa
-        value: 42000
-        deposit: 12000
-        horaEntrega: 10:30
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
-      items:
-        $ref: '#/components/schemas/getPedidos_inner'
-    pedidoBadRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 400
-        error:
-          type: string
-          example: Bad Request
-        message:
-          type: string
-          example: '"phone" is required'
     tortas:
       required:
       - masaSabor_id
@@ -2610,10 +2266,6 @@ components:
       - id: 10
         masaTipo_id: 2
         masaSabor_id: 2
-        sabor_id: 2
-        estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
       items:
         $ref: '#/components/schemas/getTortas_inner'
     tortaBadRequest:
@@ -3144,65 +2796,158 @@ components:
           example: true
       example:
         DELETE DATA: true
+    getJsonData:
+      properties:
+        id:
+          type: integer
+          example: 5
+        sucursal_id:
+          type: integer
+          example: 1
+        dia:
+          type: integer
+          example: 3
+        detalle:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+            - $ref: '#/components/schemas/detalleExample'
+        createdAt:
+          type: string
+          example: 2020-07-25 17:14:27
+        updatedAt:
+          type: string
+          example: 2020-07-25 17:14:27
+      example:
+        sucursal_id: 1
+        createdAt: 2020-07-25 17:14:27
+        id: 5
+        dia: 3
+        detalle:
+        - ""
+        - ""
+        updatedAt: 2020-07-25 17:14:27
+    jsonBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"dia" is required'
+    jsonData:
+      required:
+      - detalle
+      - dia
+      - sucursal_id
+      type: object
+      properties:
+        sucursal_id:
+          minimum: 0
+          type: integer
+        dia:
+          minimum: 0
+          type: integer
+        detalle:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+            - $ref: '#/components/schemas/detalle'
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    detalle:
+      required:
+      - cantidades
+      - torta_id
+      type: object
+      properties:
+        torta_id:
+          minimum: 0
+          type: integer
+        cantidades:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/cantidades'
+            - $ref: '#/components/schemas/cantidades'
+            - $ref: '#/components/schemas/cantidades'
+            - $ref: '#/components/schemas/cantidades'
+    cantidades:
+      required:
+      - cantidad
+      - tamano_id
+      type: object
+      properties:
+        tamano_id:
+          minimum: 0
+          type: integer
+        cantidad:
+          minimum: 0
+          type: integer
+    detalleExample:
+      required:
+      - cantidades
+      - torta_id
+      type: object
+      properties:
+        torta_id:
+          type: integer
+          example: 1
+        cantidades:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/cantidadesExample'
+            - $ref: '#/components/schemas/cantidadesExample'
+            - $ref: '#/components/schemas/cantidadesExample'
+            - $ref: '#/components/schemas/cantidadesExample'
+    cantidadesExample:
+      required:
+      - cantidad
+      - tamano_id
+      type: object
+      properties:
+        tamano_id:
+          type: integer
+          example: 1
+        cantidad:
+          type: integer
+          example: 20
     getUsers_inner:
       type: object
       properties:
         id:
           type: integer
         userName:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
-          type: string
-    getEmpleados_inner:
-      type: object
-      properties:
-        rut:
-          type: string
-        name:
-          type: string
-        apellidoPaterno:
-          type: string
-        apellidoMaterno:
-          type: string
-        cargo_id:
-          type: number
-        email:
-          type: string
-        estado:
-          type: integer
-    getCargos_inner:
-      type: object
-      properties:
-        name:
-          type: string
-        estado:
-          type: integer
-    getPedidos_inner:
-      type: object
-      properties:
-        name:
-          type: string
-        phone:
-          type: string
-        torta_id:
-          type: integer
-        tamano_id:
-          type: integer
-        descripcion:
-          type: string
-        message:
-          type: string
-        value:
-          type: integer
-        deposit:
-          type: integer
-        horaEntrega:
-          type: string
-        imagen:
-          type: string
-        estado:
           type: string
         createdAt:
           type: string

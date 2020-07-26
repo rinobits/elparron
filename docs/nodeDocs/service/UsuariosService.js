@@ -2,13 +2,35 @@
 
 
 /**
- * Crear comuna
+ * Autenticación
+ * Obtención de privilegios
+ *
+ * body Usuarios Usuario input (optional)
+ * returns tokenResponse
+ **/
+exports.authenticate = function(body) {
+  return new Promise(function(resolve, reject) {
+    var examples = {};
+    examples['application/json'] = {
+  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU"
+};
+    if (Object.keys(examples).length > 0) {
+      resolve(examples[Object.keys(examples)[0]]);
+    } else {
+      resolve();
+    }
+  });
+}
+
+
+/**
+ * Crear usuario
  * Se requieren privilegios.
  *
- * body Comunas  (optional)
+ * body Usuarios  (optional)
  * returns createTrue
  **/
-exports.createComunas = function(body) {
+exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,13 +46,13 @@ exports.createComunas = function(body) {
 
 
 /**
- * Eliminar comunas
+ * Eliminar usuario
  * Se requieren privilegios.
  *
- * id Long Comuna ID
+ * id Long Order ID
  * returns deleteTrue
  **/
-exports.deleteComunas = function(id) {
+exports.deleteUser = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -49,10 +71,10 @@ exports.deleteComunas = function(id) {
  * Editar información
  * Se requieren privilegios.
  *
- * id Long Comuna ID
+ * id Long Users ID
  * returns modifyTrue
  **/
-exports.editComunas = function(id) {
+exports.editUser = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,22 +90,20 @@ exports.editComunas = function(id) {
 
 
 /**
- * Buscar comuna por su id.
- * Se requieren privilegos
+ * Buscar usuario por su id.
+ * Se requieren privilegos.
  *
- * id Long comuna ID
- * returns getComuna
+ * id Long Users ID
+ * returns getUser
  **/
-exports.getComunaById = function(id) {
+exports.getUserById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "estado" : 1,
-  "ciudad" : "Santiago",
-  "id" : 5,
-  "nombre" : "Pudahuel",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "createdAt" : "2020-06-15T21:33:42.000Z",
+  "id" : 1,
+  "userName" : "Arath",
+  "updatedAt" : "2020-06-15T21:33:42.000Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -95,41 +115,33 @@ exports.getComunaById = function(id) {
 
 
 /**
- * Listar comuna
+ * Listar usuarios
  * Se requieren privilegos.
  *
- * returns getComunas
+ * returns getUsers
  **/
-exports.getComunas = function() {
+exports.getUsers = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "id" : 1,
-  "nombre" : "Pudahuel",
-  "ciudad" : "Santiago",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "id" : 0,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
-  "id" : 2,
-  "nombre" : "Pudahuel",
-  "ciudad" : "Santiago",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "id" : 3,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
-  "id" : 2,
-  "nombre" : "Providencia",
-  "ciudad" : "Santiago",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "id" : 17,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
-  "id" : 2,
-  "nombre" : "Las Condes",
-  "ciudad" : "Santiago",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "id" : 21,
+  "userName" : "User",
+  "createdAt" : "2020-06-16T23:05:14.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 } ];
     if (Object.keys(examples).length > 0) {

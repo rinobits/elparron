@@ -69,7 +69,7 @@ exports.editTamano = function(id) {
 
 /**
  * Listar tamaño
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * returns getTamanos
  **/
@@ -116,7 +116,7 @@ exports.getTamano = function() {
 
 /**
  * Buscar tamaño por su id.
- * No se requieren privilegos
+ * Se requieren privilegos
  *
  * id Long tamano ID
  * returns getTamano

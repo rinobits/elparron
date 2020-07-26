@@ -69,7 +69,7 @@ exports.editMasaTipo = function(id) {
 
 /**
  * Listar tipo de masa
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * returns getMasaTipos
  **/
@@ -106,7 +106,7 @@ exports.getMasaTipo = function() {
 
 /**
  * Buscar tipo de masa por su id.
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * id Long masaTipo ID
  * returns getMasaTipo

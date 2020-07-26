@@ -69,7 +69,7 @@ exports.editSabor = function(id) {
 
 /**
  * Listar sabores
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * returns getSabores
  **/
@@ -106,7 +106,7 @@ exports.getSabor = function() {
 
 /**
  * Buscar tipo de masa por su id.
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * id Long sabor ID
  * returns getSabor

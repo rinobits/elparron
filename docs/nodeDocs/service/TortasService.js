@@ -69,7 +69,7 @@ exports.editTorta = function(id) {
 
 /**
  * Listar tortas
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * returns getTortas
  **/
@@ -103,11 +103,7 @@ exports.getTortas = function() {
 }, {
   "id" : 10,
   "masaTipo_id" : 2,
-  "masaSabor_id" : 2,
-  "sabor_id" : 2,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "masaSabor_id" : 2
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -120,7 +116,7 @@ exports.getTortas = function() {
 
 /**
  * Buscar tortas por su id.
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * id Long torta ID
  * returns getTorta

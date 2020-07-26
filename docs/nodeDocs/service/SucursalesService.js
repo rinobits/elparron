@@ -69,7 +69,7 @@ exports.editSucursales = function(id) {
 
 /**
  * Buscar sucursal por su id.
- * No se requieren privilegos
+ * Se requieren privilegos
  *
  * id Long sucursal ID
  * returns getSucursal
@@ -104,7 +104,7 @@ exports.getSucursalById = function(id) {
 
 /**
  * Listar sucursales
- * No se requieren privilegos.
+ * Se requieren privilegos.
  *
  * returns getSucursales
  **/
