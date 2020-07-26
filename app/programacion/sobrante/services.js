@@ -77,7 +77,10 @@ class SobranteServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM sobrante`, async(e, r) => {
                 if(!e){
-                    const { fecha, sucursal_id } = params;
+                    var { fecha, sucursal_id } = params;
+                    if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+                    fecha = fecha.split('-');
+                    fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
                     var   _dia         = moment(fecha).format('e');
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
@@ -100,19 +103,21 @@ class SobranteServices{
                     });
                     _id = 1;
                     if(action === 'create'){
-                        
                         for(const table of tables){
                             await this.sobranteAddEdit(table);
                             console.log(`${_id++} C R E A T E D`);
                         }
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
+                        var flag = false;
                         for(const rr of r){
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.sobranteAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
+                                flag = true;
                             }
                         }
+                        if(!flag) reject('No data found');
                     }
                     resolve('done')
                 }else{

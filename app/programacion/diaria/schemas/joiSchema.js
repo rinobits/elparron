@@ -26,6 +26,9 @@ const paramSchema = Joi.object({
     fecha: fecha.required(),
     sucursal_id: sucursal_id.required()
 });
+const sucursalSchema = Joi.object({
+    sucursal_id: sucursal_id.required()
+});
 const programacionSchemaCreate = Joi.object({
     dia: dia.required(),
     sucursal_id: sucursal_id.required(),
@@ -42,4 +45,5 @@ module.exports = {
     programacionSchemaCreate,
     programacionSchemaUpdate,
     paramSchema,
+    sucursalSchema
 }

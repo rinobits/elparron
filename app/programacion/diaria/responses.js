@@ -15,6 +15,9 @@ const programacionFindAll = () => {
 const programacionFindByDiaYsucursal = () => {
     return (req, res, next) => {
         var { fecha, sucursal_id } = req.query;
+        if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+        fecha = fecha.split('-');
+        fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
         fecha = moment(fecha).format('e');
         programacionServices.programacionFindByDiaYsucursal(fecha, sucursal_id)
         .then(r  => { 

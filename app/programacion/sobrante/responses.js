@@ -8,6 +8,9 @@ const sobranteServices = new SobranteServices();
 const sobranteFindByDiaYsucursal = () => {
     return (req, res, next) => {
         var { fecha, sucursal_id } = req.query;
+        if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+        fecha = fecha.split('-');
+        fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
         fecha = moment(fecha).format('e');
         sobranteServices.sobranteFindByDiaYsucursal(fecha, sucursal_id)
         .then(r  => { 

@@ -4,8 +4,9 @@ const router                         = express.Router();
 // imports & cons                       
 const control                        = require('./responses');
 const { programacionSchemaUpdate }   = require('./schemas/joiSchema');
-const { paramSchema }                = require('./schemas/joiSchema');
 const { programacionSchemaCreate }   = require('./schemas/joiSchema');
+const { paramSchema }                = require('./schemas/joiSchema');
+const { sucursalSchema }             = require('./schemas/joiSchema');
 const validatorHandler               = require('../../../utils/middlewares/validatorHandler');
 const verifyToken                    = require('../../../utils/middlewares/verifyToken');
 
@@ -27,7 +28,7 @@ router.put('/emptyday',
     control.programacionEmptyOneDay());
 router.put('/emptyweek',
     /* verifyToken, */
-    validatorHandler(paramSchema, 'query'),
+    validatorHandler(sucursalSchema, 'query'),
     control.programacionEmptyWeek());
 router.post('/create',
     /* verifyToken, */

@@ -83,14 +83,16 @@ class ProgramacionServices{
     }
     empty(params){
         return new Promise((resolve, reject) => {
-                const {sucursal_id, dia} = params;
+                var {sucursal_id, fecha} = params;
+                if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+                var flag = false;
                 const query = `
                     UPDATE programacion SET cantidad = 0 WHERE id = ?
                 `
                 mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
-                    if(r.length == 0) reject('No data found');
+                    if(r.length == 0) reject(Error('No data found'));
                     if(!e){
-                        if(!dia){
+                        if(!fecha){
                             for(var rr of r){
                                 mysqlConnection.query(query, [rr.id], (err) => {
                                     if(!err){
@@ -101,6 +103,10 @@ class ProgramacionServices{
                                 });                            
                             }
                         }else{
+                            fecha = fecha.split('-');
+                            fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
+                            const dia = moment(fecha).format('e');
+                            console.log(dia);
                             for(var rr of r){
                                 if(dia == rr.dia){
                                     mysqlConnection.query(query, [rr.id], (err) => {
@@ -110,8 +116,10 @@ class ProgramacionServices{
                                             reject(err);
                                         }
                                     });
+                                    flag = true;
                                 }
                             }
+                            if(!flag) reject('No data found');
                         }
                         resolve();
                     }else{
@@ -120,31 +128,19 @@ class ProgramacionServices{
                 });
             });
     }
-    deleteSucursal(params) {
-        return new Promise((resolve, reject) => {
-            var {sucursal_id} = params;
-            mysqlConnection.query(`SELECT * FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
-                if(r.length == 0) reject('No data found');
-                if(!e){
-                    mysqlConnection(`DELETE FROM programacion WHERE sucursal_id = ?`, [sucursal_id], (e) => {
-                        if(!e) resolve();
-                        else   reject();
-                    })
-                }else{
-                    reject(e);
-                }
-            });
-        })
-    }
     jsonToTables(action, body, params) {
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM programacion`, async(e, r) => {
                 if(!e){
-                    const { fecha, sucursal_id } = params;
+                    var { fecha, sucursal_id } = params;
+                    if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+                    fecha = fecha.split('-');
+                    fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
                     const _dia         = moment(fecha).format('e');
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
                     var   _id          = 1;
+                    var   flag         = false;
                     detalle.forEach(torta => {
                         let _torta_id = torta.torta_id;
                         for(let i = 0; i < 4; i++){
@@ -169,8 +165,10 @@ class ProgramacionServices{
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.programacionAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
+                                flag = true;
                             }
                         }
+                        if(!flag) reject('No data found')
                     }
                     resolve('done')
                 }else{
