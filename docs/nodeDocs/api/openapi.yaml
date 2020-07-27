@@ -24,7 +24,9 @@ tags:
 - name: comunas
   description: Operaciones con comunas
 - name: diaria
-  description: Operaciones con producción diaria
+  description: Operaciones con programación diaria
+- name: semanal
+  description: Operaciones con programación semanal
 - name: sobrante
   description: Operaciones con sobrantes
 paths:
@@ -2054,6 +2056,166 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sobrante
+  /programacion/semanal/diaysucursal:
+    get:
+      tags:
+      - semanal
+      summary: Buscar dia por fecha e id de la sucursal.
+      description: Se requieren privilegos
+      operationId: getSemanalById
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getJsonData'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Semanal
+  /programacion/semanal/update:
+    put:
+      tags:
+      - semanal
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editSemanal
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Dia editado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Semanal
+  /programacion/semanal/create:
+    post:
+      tags:
+      - semanal
+      summary: Crear programacion semanal
+      description: Se requieren privilegios.
+      operationId: createSemanal
+      parameters:
+      - name: fecha
+        in: query
+        description: fecha de solicitud "DD-MM-YYYY"
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: string
+      - name: sucursal_id
+        in: query
+        description: id de la sucursal
+        required: false
+        style: form
+        explode: true
+        schema:
+          type: integer
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/jsonData'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/jsonBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Semanal
 components:
   schemas:
     emptyTrue:
