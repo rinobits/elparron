@@ -1,0 +1,45 @@
+// packages
+const boom                 = require('@hapi/boom');
+const moment               = require('moment');
+// imports & consts
+const ProgramacionSemanalServices = require('./services');
+const programacionSemanalServices = new ProgramacionSemanalServices();
+
+const programacionSemanalFindByDiaYsucursal = () => {
+    return (req, res, next) => {
+        var { dia, sucursal_id } = req.query;
+        programacionSemanalServices.programacionSemanalFindByDiaYsucursal(dia, sucursal_id)
+        .then(r  => { 
+            if(r.length == 0){
+                next(boom.badRequest('Sucursal o día inexistente'));
+            }else{
+                programacionSemanalServices.sortTables(r)
+                .then(tables => {
+                    if(!tables) next(boom.badImplementation(e))
+                    programacionSemanalServices.tablesToJson(tables)
+                    .then(tables => res.json(tables));
+                })
+            }
+        })
+        .catch(e => next(boom.badImplementation(e)))
+    }
+}
+const programacionSemanalMultipleUpdate = () => {
+    return (req, res, next) => {
+        programacionSemanalServices.jsonToTables('update', req.body, req.query)
+        .then(r => res.json({'TABLES UPDATED': true}))
+        .catch(e => next(boom.badRequest(e)))
+    }
+}
+const programacionSemanalMultipleCreate = () => { 
+    return (req, res, next) => { 
+        programacionSemanalServices.jsonToTables('create', req.body, req.query)
+        .then(r => res.json({'TABLES CREATED': true}))
+        .catch(e => next(boom.badRequest(e)))
+    } 
+} 
+module.exports = {
+    programacionSemanalFindByDiaYsucursal,
+    programacionSemanalMultipleUpdate,
+    programacionSemanalMultipleCreate
+}
