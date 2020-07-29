@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS sucursal (
   contactoNombre VARCHAR(60)  NOT NULL,
   colorFondo     VARCHAR(60)  NOT NULL,
   colorLetra     VARCHAR(60)  NOT NULL,
-  estado         INT(2)       DEFAULT 1
+  estado         INT(2)       DEFAULT 1,
   PRIMARY KEY(id)
 );
 

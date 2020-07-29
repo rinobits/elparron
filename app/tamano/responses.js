@@ -25,8 +25,7 @@ const tamanoFindById = () => {
 }
 const tamanoCreate = () => {
     return (req, res, next) => {
-        const {body} = req;
-        tamanoServices.tamanoCreate(body)
+        tamanoServices.tamanoCreate(req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -43,7 +42,7 @@ const tamanoUpdateById = () => {
 const tamanoDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanoDeleteById(id)
+        tamanoServices.tamanoDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

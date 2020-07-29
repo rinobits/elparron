@@ -3,8 +3,8 @@ DROP PROCEDURE IF EXISTS `addOrEditTamano`;
 DELIMITER $$
 CREATE PROCEDURE `addOrEditTamano` (
     IN _id INT(11),
-    IN _tamano VARCHAR(200),
-    IN _personas VARCHAR(200))
+    IN _tamano VARCHAR(100),
+    IN _personas VARCHAR(100))
 
 BEGIN
     IF _id = 0 THEN

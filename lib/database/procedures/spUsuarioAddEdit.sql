@@ -19,7 +19,8 @@ BEGIN
         UPDATE usuario
         SET 
             userName = _userName,
-            userPassword = _userPassword
+            userPassword = _userPassword,
+            estado = 1
         WHERE id = _id;
     END IF;
     SELECT _id as id;

@@ -9,7 +9,7 @@ CREATE PROCEDURE `addOrEditTorta` (
 
 BEGIN
     IF _id = 0 THEN
-        INSERT	INTO trota (
+        INSERT	INTO torta (
             masaTipo_id,
             masaSabor_id,
             sabor_id)
@@ -20,7 +20,7 @@ BEGIN
         );
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE trota
+        UPDATE torta
         SET 
             masaTipo_id  = _masaSabor_id,
             masaSabor_id = _masaTipo_id,

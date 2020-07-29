@@ -3,7 +3,7 @@ const mysqlConnection = require('../../lib/database/database');
 class MasaTipoServices{
     masaTipoFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM masaTipo`, (err, rows, fields) => {
+            mysqlConnection.query(`SELECT * FROM masaTipo WHERE estado = 1`, (err, rows, fields) => {
                 if(!err){
                     resolve(rows);
                 }else{
@@ -25,14 +25,12 @@ class MasaTipoServices{
     }
     masaTipoCreate(body){
         return new Promise((resolve, reject) => {
-            const { nombre } = body;
-            const id         = 0;
             const query      = `
                 SET @id     = ?;
                 SET @nombre = ?;
-                CALL addEditMasaTipo(@id, @nombre);
+                CALL addOrEditMasaTipo(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+            mysqlConnection.query(query, [0, body.nombre], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -41,26 +39,27 @@ class MasaTipoServices{
             });
         });
     }
-    masaTipoUpdateById(body){
+    masaTipoUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const { id, nombre } = body;
             const query = `
                 SET @id     = ?;
                 SET @nombre = ?;
-                CALL addEditMasaTipo(@id, @nombre);
+                CALL addOrEditMasaTipo(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+            mysqlConnection.query(query, [id.id, body.nombre], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
     masaTipoDeleteById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM masaTipo  WHERE id = ?`, [id], (err, rows, fields) => {
+            if(!body) var estado = 0;
+            else      var estado = body.estado;
+            mysqlConnection.query(`UPDATE masaTipo  SET estado = ? WHERE id = ?`, [estado, id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

@@ -25,7 +25,7 @@ const saborFindById = () => {
 }
 const saborCreate = () => {
     return (req, res, next) => {
-        const {body} = req;
+        const {body} = req.body;
         saborServices.saborCreate(body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
@@ -33,7 +33,7 @@ const saborCreate = () => {
 }
 const saborUpdateById = () => {
     return (req, res, next) => {
-        const {body} = req;
+        const {body} = req.body;
         const {id}   = req.params;
         saborServices.saborUpdateById(id, body) 
         .then(r  => res.json({"MODIFY DATA": true}))
@@ -43,7 +43,7 @@ const saborUpdateById = () => {
 const saborDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        saborServices.saborDeleteById(id)
+        saborServices.saborDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

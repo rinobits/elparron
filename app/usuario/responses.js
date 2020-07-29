@@ -7,9 +7,8 @@ const usuarioFindAll = () => {
     return (req, res, next) => {
         usuarioServices.usuarioFindAll()
             .then(r => {
-                console.log(r);
                 for(let i = 0; i < r.length; i++){
-                    delete r[0].userPassword;
+                    delete r[i].userPassword;
                 }
                 res.json(r);
             })
@@ -21,8 +20,8 @@ const usuarioFindById = () => {
         const {id} = req.params;
         usuarioServices.usuarioFindById(id)
             .then(r => {
-                delete r.usuario.dataValues.usuarioPassword;
-                res.json(r.usuario.dataValues)
+                delete r[0].userPassword;
+                res.json(r)
             })
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -47,7 +46,7 @@ const usuarioUpdateById = () => {
 const usuarioDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        usuarioServices.usuarioDeleteById(id)
+        usuarioServices.usuarioDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

@@ -3,9 +3,9 @@ const mysqlConnection = require('../../lib/database/database');
 class MasaSaborServices{
     masaSaborFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM masaSabor`, (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM masaSabor WHERE estado = 1`, (err, rows) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }
@@ -16,7 +16,7 @@ class MasaSaborServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM masaSabor WHERE ID = ?`, [id], (err, rows) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }
@@ -25,14 +25,12 @@ class MasaSaborServices{
     }
     masaSaborCreate(body){
         return new Promise((resolve, reject) => {
-            const { nombre } = body;
-            const id         = 0;
             const query      = `
                 SET @id     = ?;
                 SET @nombre = ?;
                 CALL addOrEditMasaSabor(@id, @nombre);
             `
-            mysqlConnection.query(query, [id, nombre], (err) => {
+            mysqlConnection.query(query, [0, body.nombre], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -58,9 +56,11 @@ class MasaSaborServices{
             });
         });
     }
-    masaSaborDeleteById(id){
+    masaSaborDeleteById(id, body){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM masaSabor WHERE id = ?`, [id], (err, rows) => {
+            if(!body) var estado = 0;
+            else      var estado = body.estado;
+            mysqlConnection.query(`UPDATE masaSabor  SET estado = 0 WHERE id = ?`, [estado, id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

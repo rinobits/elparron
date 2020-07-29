@@ -25,17 +25,15 @@ const masaTipoFindById = () => {
 }
 const masaTipoCreate = () => {
     return (req, res, next) => {
-        const {body} = req.body;
-        masaTipoServices.masaTipoCreate(body)
+        (req);
+        masaTipoServices.masaTipoCreate(req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaTipoUpdateById = () => {
     return (req, res, next) => {
-        const {body} = req.body;
-        const {id}   = req.params;
-        masaTipoServices.masaTipoUpdateById(id, body) 
+        masaTipoServices.masaTipoUpdateById(req.params, req.body) 
         .then(r  => res.json({"MODIFY DATA": true}))
         .catch(e => next(boom.badImplementation(e)))
     }
@@ -43,7 +41,7 @@ const masaTipoUpdateById = () => {
 const masaTipoDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        masaTipoServices.masaTipoDeleteById(id)
+        masaTipoServices.masaTipoDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

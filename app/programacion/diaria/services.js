@@ -1,5 +1,5 @@
- const mysqlConnection = require('../../../lib/database/database');
- const moment          = require('moment');
+const mysqlConnection = require('../../../lib/database/database');
+const moment          = require('moment');
 class ProgramacionServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
@@ -84,7 +84,7 @@ class ProgramacionServices{
     empty(params){
         return new Promise((resolve, reject) => {
                 var {sucursal_id, fecha} = params;
-                if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
+                if(fecha) if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
                 var flag = false;
                 const query = `
                     UPDATE programacion SET cantidad = 0 WHERE id = ?
@@ -169,6 +169,8 @@ class ProgramacionServices{
                             }
                         }
                         if(!flag) reject('No data found')
+                    }else if(action === 'getall'){
+                        resolve(tables);
                     }
                     resolve('done')
                 }else{
@@ -180,7 +182,8 @@ class ProgramacionServices{
     tablesToJson(tables) {
         return new Promise((resolve, reject) => {
             if(!tables) reject();
-            var schema = require('./schemas/programacion');
+            var schema  = require('./schemas/programacion');
+            var schemas = [];
             var i = 0;
             var j = 0;
             schema.sucursal_id = tables[0].sucursal_id;
@@ -194,7 +197,7 @@ class ProgramacionServices{
                     i = 0;
                     j++
                 }
-            }     
+            }
             resolve(schema);
         });
     }

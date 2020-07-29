@@ -3,7 +3,7 @@ const mysqlConnection = require('../../lib/database/database');
 class SucursalServices{
     sucursalFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM sucursal`, (err, rows, fields) => {
+            mysqlConnection.query(`SELECT * FROM sucursal WHERE estado = 1`, (err, rows, fields) => {
                 if(!err){
                     resolve(rows);
                 }else{
@@ -25,42 +25,61 @@ class SucursalServices{
     }
     sucursalCreate(body){
         return new Promise((resolve, reject) => {
-            const { nombre } = body;
             const id         = 0;
             const query      = `
-                SET @id     = ?;
+                SET @id = ?;
+                SET @rut = ?;
+                SET @razonSocial = ?;
+                SET @giro = ?;
+                SET @direccion = ?;
+                SET @comuna_id = ?;
                 SET @nombre = ?;
-                CALL addOrEditSucursal(@id, @nombre);
+                SET @contactoEmail = ?;
+                SET @contactoNombre = ?;
+                SET @colorFondo = ?;
+                SET @colorLetra = ?;
+                CALL addOrEditSucursal(@id, @rut, @razonSocial, @giro, @direccion, @comuna_id, @nombre, @contactoEmail, @contactoNombre, @colorFondo, @colorLetra);
             `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+            mysqlConnection.query(query, [id, body.rut, body.razonSocial, body.giro, body.direccion, body.comuna_id, body.nombre, body.contactoEmail, body.contactoNombre, body.colorFondo, body.colorLetra], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
     sucursalUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const { nombre } = body;
-            const query = `
+            id = id.id;
+            const query      = `
                 SET @id     = ?;
+                SET @rut = ?;
+                SET @razonSocial = ?;
+                SET @giro = ?;
+                SET @direccion = ?;
+                SET @comuna_id = ?;
                 SET @nombre = ?;
-                CALL addOrEditSucursal(@id, @nombre);
+                SET @contactoEmail = ?;
+                SET @contactoNombre = ?;
+                SET @colorFondo = ?;
+                SET @colorLetra = ?;
+                CALL addOrEditSucursal(@id, @rut, @razonSocial, @giro, @direccion, @comuna_id, @nombre, @contactoEmail, @contactoNombre, @colorFondo, @colorLetra);
             `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+            mysqlConnection.query(query, [id, body.rut, body.razonSocial, body.giro, body.direccion, body.comuna_id, body.nombre, body.contactoEmail, body.contactoNombre, body.colorFondo, body.colorLetra], (err, rows, fields) => {
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
-    sucursalDeleteById(id){
+    sucursalDeleteById(id, body){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM sucursal  WHERE id = ?`, [id], (err, rows, fields) => {
+            if(!body) var estado = 0;
+            else      var estado = body.estado;
+            mysqlConnection.query(`UPDATE sucursal  SET estado = ? WHERE id = ?`, [estado, id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

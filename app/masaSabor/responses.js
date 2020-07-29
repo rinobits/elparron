@@ -25,8 +25,7 @@ const masaSaborFindById = () => {
 }
 const masaSaborCreate = () => {
     return (req, res, next) => {
-        const {body} = req.body;
-        masaSaborServices.masaSaborCreate(body)
+        masaSaborServices.masaSaborCreate(req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -43,7 +42,7 @@ const masaSaborUpdateById = () => {
 const masaSaborDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        masaSaborServices.masaSaborDeleteById(id)
+        masaSaborServices.masaSaborDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

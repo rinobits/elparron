@@ -8,7 +8,13 @@ const programacionServices = new ProgramacionServices();
 const programacionFindAll = () => {
     return (req, res, next) => {
         programacionServices.programacionFindAll()
-            .then(r => res.json(r))
+            .then(r => {
+                programacionServices.sortTables(r)
+                    .then(tables => {
+                        res.json(tables);
+                    })                
+                    .catch(e => next(boom.badRequest(e)));
+            })
             .catch(e => next(boom.badRequest(e)));
     }
 }
@@ -64,15 +70,6 @@ const programacionMultipleCreate = () => {
         .catch(e => next(boom.badRequest(e)))
     } 
 } 
-const programacionDeleteSucursal = () => {
-    return (req, res, next) => {
-        programacionServices.deleteSucursal(req.query)
-        .then(r => {
-            console.log('<SUCURSAL> SUCCESSFULLY DELETED');
-        })
-        .catch(e => next(boom.badRequest(e)));
-    }
-}
 module.exports = {
     programacionFindByDiaYsucursal,
     programacionFindAll,
@@ -80,5 +77,4 @@ module.exports = {
     programacionMultipleCreate,
     programacionEmptyOneDay,
     programacionEmptyWeek,
-    programacionDeleteSucursal
 }

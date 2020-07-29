@@ -6,22 +6,21 @@ const control                        = require('./responses');
 const { sobranteSchemaUpdate }       = require('./schemas/joiSchema');
 const { sobranteSchemaCreate }       = require('./schemas/joiSchema');
 const { paramSchema }                = require('./schemas/joiSchema');
-const { sucursalSchema }             = require('./schemas/joiSchema');
 
 const validatorHandler               = require('../../../utils/middlewares/validatorHandler');
 const verifyToken                    = require('../../../utils/middlewares/verifyToken');
 
 router.get('/diaysucursal',
-    /* verifyToken, */
+    verifyToken,
     validatorHandler(paramSchema, 'query'),
     control.sobranteFindByDiaYsucursal());
 router.put('/update',
-    /* verifyToken, */
+    verifyToken, 
     validatorHandler(paramSchema, 'query'),
     validatorHandler(sobranteSchemaUpdate, 'body'),
     control.sobranteMultipleUpdate());
 router.post('/create',
-    /* verifyToken, */
+    verifyToken, 
     validatorHandler(paramSchema, 'query'),
     validatorHandler(sobranteSchemaCreate, 'body'),
     control.sobranteMultipleCreate());

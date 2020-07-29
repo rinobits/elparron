@@ -28,16 +28,16 @@ BEGIN
             colorLetra
             )
         VALUES(
-            rut,
-            razonSocial,
-            giro,
-            direccion,
-            comuna_id,
-            nombre,
-            contactoEmail,
-            contactoNombre,
-            colorFondo,
-            colorLetra
+            _rut,
+            _razonSocial,
+            _giro,
+            _direccion,
+            _comuna_id,
+            _nombre,
+            _contactoEmail,
+            _contactoNombre,
+            _colorFondo,
+            _colorLetra
             );
         SET _id = LAST_INSERT_ID();
     ELSE

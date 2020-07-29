@@ -3,7 +3,7 @@ const mysqlConnection = require('../../lib/database/database');
 class SaborServices{
     saborFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM sabor`, (err, rows, fields) => {
+            mysqlConnection.query(`SELECT * FROM sabor WHERE estado = 1`, (err, rows, fields) => {
                 if(!err){
                     resolve(rows);
                 }else{
@@ -60,7 +60,9 @@ class SaborServices{
     }
     saborDeleteById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM sabor  WHERE id = ?`, [id], (err, rows, fields) => {
+            if(!body) var estado = 0;
+            else      var estado = body.estado;
+            mysqlConnection.query(`UPDATE sabor SET estado = ? WHERE id = ?`, [estado, id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

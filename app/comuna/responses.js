@@ -43,7 +43,7 @@ const comunaUpdateById = () => {
 const comunaDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        comunaServices.comunaDeleteById(id)
+        comunaServices.comunaDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

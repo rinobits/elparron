@@ -3,7 +3,7 @@ const mysqlConnection = require('../../lib/database/database');
 class TortaServices{
     tortaFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM torta`, (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM torta WHERE estado = 1`, (err, rows) => {
                 if(!err){
                     resolve(rows);
                 }else{
@@ -25,16 +25,15 @@ class TortaServices{
     }
     tortaCreate(body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
             const id         = 0;
             const query      = `
                 SET @id = ?;
                 SET @masaTipo_id = ?;
                 SET @masaSabor_id = ?;
                 SET @sabor_id = ?;
-                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_idw);
+                CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_id);
             `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            mysqlConnection.query(query, [id, body.masaTipo_id, body.masaSabor_id, body.sabor_id], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -45,26 +44,27 @@ class TortaServices{
     }
     tortaUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const { masaTipo_id, masaSabor_id, sabor_id } = body;
             const query = `
                 SET @id = ?;
                 SET @masaTipo_id = ?;
                 SET @masaSabor_id = ?;
                 SET @sabor_id = ?;
                 CALL addOrEditTorta(@id, @masaTipo_id, @masaSabor_id, @sabor_id);
-            `
-            mysqlConnection.query(query, [id, masaTipo_id, masaSabor_id, sabor_id], (err) => {
+            `;
+            mysqlConnection.query(query, [id.id, body.masaTipo_id, body.masaSabor_id, body.sabor_id], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
-    tortaDeleteById(id){
+    tortaDeleteById(id, body){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`DELETE FROM torta  WHERE id = ?`, [id], (err, rows, fields) => {
+            if(!body) var estado = 0;
+            else      var estado = body.estado;
+            mysqlConnection.query(`UPDATE torta  SET estado = ? WHERE id = ?`, [estado, id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

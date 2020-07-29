@@ -25,17 +25,14 @@ const sucursalFindById = () => {
 }
 const sucursalCreate = () => {
     return (req, res, next) => {
-        const {body} = req;
-        sucursalServices.sucursalCreate(body)
+        sucursalServices.sucursalCreate(req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
 const sucursalUpdateById = () => {
     return (req, res, next) => {
-        const {body} = req;
-        const {id}   = req.params;
-        sucursalServices.sucursalUpdateById(id, body) 
+        sucursalServices.sucursalUpdateById(req.params, req.body) 
         .then(r  => res.json({"MODIFY DATA": true}))
         .catch(e => next(boom.badImplementation(e)))
     }
@@ -43,7 +40,7 @@ const sucursalUpdateById = () => {
 const sucursalDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        sucursalServices.sucursalDeleteById(id)
+        sucursalServices.sucursalDeleteById(id, req.body)
             .then(r  => res.json({'DELETE DATA' : true}))
             .catch(e => next(boom.badImplementation(e)))
     }

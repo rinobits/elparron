@@ -3,7 +3,7 @@ const bcrypt    = require('bcrypt');
 class UsuarioServices{
     usuarioFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM usuario`, (e, r) => {
+            mysqlConnection.query(`SELECT * FROM usuario WHERE estado=1`, (e, r) => {
                 if(!e){
                     resolve(r);
                 }
@@ -17,7 +17,7 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario WHERE id = ?`, [id], (e, r) => {
                 if(!e){
-                    resolve(r[0]);
+                    resolve(r);
                 }
                 else{
                     reject(e);
@@ -53,41 +53,43 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario WHERE id=?`, [id], (e, u) => {
                 if(!e){
-                    if(body.userPassword){
-                        bcrypt.hash(body.userPassword, 10) 
-                        .then(hash => body.userPassword = hash)
+                    var { userName, userPassword }  = body;
+                    if(userPassword){
+                        bcrypt.hash(userPassword, 10) 
+                        .then(hash => {
+                            userPassword = hash
+                            const query = `
+                                SET @id           = ?;
+                                SET @userName     = ?;
+                                SET @userPassword = ?;
+                                CALL addOrEditUsuario(@id, @userName, @userPassword);
+                            `;
+                            mysqlConnection.query(query, [id, userName, userPassword], (e) => {
+                                if(!e){
+                                    resolve('Done');
+                                }else{
+                                    reject(e);
+                                }
+                            })
+                        })
                         .catch(e => reject(e));
                     }
-                    const { userName, userPassword }  = body;
-                    const query = `
-                        SET @id           = ?;
-                        SET @userName     = ?;
-                        SET @userPassword = ?;
-                        CALL addOrEditUsuario(@id, @userName, @userPassword);
-                    `;
-                    mysqlConnection.query(query, [id, userName, userPassword], (e) => {
-                        if(!e){
-                            resolve('Done');
-                        }else{
-                            reject(e);
-                        }
-                    })
                 }else{
                     reject(e);
                 }
             });
         });
     }
-    usuarioDeleteById(id, estado = 0){
+    usuarioDeleteById(id, body){
         return new Promise((resolve, reject) => {
             const query = `
                 UPDATE usuario
-                SET @estado = ?
-                WHERE @id = ?;
-            `
+                SET estado = ?
+                WHERE id   = ?;
+            `;
               mysqlConnection.query(query, [estado, id], (e, r) => {
                 if(!e){
-                    resolve(rows[0]);
+                    resolve(r);
                 }else{
                     reject(e);
                 }
