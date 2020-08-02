@@ -25,12 +25,13 @@ exports.createTorta = function(body) {
 
 /**
  * Eliminar torta
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long Torta ID
  * returns deleteTrue
  **/
-exports.deleteTorta = function(id) {
+exports.deleteTorta = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

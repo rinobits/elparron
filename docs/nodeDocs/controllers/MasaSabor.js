@@ -13,8 +13,8 @@ module.exports.createMasaSabor = function createMasaSabor (req, res, next, body)
     });
 };
 
-module.exports.deleteMasaSabor = function deleteMasaSabor (req, res, next, id) {
-  MasaSabor.deleteMasaSabor(id)
+module.exports.deleteMasaSabor = function deleteMasaSabor (req, res, next, body, id) {
+  MasaSabor.deleteMasaSabor(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

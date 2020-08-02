@@ -13,8 +13,8 @@ module.exports.createTorta = function createTorta (req, res, next, body) {
     });
 };
 
-module.exports.deleteTorta = function deleteTorta (req, res, next, id) {
-  Tortas.deleteTorta(id)
+module.exports.deleteTorta = function deleteTorta (req, res, next, body, id) {
+  Tortas.deleteTorta(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

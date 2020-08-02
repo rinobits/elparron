@@ -23,8 +23,8 @@ module.exports.createUser = function createUser (req, res, next, body) {
     });
 };
 
-module.exports.deleteUser = function deleteUser (req, res, next, id) {
-  Usuarios.deleteUser(id)
+module.exports.deleteUser = function deleteUser (req, res, next, body, id) {
+  Usuarios.deleteUser(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

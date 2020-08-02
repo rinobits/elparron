@@ -13,8 +13,8 @@ module.exports.createTamano = function createTamano (req, res, next, body) {
     });
 };
 
-module.exports.deleteTamano = function deleteTamano (req, res, next, id) {
-  Tamano.deleteTamano(id)
+module.exports.deleteTamano = function deleteTamano (req, res, next, body, id) {
+  Tamano.deleteTamano(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

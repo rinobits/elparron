@@ -25,12 +25,13 @@ exports.createMasaSabor = function(body) {
 
 /**
  * Eliminar sabor de masa
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long MasaSabor ID
  * returns deleteTrue
  **/
-exports.deleteMasaSabor = function(id) {
+exports.deleteMasaSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

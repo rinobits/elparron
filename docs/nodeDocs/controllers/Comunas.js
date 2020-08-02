@@ -13,8 +13,8 @@ module.exports.createComunas = function createComunas (req, res, next, body) {
     });
 };
 
-module.exports.deleteComunas = function deleteComunas (req, res, next, id) {
-  Comunas.deleteComunas(id)
+module.exports.deleteComunas = function deleteComunas (req, res, next, body, id) {
+  Comunas.deleteComunas(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

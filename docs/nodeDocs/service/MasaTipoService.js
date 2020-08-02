@@ -25,12 +25,13 @@ exports.createMasaTipo = function(body) {
 
 /**
  * Eliminar tipo de masa
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long MasaTipo ID
  * returns deleteTrue
  **/
-exports.deleteMasaTipo = function(id) {
+exports.deleteMasaTipo = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

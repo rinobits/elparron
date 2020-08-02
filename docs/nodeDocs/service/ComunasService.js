@@ -25,12 +25,13 @@ exports.createComunas = function(body) {
 
 /**
  * Eliminar comunas
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long Comuna ID
  * returns deleteTrue
  **/
-exports.deleteComunas = function(id) {
+exports.deleteComunas = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

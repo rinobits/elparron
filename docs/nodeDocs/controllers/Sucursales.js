@@ -13,8 +13,8 @@ module.exports.createSucursales = function createSucursales (req, res, next, bod
     });
 };
 
-module.exports.deleteSucursales = function deleteSucursales (req, res, next, id) {
-  Sucursales.deleteSucursales(id)
+module.exports.deleteSucursales = function deleteSucursales (req, res, next, body, id) {
+  Sucursales.deleteSucursales(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

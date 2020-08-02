@@ -23,6 +23,8 @@ tags:
   description: Operaciones con sucursales
 - name: comunas
   description: Operaciones con comunas
+- name: precios
+  description: Operaciones con precios
 - name: diaria
   description: Operaciones con programación diaria
 - name: semanal
@@ -154,7 +156,7 @@ paths:
       tags:
       - usuarios
       summary: Eliminar usuario
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteUser
       parameters:
       - name: id
@@ -166,6 +168,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Usuario eliminado exitosamente.
@@ -348,7 +355,7 @@ paths:
       tags:
       - tortas
       summary: Eliminar torta
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteTorta
       parameters:
       - name: id
@@ -360,6 +367,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Torta eliminado exitosamente.
@@ -542,7 +554,7 @@ paths:
       tags:
       - masaTipo
       summary: Eliminar tipo de masa
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteMasaTipo
       parameters:
       - name: id
@@ -554,6 +566,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Tipo de masa eliminado exitosamente.
@@ -736,7 +753,7 @@ paths:
       tags:
       - masaSabor
       summary: Eliminar sabor de masa
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteMasaSabor
       parameters:
       - name: id
@@ -748,6 +765,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Tipo de masa eliminado exitosamente.
@@ -930,7 +952,7 @@ paths:
       tags:
       - sabor
       summary: Eliminar sabor
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteSabor
       parameters:
       - name: id
@@ -1124,7 +1146,7 @@ paths:
       tags:
       - tamano
       summary: Eliminar tamano
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteTamano
       parameters:
       - name: id
@@ -1136,9 +1158,14 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
-          description: Tamañoor eliminado exitosamente.
+          description: Tamaño eliminado exitosamente.
           content:
             application/json:
               schema:
@@ -1318,7 +1345,7 @@ paths:
       tags:
       - sucursales
       summary: Eliminar sucursales
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar 1 y para recuperar
       operationId: deleteSucursales
       parameters:
       - name: id
@@ -1330,6 +1357,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Sucursalor eliminado exitosamente.
@@ -1512,7 +1544,7 @@ paths:
       tags:
       - comunas
       summary: Eliminar comunas
-      description: Se requieren privilegios.
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
       operationId: deleteComunas
       parameters:
       - name: id
@@ -1524,6 +1556,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
       responses:
         "200":
           description: Comunaor eliminado exitosamente.
@@ -2216,6 +2253,205 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Semanal
+  /precio/getbyid/{id}:
+    get:
+      tags:
+      - precios
+      summary: Buscar precio por su id.
+      description: Se requieren privilegos
+      operationId: getPrecioById
+      parameters:
+      - name: id
+        in: path
+        description: precio ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPrecio'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Precios
+  /precio/update/{id}:
+    put:
+      tags:
+      - precios
+      summary: Editar información
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: editPrecios
+      parameters:
+      - name: id
+        in: path
+        description: Precio ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Precio editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/precioBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Precios
+  /precio/delete/{id}:
+    put:
+      tags:
+      - precios
+      summary: Eliminar precios
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: deletePrecios
+      parameters:
+      - name: id
+        in: path
+        description: Precio ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
+      responses:
+        "200":
+          description: Precioor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Precios
+  /precio/getall:
+    get:
+      tags:
+      - precios
+      summary: Listar precio
+      description: Se requieren privilegos.
+      operationId: getPrecios
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getPrecios'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Precios
+  /precio/create:
+    post:
+      tags:
+      - precios
+      summary: Crear precio
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: createPrecios
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/precios'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/precioBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Precios
 components:
   schemas:
     emptyTrue:
@@ -3104,6 +3340,147 @@ components:
         cantidad:
           type: integer
           example: 20
+    deleteSchema:
+      required:
+      - estado
+      type: object
+      properties:
+        estado:
+          type: integer
+          example: 0
+      description: 0 to delete or 1 to restore
+    precios:
+      required:
+      - costo
+      - cuadrada
+      - diet
+      - masaTipo_id
+      - producto_id
+      - sucursal_id
+      - tamano_id
+      - venta
+      type: object
+      properties:
+        producto_id:
+          type: integer
+        tamano_id:
+          type: integer
+        masaTipo_id:
+          type: integer
+        diet:
+          type: integer
+        cuadrada:
+          type: integer
+        costo:
+          type: integer
+        venta:
+          type: integer
+        sucursal_id:
+          type: integer
+    getPrecio:
+      properties:
+        id:
+          type: integer
+          example: 2
+        producto_id:
+          type: integer
+          example: 1
+        tamano_id:
+          type: integer
+          example: 1
+        masaTipo_id:
+          type: integer
+          example: 2
+        diet:
+          type: integer
+          example: 0
+        cuadrada:
+          type: integer
+          example: 1
+        costo:
+          type: integer
+          example: 10000
+        venta:
+          type: integer
+          example: 5000
+        sucursal_id:
+          type: integer
+          example: 1
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        sucursal_id: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        venta: 5000
+        estado: 1
+        costo: 10000
+        cuadrada: 1
+        producto_id: 1
+        id: 2
+        tamano_id: 1
+        diet: 0
+        masaTipo_id: 2
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getPrecios:
+      type: array
+      example:
+      - id: 1
+        producto_id: 1
+        tamano_id: 1
+        masaTipo_id: 1
+        diet: 1
+        cuadrada: 0
+        costo: 7000
+        venta: 10000
+        sucursal_id: 1
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        producto_id: 1
+        tamano_id: 1
+        masaTipo_id: 1
+        diet: 1
+        cuadrada: 0
+        costo: 7000
+        venta: 10000
+        sucursal_id: 1
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        producto_id: 1
+        tamano_id: 1
+        masaTipo_id: 1
+        diet: 1
+        cuadrada: 0
+        costo: 7000
+        venta: 10000
+        sucursal_id: 1
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getPrecios_inner'
+    precioBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"sucursal_id" is required'
     getUsers_inner:
       type: object
       properties:
@@ -3190,6 +3567,31 @@ components:
           type: string
         ciudad:
           type: string
+        estado:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getPrecios_inner:
+      type: object
+      properties:
+        producto_id:
+          type: integer
+        tamano_id:
+          type: integer
+        masaTipo_id:
+          type: integer
+        diet:
+          type: integer
+        cuadrada:
+          type: integer
+        costo:
+          type: integer
+        venta:
+          type: integer
+        sucursal_id:
+          type: integer
         estado:
           type: integer
         createdAt:

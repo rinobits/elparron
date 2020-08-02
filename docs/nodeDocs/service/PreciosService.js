@@ -2,35 +2,13 @@
 
 
 /**
- * Autenticación
- * Obtención de privilegios
+ * Crear precio
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
- * body Usuarios Usuario input (optional)
- * returns tokenResponse
- **/
-exports.authenticate = function(body) {
-  return new Promise(function(resolve, reject) {
-    var examples = {};
-    examples['application/json'] = {
-  "token" : "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJjaGVjayI6dHJ1ZSwiaWF0IjoxNTksMzYwNjE0LCJleHAiOjE1OTIzNjQyMTR9.20VU1mS7WO3j87QsG_K36JHBCSoFsflITLzbJ6XW-XU"
-};
-    if (Object.keys(examples).length > 0) {
-      resolve(examples[Object.keys(examples)[0]]);
-    } else {
-      resolve();
-    }
-  });
-}
-
-
-/**
- * Crear usuario
- * Se requieren privilegios.
- *
- * body Usuarios  (optional)
+ * body Precios  (optional)
  * returns createTrue
  **/
-exports.createUser = function(body) {
+exports.createPrecios = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -46,14 +24,14 @@ exports.createUser = function(body) {
 
 
 /**
- * Eliminar usuario
+ * Eliminar precios
  * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Order ID
+ * id Long Precio ID
  * returns deleteTrue
  **/
-exports.deleteUser = function(body,id) {
+exports.deletePrecios = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -70,12 +48,12 @@ exports.deleteUser = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
- * id Long Users ID
+ * id Long Precio ID
  * returns modifyTrue
  **/
-exports.editUser = function(id) {
+exports.editPrecios = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -91,20 +69,28 @@ exports.editUser = function(id) {
 
 
 /**
- * Buscar usuario por su id.
- * Se requieren privilegos.
+ * Buscar precio por su id.
+ * Se requieren privilegos
  *
- * id Long Users ID
- * returns getUser
+ * id Long precio ID
+ * returns getPrecio
  **/
-exports.getUserById = function(id) {
+exports.getPrecioById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "createdAt" : "2020-06-15T21:33:42.000Z",
-  "id" : 1,
-  "userName" : "Arath",
-  "updatedAt" : "2020-06-15T21:33:42.000Z"
+  "sucursal_id" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "venta" : 5000,
+  "estado" : 1,
+  "costo" : 10000,
+  "cuadrada" : 1,
+  "producto_id" : 1,
+  "id" : 2,
+  "tamano_id" : 1,
+  "diet" : 0,
+  "masaTipo_id" : 2,
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -116,33 +102,52 @@ exports.getUserById = function(id) {
 
 
 /**
- * Listar usuarios
+ * Listar precio
  * Se requieren privilegos.
  *
- * returns getUsers
+ * returns getPrecios
  **/
-exports.getUsers = function() {
+exports.getPrecios = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "id" : 0,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "id" : 1,
+  "producto_id" : 1,
+  "tamano_id" : 1,
+  "masaTipo_id" : 1,
+  "diet" : 1,
+  "cuadrada" : 0,
+  "costo" : 7000,
+  "venta" : 10000,
+  "sucursal_id" : 1,
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
-  "id" : 3,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "id" : 2,
+  "producto_id" : 1,
+  "tamano_id" : 1,
+  "masaTipo_id" : 1,
+  "diet" : 1,
+  "cuadrada" : 0,
+  "costo" : 7000,
+  "venta" : 10000,
+  "sucursal_id" : 1,
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
-  "id" : 17,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
-}, {
-  "id" : 21,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
+  "id" : 2,
+  "producto_id" : 1,
+  "tamano_id" : 1,
+  "masaTipo_id" : 1,
+  "diet" : 1,
+  "cuadrada" : 0,
+  "costo" : 7000,
+  "venta" : 10000,
+  "sucursal_id" : 1,
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 } ];
     if (Object.keys(examples).length > 0) {

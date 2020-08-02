@@ -25,12 +25,13 @@ exports.createSucursales = function(body) {
 
 /**
  * Eliminar sucursales
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long Sucursal ID
  * returns deleteTrue
  **/
-exports.deleteSucursales = function(id) {
+exports.deleteSucursales = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {

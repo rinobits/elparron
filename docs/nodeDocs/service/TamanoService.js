@@ -25,12 +25,13 @@ exports.createTamano = function(body) {
 
 /**
  * Eliminar tamano
- * Se requieren privilegios.
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
+ * body DeleteSchema  (optional)
  * id Long Tamano ID
  * returns deleteTrue
  **/
-exports.deleteTamano = function(id) {
+exports.deleteTamano = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
