@@ -25,6 +25,8 @@ tags:
   description: Operaciones con comunas
 - name: precios
   description: Operaciones con precios
+- name: productos
+  description: Operaciones con productos
 - name: diaria
   description: Operaciones con programación diaria
 - name: semanal
@@ -2452,6 +2454,205 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Precios
+  /producto/getbyid/{id}:
+    get:
+      tags:
+      - productos
+      summary: Buscar producto por su id.
+      description: Se requieren privilegos
+      operationId: getProductoById
+      parameters:
+      - name: id
+        in: path
+        description: producto ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProducto'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Productos
+  /producto/update/{id}:
+    put:
+      tags:
+      - productos
+      summary: Editar información
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: editProductos
+      parameters:
+      - name: id
+        in: path
+        description: Producto ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Producto editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productoBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Productos
+  /producto/delete/{id}:
+    put:
+      tags:
+      - productos
+      summary: Eliminar productos
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: deleteProductos
+      parameters:
+      - name: id
+        in: path
+        description: Producto ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
+      responses:
+        "200":
+          description: Productoor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/deleteTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Productos
+  /producto/getall:
+    get:
+      tags:
+      - productos
+      summary: Listar producto
+      description: Se requieren privilegos.
+      operationId: getProductos
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getProductos'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Productos
+  /producto/create:
+    post:
+      tags:
+      - productos
+      summary: Crear producto
+      description: Se requieren privilegios. 0 para eliminar y 1 para recuperar
+      operationId: createProductos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productos'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/productoBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Productos
 components:
   schemas:
     emptyTrue:
@@ -3481,6 +3682,88 @@ components:
         message:
           type: string
           example: '"sucursal_id" is required'
+    productos:
+      required:
+      - diet
+      - nombre
+      - productoTipo_id
+      type: object
+      properties:
+        productoTipo_id:
+          type: integer
+        nombre:
+          type: string
+        diet:
+          type: integer
+    getProducto:
+      properties:
+        id:
+          type: integer
+          example: 2
+        productoTipo_id:
+          type: integer
+          example: 1
+        nombre:
+          type: string
+          example: Bizcocho frambuesa nuez
+        diet:
+          type: integer
+          example: 0
+        estado:
+          type: integer
+          example: 1
+        createdAt:
+          type: string
+          example: 2020-06-16T20:05:48.000Z
+        updatedAt:
+          type: string
+          example: 2020-06-16T23:05:14.000Z
+      example:
+        createdAt: 2020-06-16T20:05:48.000Z
+        estado: 1
+        productoTipo_id: 1
+        id: 2
+        diet: 0
+        nombre: Bizcocho frambuesa nuez
+        updatedAt: 2020-06-16T23:05:14.000Z
+    getProductos:
+      type: array
+      example:
+      - id: 1
+        productoTipo_id: 1
+        diet: 1
+        cuadrada: Bizcocho vainilla chocolate
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        productoTipo_id: 1
+        diet: 1
+        cuadrada: Bizcocho vainilla chocolate
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      - id: 2
+        productoTipo_id: 1
+        diet: 1
+        cuadrada: Bizcocho vainilla chocolate
+        estado: 1
+        createdAt: 2020-06-16T20:05:48.000Z
+        updatedAt: 2020-06-16T23:05:14.000Z
+      items:
+        $ref: '#/components/schemas/getProductos_inner'
+    productoBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"productoTipo_id" is required'
     getUsers_inner:
       type: object
       properties:
@@ -3591,6 +3874,21 @@ components:
         venta:
           type: integer
         sucursal_id:
+          type: integer
+        estado:
+          type: integer
+        createdAt:
+          type: string
+        updatedAt:
+          type: string
+    getProductos_inner:
+      type: object
+      properties:
+        productoTipo_id:
+          type: integer
+        nombre:
+          type: string
+        diet:
           type: integer
         estado:
           type: integer
