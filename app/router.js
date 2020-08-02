@@ -12,6 +12,7 @@ const sabor                 = require('./sabor/routes');
 const masaTipo              = require('./masaTipo/routes');
 const masaSabor             = require('./masaSabor/routes');
 const precio                = require('./precio/routes');
+const producto              = require('./producto/routes');
 const programacionDiaria    = require('./programacion/diaria/routes');
 const programacionSemanal   = require('./programacion/semanal/routes');
 const programacionSobrantes = require('./programacion/sobrante/routes');
@@ -28,6 +29,7 @@ const index = (app) => {
     router.use('/sabor',                  sabor);
     router.use('/masaTipo',               masaTipo);
     router.use('/masaSabor',              masaSabor);
+    router.use('/producto',               producto);
     router.use('/precio',                 precio);
     router.use('/programacion/diaria',    programacionDiaria);
     router.use('/programacion/semanal',   programacionSemanal);
