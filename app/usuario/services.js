@@ -87,7 +87,7 @@ class UsuarioServices{
                 SET estado = ?
                 WHERE id   = ?;
             `;
-              mysqlConnection.query(query, [estado, id], (e, r) => {
+              mysqlConnection.query(query, [body.estado, id], (e, r) => {
                 if(!e){
                     resolve(r);
                 }else{

@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
-
+DROP TABLE IF EXISTS programacion;
 CREATE TABLE IF NOT EXISTS programacion (
   id           INT(11)      NOT NULL AUTO_INCREMENT,
   dia          INT(1)       NOT NULL,

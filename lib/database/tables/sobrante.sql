@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
+DROP TABLE IF EXISTS sobrante;
 
 CREATE TABLE IF NOT EXISTS sobrante (
   id           INT(11)      NOT NULL AUTO_INCREMENT,

@@ -1,6 +1,7 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
+DROP TABLE IF EXISTS sucursal;
 
 CREATE TABLE IF NOT EXISTS sucursal (
   id             INT(11)      NOT NULL AUTO_INCREMENT,

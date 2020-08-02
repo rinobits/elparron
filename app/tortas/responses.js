@@ -33,15 +33,18 @@ const tortaCreate = () => {
 const tortaUpdateById = () => {
     return (req, res, next) => {
         tortaServices.tortaUpdateById(req.params, req.body) 
-        .then(r  => res.json({ "MODIFY DATA": true }))
-        .catch(e => next(boom.badImplementation(e)))
+            .then(r  => res.json({ "MODIFY DATA": true }))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const tortaDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
         tortaServices.tortaDeleteById(id, req.body)
-            .then(r  => res.json({'DELETE DATA' : true}))
+            .then(r  => {
+                if(req.body.estado == 1) res.json({'DELETE DATA' : true})
+                else                     res.json({'RESTORE DATA': true})
+            })
             .catch(e => next(boom.badImplementation(e)))
     }
 }

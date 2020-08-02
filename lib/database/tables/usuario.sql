@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
-
+DROP TABLE IF EXISTS usuario;
 CREATE TABLE IF NOT EXISTS usuario (
   id           INT(11)      NOT NULL AUTO_INCREMENT,
   userName     VARCHAR(100) NOT NULL UNIQUE,
