@@ -3,29 +3,30 @@ const express                                = require('express');
 const router                                 = express.Router();
 // imports & cons                                       
 const control                                = require('./responses');
-const { precioSchemaUpdate }                 = require('./schemas');
-const { precioSchemaCreate }                 = require('./schemas');
-const { idSchema, precioSchemaDelete }       = require('./schemas');
+const { productoTipoSchemaUpdate }               = require('./schemas');
+const { productoTipoSchemaCreate }               = require('./schemas');
+const { idSchema, productoTipoSchemaDelete }     = require('./schemas');
 const validatorHandler                       = require('../../utils/middlewares/validatorHandler');
 const verifyToken                            = require('../../utils/middlewares/verifyToken');
 router.get('/getall',     
     verifyToken,
-    control.precioFindAll());
+    control.productoTipoFindAll());
 router.get('/getbyid/:id',
     verifyToken,
     validatorHandler(idSchema, 'params'),
-    control.precioFindById());
+    control.productoTipoFindById());
 router.post('/create',
     verifyToken,
-    validatorHandler(precioSchemaCreate, 'body'), control.precioCreate());
+    validatorHandler(productoTipoSchemaCreate, 'body'),
+    control.productoTipoCreate());
 router.put('/update/:id',
     verifyToken,
     validatorHandler(idSchema, 'params'),
-    validatorHandler(precioSchemaUpdate, 'body'),
-    control.precioUpdateById());
+    validatorHandler(productoTipoSchemaUpdate, 'body'),
+    control.productoTipoUpdateById());
 router.put('/delete/:id', 
     verifyToken,
     validatorHandler(idSchema, 'params'),
-    validatorHandler(precioSchemaDelete, 'body'),
-    control.precioDeleteById());
+    validatorHandler(productoTipoSchemaDelete, 'body'),
+    control.productoTipoDeleteById());
 module.exports = router;

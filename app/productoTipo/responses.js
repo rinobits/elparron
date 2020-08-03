@@ -1,59 +1,59 @@
 // packages
 const boom          = require('@hapi/boom');
 // imports & consts
-const PrecioServices = require('./services');
-const precioServices = new PrecioServices();
+const ProductoTipoServices = require('./services');
+const productoTipoServices = new ProductoTipoServices();
 
-const precioFindAll = () => {
+const productoTipoFindAll = () => {
     return (req, res, next) => {
-        precioServices.precioFindAll()
+        productoTipoServices.productoTipoFindAll()
             .then(r => {
                 res.json(r);
             })
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const precioFindById = () => {
+const productoTipoFindById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        precioServices.precioFindById(id)
+        productoTipoServices.productoTipoFindById(id)
             .then(r => {
                 res.json(r)
             })
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const precioCreate = () => {
+const productoTipoCreate = () => {
     return (req, res, next) => {
-        precioServices.precioCreate(req.body)
+        productoTipoServices.productoTipoCreate(req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const precioUpdateById = () => {
+const productoTipoUpdateById = () => {
     return (req, res, next) => {
         const {id}   = req.params;
-        precioServices.precioUpdateById(id, req.body) 
+        productoTipoServices.productoTipoUpdateById(id, req.body) 
             .then(r  => res.json({"MODIFY DATA": true}))
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const precioDeleteById = () => {
+const productoTipoDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        precioServices.precioDeleteById(id, req.body)
+        productoTipoServices.productoTipoDeleteById(id, req.body)
             .then(r  => {
-                if(req.body.estado == 1) res.json({'DELETE DATA' : true})
+                if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
             .catch(e => next(boom.badRequest(e)))
     }
 }
 module.exports = {
-    precioFindAll,
-    precioFindById,
-    precioCreate,
-    precioUpdateById,
-    precioDeleteById
+    productoTipoFindAll,
+    productoTipoFindById,
+    productoTipoCreate,
+    productoTipoUpdateById,
+    productoTipoDeleteById
 };
 

@@ -1,12 +1,9 @@
 const mysqlConnection = require('../../lib/database/database');
 
-class ProductoServices{
-    productoFindAll(){
+class ProductoTipoServices{
+    productoTipoFindAll(){
         return new Promise((resolve, reject) => {
-            const query = `
-                SELECT * FROM producto
-                    INNER JOIN productoTipo
-                        ON producto.productoTipo_id = productoTipo.id AND WHERE estado = 1`
+            const query = `SELECT * FROM productoTipo WHERE estado = 1`
             mysqlConnection.query(query, (err, rows) => {
                 if(!err){
                     resolve(rows);
@@ -16,12 +13,9 @@ class ProductoServices{
             })
         });
     }
-    productoFindById(id){
+    productoTipoFindById(id){
         return new Promise((resolve, reject) => {
-            const query = `
-                SELECT * FROM producto
-                    INNER JOIN productoTipo
-                        ON producto.productoTipo_id = productoTipo.id AND producto.id = ?`;
+            const query = `SELECT * FROM productoTipo AND productoTipo.id = ?`;
             mysqlConnection.query(query, [id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);
@@ -31,22 +25,16 @@ class ProductoServices{
             });
         });
     }
-    productoCreate(body){
+    productoTipoCreate(body){
         return new Promise((resolve, reject) => {
-            const {
-                productoTipo_id,
-                nombre,
-                diet
-            } = body;
+            const { nombre } = body;
             const id         = 0;
             const query      = `
                 SET @id              = ?;
-                SET @productoTipo_id = ?;
                 SET @nombre          = ?;
-                SET @diet            = ?;
-                CALL addOrEditProducto(@id, @productoTipo_id, @nombre, @diet);
+                CALL addOrEditProductoTipo(@id, @nombre);
             `;
-            mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -55,21 +43,15 @@ class ProductoServices{
             });
         });
     }
-    productoUpdateById(id, body){
+    productoTipoUpdateById(id, body){
         return new Promise((resolve, reject) => {
-            const {
-                productoTipo_id,
-                nombre,
-                diet
-            } = body;
+            const { nombre } = body;
             const query      = `
                 SET @id              = ?;
-                SET @productoTipo_id = ?;
                 SET @nombre          = ?;
-                SET @diet            = ?;
-                CALL addOrEditProducto(@id, @productoTipo_id, @nombre, @diet);
+                CALL addOrEditProductoTipo(@id, @nombre);
             `;
-            mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
+            mysqlConnection.query(query, [id, nombre], (err) => {
                 if(!err){
                     resolve('Done');
                 }else{
@@ -78,9 +60,9 @@ class ProductoServices{
             });
         });
     }
-    productoDeleteById(id, body){
+    productoTipoDeleteById(id, body){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`UPDATE producto SET estado = ? WHERE id = ?`, [body.estado, id], (err, rows) => {
+            mysqlConnection.query(`UPDATE productoTipo SET estado = ? WHERE id = ?`, [body.estado, id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
@@ -91,4 +73,4 @@ class ProductoServices{
     }
     
 }
-module.exports = ProductoServices;
+module.exports = ProductoTipoServices;
