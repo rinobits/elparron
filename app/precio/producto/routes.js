@@ -3,23 +3,22 @@ const express                                = require('express');
 const router                                 = express.Router();
 // imports & cons                                       
 const control                                = require('./responses');
-const { precioProductoSchemaUpdate }         = require('./schemas');
-const { precioProductoSchemaCreate }         = require('./schemas');
-const { sucursalSchema, idSchema }           = require('./schemas');
+const { precioProductoSchema }               = require('./schemas/schemas');
+const { sucursalSchema, idSchema }           = require('./schemas/schemas');
 const validatorHandler                       = require('../../../utils/middlewares/validatorHandler');
 const verifyToken                            = require('../../../utils/middlewares/verifyToken');
 
-router.get('/getbyStore/:sucursal',     
-    verifyToken,
-    validatorHandler(sucursalSchema, 'params'),
+router.get('/getbyStore',  
+    /* verifyToken, */
+    validatorHandler(sucursalSchema, 'query'),
     control.precioProductoFindByStore());
 router.post('/create',
-    verifyToken,
-    validatorHandler(precioProductoSchemaCreate, 'body'),
+    /* verifyToken, */
+    validatorHandler(precioProductoSchema, 'body'),
     control.precioProductoCreate());
-router.put('/update/:id',
-    verifyToken,
+router.put('/update',
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
-    validatorHandler(precioProductoSchemaUpdate, 'body'),
-    control.precioProductoUpdateById());
+    validatorHandler(precioProductoSchema, 'body'),
+    control.precioProductoUpdate());
 module.exports = router;

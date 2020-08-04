@@ -15,7 +15,7 @@ class ProductoTipoServices{
     }
     productoTipoFindById(id){
         return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM productoTipo AND productoTipo.id = ?`;
+            const query = `SELECT * FROM productoTipo WHERE id  = ?`;
             mysqlConnection.query(query, [id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);

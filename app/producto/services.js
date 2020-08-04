@@ -4,9 +4,14 @@ class ProductoServices{
     productoFindAll(){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM producto
-                    INNER JOIN productoTipo
-                        ON producto.productoTipo_id = productoTipo.id AND WHERE estado = 1`
+                SELECT
+                    producto.id, producto.nombre, producto.diet, producto.productoTipo_id,
+                    productoTipo.nombre AS productoTipo_nombre, productoTipo.id AS productoTipo_id
+                FROM producto INNER JOIN productoTipo
+                    ON producto.productoTipo_id = productoTipo.id
+                    AND producto.estado = 1
+                    AND productoTipo.estado = 1;
+            `
             mysqlConnection.query(query, (err, rows) => {
                 if(!err){
                     resolve(rows);
@@ -19,9 +24,13 @@ class ProductoServices{
     productoFindById(id){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM producto
-                    INNER JOIN productoTipo
-                        ON producto.productoTipo_id = productoTipo.id AND producto.id = ?`;
+                SELECT
+                    producto.id, producto.nombre, producto.diet, producto.productoTipo_id,
+                    productoTipo.nombre AS productoTipo_nombre, productoTipo.id AS productoTipo_id
+                FROM producto INNER JOIN productoTipo
+                    ON producto.productoTipo_id = productoTipo.id
+                    AND producto.id = ?
+            `;
             mysqlConnection.query(query, [id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);

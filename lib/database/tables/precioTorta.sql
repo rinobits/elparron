@@ -1,8 +1,8 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
-DROP TABLE IF EXISTS precio;
-CREATE TABLE IF NOT EXISTS precio (
+DROP TABLE IF EXISTS precioTorta;
+CREATE TABLE IF NOT EXISTS precioTorta (
   id          INT(11)      NOT NULL AUTO_INCREMENT,
   masaTipo_id INT(11)      NOT NULL,
   diet        INT(1)       NOT NULL,
@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS precio (
   PRIMARY KEY(id)
 );
 
-DESCRIBE precio;
+DESCRIBE precioTorta;
 
 
 

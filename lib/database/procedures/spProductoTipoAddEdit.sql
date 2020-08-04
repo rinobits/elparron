@@ -3,7 +3,7 @@ DROP PROCEDURE IF EXISTS `addOrEditProductoTipo`;
 DELIMITER $$
 CREATE PROCEDURE `addOrEditProductoTipo` (
     IN _id              INT(11),
-    IN _nombre          VARCHAR(200),
+    IN _nombre          VARCHAR(200))
 BEGIN
     IF _id = 0 THEN
         INSERT	INTO productoTipo (nombre) VALUES(_nombre);

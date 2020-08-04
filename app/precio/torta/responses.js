@@ -1,12 +1,12 @@
 // packages
 const boom          = require('@hapi/boom');
 // imports & consts
-const PrecioTortaServices = require('../services');
+const PrecioTortaServices = require('./services');
 const precioTortaServices = new PrecioTortaServices();
 
 const precioTortaFindByStore = () => {
     return (req, res, next) => {
-        const {sucursal_id} = req.params;
+        const { sucursal_id } = req.query;
         precioTortaServices.precioTortaFindByStore(sucursal_id)
             .then(r => {
                 res.json(r)
@@ -16,15 +16,14 @@ const precioTortaFindByStore = () => {
 }
 const precioTortaCreate = () => {
     return (req, res, next) => {
-        precioTortaServices.precioTortaCreate(req.body)
+        precioTortaServices.jsonToTables('create', req.body)
             .then(r  => res.json({"CREATED": true}))
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const precioTortaUpdateById = () => {
+const precioTortaUpdate = () => {
     return (req, res, next) => {
-        const {id}   = req.params;
-        precioTortaServices.precioTortaUpdateById(id, req.body) 
+        precioTortaServices.jsonToTables('update', req.body)
             .then(r  => res.json({"MODIFY DATA": true}))
             .catch(e => next(boom.badRequest(e)))
     }
@@ -32,6 +31,6 @@ const precioTortaUpdateById = () => {
 module.exports = {
     precioTortaFindByStore,
     precioTortaCreate,
-    precioTortaUpdateById,
+    precioTortaUpdate,
 };
 

@@ -4,10 +4,7 @@ DELIMITER $$
 CREATE PROCEDURE `addOrEditPrecioProducto` (
     IN _id          INT(11),
     IN _producto_id INT(11),
-    IN _tamano_id   INT(11),
-    IN _masaTipo_id INT(11),
     IN _diet        INT(1),
-    IN _cuadrada    INT(11),
     IN _costo       INT(11),
     IN _venta       INT(11),
     IN _sucursal_id INT(11))
