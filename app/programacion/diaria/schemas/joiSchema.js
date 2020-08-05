@@ -16,12 +16,7 @@ const tortas = Joi.object().keys({
         cantidades, cantidades,
         cantidades, cantidades).required()
 });
-const detalle = Joi.array().items(
-    tortas, tortas, tortas,
-    tortas, tortas, tortas,
-    tortas, tortas, tortas,
-    tortas, tortas, tortas,
-    tortas);
+const detalle = Joi.array().min(13).max(13).items(tortas);
 const paramSchema = Joi.object({
     fecha: fecha.required(),
     sucursal_id: sucursal_id.required()

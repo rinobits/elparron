@@ -9,6 +9,7 @@ CREATE TABLE IF NOT EXISTS masaTipo (
   estado INT(1)       DEFAULT 1,
   PRIMARY KEY(id)
 );
+ALTER TABLE masaTipo ADD UNIQUE masaTipoUnique(nombre);
 
 DESCRIBE masaTipo;
 

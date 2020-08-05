@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS productoTipo (
   estado          INT(1)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE productoTipo ADD UNIQUE productoTipoUnique(nombre);
 DESCRIBE productoTipo;
 
 

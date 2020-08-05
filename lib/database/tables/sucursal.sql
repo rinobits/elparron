@@ -18,7 +18,7 @@ CREATE TABLE IF NOT EXISTS sucursal (
   estado         INT(2)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE sucursal ADD UNIQUE sucursalUnique(rut, comuna_id);
 DESCRIBE sucursal;
 
 

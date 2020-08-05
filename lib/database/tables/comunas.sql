@@ -10,7 +10,7 @@ CREATE TABLE IF NOT EXISTS comuna (
   estado INT(2)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE comuna ADD UNIQUE comunaUnique(nombre, ciudad);
 DESCRIBE comuna;
 
 

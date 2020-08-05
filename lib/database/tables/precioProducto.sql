@@ -14,7 +14,7 @@ CREATE TABLE IF NOT EXISTS precioProducto (
   updatedAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE precioProducto ADD UNIQUE precioProductoUnique(sucursal_id, producto_id, diet);
 DESCRIBE precioProducto;
 
 

@@ -14,13 +14,14 @@ const idSchema          = Joi.object({
 const sucursalSchema    = Joi.object({
     sucursal_id:   sucursal_id.required()
 });
-const precioProductoSchema = Joi.object({
+const precioProductoSchemaObject = Joi.object({
     producto_id: producto_id.required(),
     diet:        diet.required(),
     costo:       costo.required(),
     venta:       venta.required(),
     sucursal_id: sucursal_id.required()
 });
+const precioProductoSchema = Joi.array().min(1).items(precioProductoSchemaObject);
 
 
 module.exports = {

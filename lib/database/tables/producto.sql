@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS producto (
   estado          INT(1)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE producto ADD UNIQUE productoUnique(productoTipo_id, nombre, diet);
 DESCRIBE producto;
 
 

@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS sabor (
   estado INT(2)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE sabor ADD UNIQUE saborUnique(nombre);
 DESCRIBE sabor;
 
 INSERT INTO sabor (id, nombre) values

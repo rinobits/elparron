@@ -9,7 +9,7 @@ CREATE TABLE IF NOT EXISTS masaSabor (
   estado INT(2)        DEFAULT 1,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE masaSabor ADD UNIQUE masaSaborUnique(nombre);
 DESCRIBE masaSabor;
 
 INSERT INTO masaSabor (id, nombre) values

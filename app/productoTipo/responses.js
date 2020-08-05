@@ -18,7 +18,7 @@ const productoTipoFindById = () => {
         const {id} = req.params;
         productoTipoServices.productoTipoFindById(id)
             .then(r => {
-                res.json(r)
+                res.json(r);
             })
             .catch(e => next(boom.badRequest(e)))
     }

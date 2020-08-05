@@ -12,35 +12,7 @@ class PrecioProductoServices{
             });
         });
     }
-    precioProductoCreate(body){
-        return new Promise((resolve, reject) => {
-            const {
-                producto_id,
-                diet,
-                costo,
-                venta,
-                sucursal_id
-            } = body;
-            const id         = 0;
-            const query      = `
-                SET @id          = ?;
-                SET @producto_id = ?;
-                SET @diet        = ?;
-                SET @costo       = ?;
-                SET @venta       = ?;
-                SET @sucursal_id = ?;
-                CALL addOrEditPrecioProducto(@id, @producto_id, @diet, @costo, @venta, @sucursal_id);
-            `;
-            mysqlConnection.query(query, [id, producto_id, diet, costo, venta, sucursal_id], (err) => {
-                if(!err){
-                    resolve('Done');
-                }else{
-                    reject(err);
-                }
-            });
-        });
-    }
-    precioProductoUpdate(body){
+    precioProductoUpdateOrCreate(body){
         return new Promise((resolve, reject) => {
             const {
                 producto_id,
@@ -54,13 +26,9 @@ class PrecioProductoServices{
                     WHERE producto_id = ?
                     AND   diet        = ?
                     AND   sucursal_id = ?;
-            `
-            mysqlConnection.query(query, [producto_id, diet, sucursal_id], async(err, row) => {
+            `;
+            mysqlConnection.query(query, [producto_id, diet, sucursal_id], (err, row) => {
                 if(!err){
-                    if(!rows){
-                        await this.precioProductoCreate(body);
-                        resolve('Done');
-                    }else{
                         query = `
                             SET @id          = ?;
                             SET @producto_id = ?;
@@ -70,21 +38,32 @@ class PrecioProductoServices{
                             SET @sucursal_id = ?;
                             CALL addOrEditPrecioProducto(@id, @producto_id, @diet, @costo, @venta, @sucursal_id);
                         `;
-                        mysqlConnection.query(query, [row.id, producto_id, diet, costo, venta, sucursal_id], (err) => {
-                            if(!err){
-                                resolve('Done');
-                            }else{
-                                reject(err);
-                            }
-                        });
-                    }
+                        if(row.length == 0){
+                            const id = 0;
+                            mysqlConnection.query(query, [id, producto_id, diet, costo, venta, sucursal_id], (err) => {
+                                if(!err){
+                                    resolve('created');
+                                }else{
+                                    reject(err);
+                                }
+                            });
+                        }else{
+                            mysqlConnection.query(query, [row[0].id, producto_id, diet, costo, venta, sucursal_id], (err) => {
+                                if(!err){
+                                    resolve('updated');
+                                }else{
+                                    reject(err);
+                                }
+                            });
+                        }
                 }else{
+                    console.log(err);
                     reject(err);
                 }
             })
         });
     }
-    jsonToTables(action, body){
+    jsonToTables(body){
         return new Promise((resolve, reject) => {
             var table = {
                 producto_id: 0,
@@ -93,17 +72,24 @@ class PrecioProductoServices{
                 sucursal_id: 0,
                 venta:       0
             }
-            body.forEach(async(elem) => {
-                table.producto_id = elem.masaTipo_id;
+            var cont = 1;
+            body.forEach((elem) => {
+                table.producto_id = elem.producto_id;
                 table.diet        = elem.diet;
                 table.costo       = elem.costo;
                 table.venta       = elem.venta;
                 table.sucursal_id = elem.sucursal_id;
-                if(action === 'create')      await this.precioTortaCreate(table);
-                else if(action === 'update') await this.precioTortaUpdate(table);
+                this.precioProductoUpdateOrCreate(table)
+                    .then(r => {
+                        console.log(`${cont++} - ${r}`);
+                    })
+                    .catch(e => {
+                        console.log(e);
+                        reject(e);
+                    })
             });
-            resolve('Done');
+            resolve(1);
         })
-}
+    }
 }
 module.exports = PrecioProductoServices;

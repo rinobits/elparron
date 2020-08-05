@@ -25,15 +25,14 @@ const precioTamano = Joi.array().items(
     precioTamanoCosto, precioTamanoCosto,
     precioTamanoCosto, precioTamanoCosto
 )
-const precioTortaSchema = Joi.object({
+const precioTortaSchemaSub = Joi.object({
     masaTipo_id : masaTipo_id.required(),
     diet :        diet.required(),
     cuadrada :    cuadrada.required(),
     precioTamano: precioTamano.required(),
     sucursal_id : sucursal_id.required()
 });
-
-
+const precioTortaSchema = Joi.array().min(1).items(precioTortaSchemaSub);
 module.exports = {
     precioTortaSchema,
     sucursalSchema,

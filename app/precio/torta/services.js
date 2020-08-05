@@ -7,8 +7,9 @@ class PrecioTortaServices{
                 if(!err){
                     if(!rows) reject();
                     else{
-                        var schema = require('./schemas/torta');
-                        var i = 0;
+                        var schemas = [];
+                        var schema  = require('./schemas/torta');
+                        var i       = 0;
                         for(var table of rows){
                             schema.masaTipo_id               = table.masaTipo_id;
                             schema.diet                      = table.diet;
@@ -17,70 +18,40 @@ class PrecioTortaServices{
                             schema.precioTamano[i].costo     = table.costo;
                             schema.precioTamano[i].venta     = table.venta;
                             i++;
-                            if(i == 4) i = 0;
+                            if(i == 4){
+                                i = 0;
+                                schemas.push(schema);
+                            }
                         }
                     }
+                    resolve(schemas);
                 }else{
                     reject('Not found');
                 }
             });
         });
     }
-    precioTortaCreate(body){
+    precioTortaUpdateOrCreate(body){
         return new Promise((resolve, reject) => {
             const {
-                tamano_id,
                 masaTipo_id,
                 diet,
                 cuadrada,
-                costo,
-                venta,
-                sucursal_id
-            } = body;
-            const id         = 0;
-            const query      = `
-                SET @id          = ?;
-                SET @tamano_id   = ?;
-                SET @masaTipo_id = ?;
-                SET @diet        = ?;
-                SET @cuadrada    = ?;
-                SET @costo       = ?;
-                SET @venta       = ?;
-                SET @sucursal_id = ?;
-                CALL addOrEditPrecioTorta(@id, @tamano_id, @masaTipo_id, @diet, @cuadrada, @costo, @venta, @sucursal_id);
-            `;
-            mysqlConnection.query(query, [id, tamano_id, masaTipo_id, diet, cuadrada, costo, venta, sucursal_id], (err) => {
-                if(!err){
-                    resolve('Done');
-                }else{
-                    reject(err);
-                }
-            });
-        });
-    }
-    precioTortaUpdate(body){
-        return new Promise((resolve, reject) => {
-            const {
                 tamano_id,
-                masaTipo_id,
-                diet,
-                cuadrada,
                 costo,
                 venta,
                 sucursal_id,
             } = body;
             var query = `
-                SELECT * FROM precioTorta
+                SELECT * FROM preciotorta
                     WHERE masaTipo_id = ?
-                    AND   diet        = ?
-                    AND   cuadrada    = ?;
+                    AND diet = ?
+                    AND cuadrada = ?
+                    AND sucursal_id = ?
+                    AND tamano_id = ?;
             `;
-            mysqlConnection.query(query, [masaTipo_id, diet, cuadrada], async(err, row) => {
+            mysqlConnection.query(query, [masaTipo_id, diet, cuadrada, sucursal_id, tamano_id], (err, row) => {
                 if(!err){
-                    if(!row){
-                        await this.precioTortaCreate(body);
-                        resolve('Done');
-                    }else{
                         query = `
                             SET @id          = ?;
                             SET @tamano_id   = ?;
@@ -91,22 +62,35 @@ class PrecioTortaServices{
                             SET @venta       = ?;
                             SET @sucursal_id = ?;
                             CALL addOrEditPrecioTorta(@id, @tamano_id, @masaTipo_id, @diet, @cuadrada, @costo, @venta, @sucursal_id);
-                        `
-                        mysqlConnection.query(query, [row.id, tamano_id, masaTipo_id, diet, cuadrada, costo, venta, sucursal_id], (err) => {
-                            if(!err){
-                                resolve('Done');
-                            }else{
-                                reject(err);
-                            }
-                        });
-                    }
+                        `;
+                        if(row.length == 0){
+                            const id = 0;
+                            mysqlConnection.query(query, [id, tamano_id, masaTipo_id, diet, cuadrada, costo, venta, sucursal_id], (err) => {
+                                if(!err){
+                                    resolve('created');
+                                }else{
+                                    console.log(err);
+                                    reject(err);
+                                }
+                            });
+                        }else{
+                            mysqlConnection.query(query, [row[0].id, tamano_id, masaTipo_id, diet, cuadrada, costo, venta, sucursal_id], (err) => {
+                                if(!err){
+                                    resolve('updated');
+                                }else{
+                                    console.log(err);
+                                    reject(err);
+                                }
+                            });
+                        }
                 }else{
+                    console.log(err);
                     reject(err);
                 }
             })
         });
     }
-    jsonToTables(action, body){
+    jsonToTables(body){
         return new Promise((resolve, reject) => {
             var table = {
                 masaTipo_id: 0,
@@ -115,20 +99,28 @@ class PrecioTortaServices{
                 tamano_id:   0,
                 costo:       0,
                 venta:       0
-            }
-            body.forEach(async(elem) => {
-                table.masaTipo_id = elem.masaTipo_id;
-                table.diet        = elem.diet;
-                table.cuadrada    = elem.cuadrada;
+            };
+            var cont = 1;
+            body.forEach((elem) => {
+                table.masaTipo_id   = elem.masaTipo_id;
+                table.diet          = elem.diet;
+                table.cuadrada      = elem.cuadrada;
+                table.sucursal_id   = elem.sucursal_id;
                 for(let i = 0; i < 4; i++){
                     table.tamano_id = elem.precioTamano[i].tamano_id;
                     table.costo     = elem.precioTamano[i].costo;
                     table.venta     = elem.precioTamano[i].venta;
-                    if(action === 'create')      await this.precioTortaCreate(table);
-                    else if(action === 'update') await this.precioTortaUpdate(table);
+                    this.precioTortaUpdateOrCreate(table)
+                        .then(r => {
+                            console.log(`${cont++} - ${r}`);
+                        })
+                        .catch(e => {
+                            console.log(e);
+                            reject(e);
+                        })
                 }
             });
-            resolve('Done');
+            resolve(1);
         })
     }
 }

@@ -18,7 +18,7 @@ class ProductoTipoServices{
             const query = `SELECT * FROM productoTipo WHERE id  = ?`;
             mysqlConnection.query(query, [id], (err, rows) => {
                 if(!err){
-                    resolve(rows[0]);
+                    resolve(rows);
                 }else{
                     reject('Not found');
                 }

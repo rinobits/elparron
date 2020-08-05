@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS programacion (
   updatedAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-
+ALTER TABLE programacion ADD UNIQUE programacionUnique(sucursal_id, dia, createdAt);
 DESCRIBE programacion;
 

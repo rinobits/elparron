@@ -17,6 +17,8 @@ CREATE TABLE IF NOT EXISTS precioTorta (
   PRIMARY KEY(id)
 );
 
+ALTER TABLE precioTorta ADD UNIQUE precioTortaUnique(masaTipo_id, sucursal_id, cuadrada, diet, tamano_id);
+
 DESCRIBE precioTorta;
 
 
