@@ -49,7 +49,7 @@ class UsuarioServices{
             .catch(e => reject(e));
         });
     }
-    usuarioUpdateById(id, body){
+    usuarioUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario WHERE id=?`, [id], (e, u) => {
                 if(!e){

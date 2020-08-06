@@ -3,22 +3,44 @@ const mysqlConnection = require('../../lib/database/database');
 class SucursalServices{
     sucursalFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM sucursal WHERE estado = 1`, (err, rows, fields) => {
+            const query = `
+                SELECT 
+                    sucursal.id, sucursal.rut, sucursal.giro, sucursal.direccion, 
+                    sucursal.comuna_id, comuna.nombre AS comuna_nombre,
+                    sucursal.nombre, sucursal.contactoEmail, sucursal.contactoNombre,
+                    sucursal.colorFondo, sucursal.colorLetra
+                FROM sucursal
+                    INNER JOIN comuna
+                        ON sucursal.comuna_id = comuna.id
+                    AND sucursal.estado = 1;
+            `;
+            mysqlConnection.query(query, (err, rows) => {
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
     }
     sucursalFindById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM sucursal WHERE ID = ?`, [id], (err, rows, fields) => {
+            const query = `
+                SELECT 
+                    sucursal.id, sucursal.rut, sucursal.giro, sucursal.direccion, 
+                    sucursal.comuna_id, comuna.nombre AS comuna_nombre,
+                    sucursal.nombre, sucursal.contactoEmail, sucursal.contactoNombre,
+                    sucursal.colorFondo, sucursal.colorLetra
+                FROM sucursal
+                    INNER JOIN comuna
+                        ON sucursal.comuna_id = comuna.id
+                    AND sucursal.id = ?;
+            `;
+            mysqlConnection.query(query, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
@@ -49,7 +71,7 @@ class SucursalServices{
             });
         });
     }
-    sucursalUpdateById(id, body){
+    sucursalUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
             id = id.id;
             const query      = `
@@ -83,7 +105,7 @@ class SucursalServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

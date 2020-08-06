@@ -13,6 +13,8 @@ const wrapError = (err, req, res, next) => {
         else if(!err.isBoom){
             err = boom.badImplementation(err);
             next(err);
+        }else if(err.isBoom && err.code){
+            err.output.payload.message = err.code;
         }
         next(err);
 }

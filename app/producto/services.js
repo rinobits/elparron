@@ -9,14 +9,14 @@ class ProductoServices{
                     productoTipo.nombre AS productoTipo_nombre, productoTipo.id AS productoTipo_id
                 FROM producto INNER JOIN productoTipo
                     ON producto.productoTipo_id = productoTipo.id
-                    AND producto.estado = 1
-                    AND productoTipo.estado = 1;
+                AND producto.estado = 1
+                AND productoTipo.estado = 1;
             `
             mysqlConnection.query(query, (err, rows) => {
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -29,63 +29,61 @@ class ProductoServices{
                     productoTipo.nombre AS productoTipo_nombre, productoTipo.id AS productoTipo_id
                 FROM producto INNER JOIN productoTipo
                     ON producto.productoTipo_id = productoTipo.id
-                    AND producto.id = ?
+                AND producto.id = ?
             `;
             mysqlConnection.query(query, [id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
-                }
-            });
-        });
-    }
-    productoCreate(body){
-        return new Promise((resolve, reject) => {
-            const {
-                productoTipo_id,
-                nombre,
-                diet
-            } = body;
-            const id         = 0;
-            const query      = `
-                SET @id              = ?;
-                SET @productoTipo_id = ?;
-                SET @nombre          = ?;
-                SET @diet            = ?;
-                CALL addOrEditProducto(@id, @productoTipo_id, @nombre, @diet);
-            `;
-            mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
-                if(!err){
-                    resolve('Done');
-                }else{
                     reject(err);
                 }
             });
         });
     }
-    productoUpdateById(id, body){
+    productoCreateOrUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
+            if(!id) id = 0;
             const {
                 productoTipo_id,
                 nombre,
                 diet
             } = body;
-            const query      = `
-                SET @id              = ?;
-                SET @productoTipo_id = ?;
-                SET @nombre          = ?;
-                SET @diet            = ?;
-                CALL addOrEditProducto(@id, @productoTipo_id, @nombre, @diet);
+            var query = `
+                SELECT * FROM producto
+                WHERE id = ?
             `;
-            mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
+            mysqlConnection.query(query, [id], (err, row) => {
                 if(!err){
-                    resolve('Done');
+                    query = `
+                        SET @id              = ?;
+                        SET @productoTipo_id = ?;
+                        SET @nombre          = ?;
+                        SET @diet            = ?;
+                        CALL addOrEditProducto(@id, @productoTipo_id, @nombre, @diet);
+                    `;
+                    if(row.length == 0){
+                        id = 0;
+                        mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }else{
+                        mysqlConnection.query(query, [id, productoTipo_id, nombre, diet], (err) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }
                 }else{
                     reject(err);
                 }
-            });
-        });
+            })
+        })
     }
     productoDeleteById(id, body){
         return new Promise((resolve, reject) => {

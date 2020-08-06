@@ -9,23 +9,24 @@ const validatorHandler                                = require('../../utils/mid
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
 router.get('/getall',
-    verifyToken,
+    /* verifyToken, */
     control.comunaFindAll());
 router.get('/getbyid/:id',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
     control.comunaFindById());
 // admin
 router.post('/create',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(comunaSchemaCreate , 'body'),
-    control.comunaCreate());
+    control.comunaCreateOrUpdateById());
 router.put('/update/:id',
-    verifyToken, validatorHandler(idSchema, 'params'),
+    /* verifyToken, */
+    validatorHandler(idSchema, 'params'),
     validatorHandler(comunaSchemaUpdate, 'body'),
-    control.comunaUpdateById());
+    control.comunaCreateOrUpdateById());
 router.put('/delete/:id',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
     validatorHandler(comunaSchemaDelete, 'body'),
     control.comunaDeleteById());

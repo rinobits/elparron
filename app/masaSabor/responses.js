@@ -23,19 +23,12 @@ const masaSaborFindById = () => {
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const masaSaborCreate = () => {
-    return (req, res, next) => {
-        masaSaborServices.masaSaborCreate(req.body)
-            .then(r  => res.json({"CREATED": true}))
-            .catch(e => next(boom.badImplementation(e)))
-    }
-}
-const masaSaborUpdateById = () => {
+const masaSaborCreateOrUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        masaSaborServices.masaSaborUpdateById(id, body) 
-            .then(r  => res.json({"MODIFY DATA": true}))
+        masaSaborServices.masaSaborCreateOrUpdateById(id, body) 
+            .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
@@ -44,8 +37,8 @@ const masaSaborDeleteById = () => {
         const {id} = req.params;
         masaSaborServices.masaSaborDeleteById(id, req.body)
             .then(r  => {
-                if(req.body.estado == 1) res.json({'DELETE DATA' : true})
-                else                     res.json({'RESTORE DATA': true})
+                if(req.body.estado == 1) res.json({'RESTORE DATA': true})
+                else                     res.json({'DELETE DATA' : true})
             })
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -53,8 +46,7 @@ const masaSaborDeleteById = () => {
 module.exports = {
     masaSaborFindAll,
     masaSaborFindById,
-    masaSaborCreate,
-    masaSaborUpdateById,
+    masaSaborCreateOrUpdateById,
     masaSaborDeleteById
 };
 

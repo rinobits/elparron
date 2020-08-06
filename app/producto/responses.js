@@ -23,18 +23,11 @@ const productoFindById = () => {
             .catch(e => next(boom.badRequest(e)))
     }
 }
-const productoCreate = () => {
-    return (req, res, next) => {
-        productoServices.productoCreate(req.body)
-            .then(r  => res.json({"CREATED": true}))
-            .catch(e => next(boom.badRequest(e)))
-    }
-}
-const productoUpdateById = () => {
+const productoCreateOrUpdateById = () => {
     return (req, res, next) => {
         const {id}   = req.params;
-        productoServices.productoUpdateById(id, req.body) 
-            .then(r  => res.json({"MODIFY DATA": true}))
+        productoServices.productoCreateOrUpdateById(id, req.body) 
+            .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badRequest(e)))
     }
 }
@@ -52,8 +45,7 @@ const productoDeleteById = () => {
 module.exports = {
     productoFindAll,
     productoFindById,
-    productoCreate,
-    productoUpdateById,
+    productoCreateOrUpdateById,
     productoDeleteById
 };
 

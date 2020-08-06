@@ -34,7 +34,7 @@ const programacionFindByDiaYsucursal = () => {
                 .then(tables => {
                     if(!tables) next(boom.badImplementation(e))
                     programacionServices.tablesToJson(tables)
-                    .then(tables => res.json(tables));
+                        .then(tables => res.json(tables));
                 })
             }
         })

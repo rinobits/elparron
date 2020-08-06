@@ -23,20 +23,12 @@ const comunaFindById = () => {
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const comunaCreate = () => {
-    return (req, res, next) => {
-        const {body} = req;
-        comunaServices.comunaCreate(body)
-            .then(r  => res.json({"CREATED": true}))
-            .catch(e => next(boom.badImplementation(e)))
-    }
-}
-const comunaUpdateById = () => {
+const comunaCreateOrUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        comunaServices.comunaUpdateById(id, body) 
-            .then(r  => res.json({"MODIFY DATA": true}))
+        comunaServices.comunaCreateOrUpdateById(id, body) 
+            .then(r  => res.json({response: 'created and/or updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
@@ -45,8 +37,8 @@ const comunaDeleteById = () => {
         const {id} = req.params;
         comunaServices.comunaDeleteById(id, req.body)
             .then(r  => {
-                if(req.body.estado == 1) res.json({'DELETE DATA' : true})
-                else                     res.json({'RESTORE DATA': true})
+                if(req.body.estado == 1) res.json({'RESTORE DATA': true})
+                else                     res.json({'DELETE DATA' : true})
             })
             .catch(e => next(boom.badImplementation(e)))
     }
@@ -54,8 +46,7 @@ const comunaDeleteById = () => {
 module.exports = {
     comunaFindAll,
     comunaFindById,
-    comunaCreate,
-    comunaUpdateById,
+    comunaCreateOrUpdateById,
     comunaDeleteById
 };
 

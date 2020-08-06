@@ -23,17 +23,10 @@ const tortaFindById = () => {
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tortaCreate = () => {
+const tortaCreateOrUpdateById = () => {
     return (req, res, next) => {
-        tortaServices.tortaCreate(req.body)
-            .then(r  => res.json({"CREATED": true}))
-            .catch(e => next(boom.badImplementation(e)))
-    }
-}
-const tortaUpdateById = () => {
-    return (req, res, next) => {
-        tortaServices.tortaUpdateById(req.params, req.body) 
-            .then(r  => res.json({ "MODIFY DATA": true }))
+        tortaServices.tortaCreateOrUpdateById(req.params.id, req.body) 
+            .then(r  => res.json({ 'response': 'created/updated sucessfully' }))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
@@ -51,8 +44,7 @@ const tortaDeleteById = () => {
 module.exports = {
     tortaFindAll,
     tortaFindById,
-    tortaCreate,
-    tortaUpdateById,
+    tortaCreateOrUpdateById,
     tortaDeleteById
 };
 

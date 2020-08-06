@@ -7,7 +7,7 @@ class MasaSaborServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -18,40 +18,46 @@ class MasaSaborServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
-    masaSaborCreate(body){
-        return new Promise((resolve, reject) => {
-            const query      = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                CALL addOrEditMasaSabor(@id, @nombre);
-            `
-            mysqlConnection.query(query, [0, body.nombre], (err) => {
-                if(!err){
-                    resolve('Done');
-                }else{
-                    reject('Not found');
-                }
-            });
-        });
-    }
-    masaSaborUpdateById(id, body){
+    masaSaborCreateOrUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
             const { nombre } = body;
-            const query = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                CALL addOrEditMasaSabor(@id, @nombre);
-            `
-            mysqlConnection.query(query, [id, nombre], (err) => {
+            if(!id) id = 0;
+            var query = `
+                SELECT * FROM masaSabor
+                WHERE id = ?;
+            `;
+            mysqlConnection.query(query, [id], (err, row) => {
                 if(!err){
-                    resolve('Done');
+                    query = `
+                        SET @id     = ?;
+                        SET @nombre = ?;
+                        CALL addOrEditMasaSabor(@id, @nombre);
+                    `;
+                    if(row.length == 0){
+                        id = 0;
+                        mysqlConnection.query(query, [id, nombre], (err) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }else{
+                        mysqlConnection.query(query, [id, nombre], (err) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
@@ -60,11 +66,11 @@ class MasaSaborServices{
         return new Promise((resolve, reject) => {
             if(!body) var estado = 0;
             else      var estado = body.estado;
-            mysqlConnection.query(`UPDATE masaSabor  SET estado = 0 WHERE id = ?`, [estado, id], (err, rows, fields) => {
+            mysqlConnection.query(`UPDATE masaSabor SET estado = ? WHERE id = ?`, [estado, id], (err, rows) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

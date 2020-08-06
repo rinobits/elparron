@@ -33,7 +33,7 @@ const sucursalCreate = () => {
 const sucursalUpdateById = () => {
     return (req, res, next) => {
         sucursalServices.sucursalUpdateById(req.params, req.body) 
-        .then(r  => res.json({"MODIFY DATA": true}))
+        .then(r  => res.json({'response': 'created/updated sucessfully'}))
         .catch(e => next(boom.badImplementation(e)))
     }
 }

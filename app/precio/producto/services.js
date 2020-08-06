@@ -7,7 +7,7 @@ class PrecioProductoServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

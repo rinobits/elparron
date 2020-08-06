@@ -22,8 +22,8 @@ BEGIN
     ELSE
         UPDATE torta
         SET 
-            masaTipo_id  = _masaSabor_id,
-            masaSabor_id = _masaTipo_id,
+            masaTipo_id  = _masaTipo_id,
+            masaSabor_id = _masaSabor_id,
             sabor_id     = _sabor_id
         WHERE id = _id;
     END IF;

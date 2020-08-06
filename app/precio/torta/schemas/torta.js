@@ -6,23 +6,23 @@ module.exports =
     "precioTamano": [
         {
             "tamano_id": 1,
-            "costo": 1000,
-            "venta": 1000
+            "costo": 0,
+            "venta": 0
         },
         {
             "tamano_id": 2,
-            "costo": 2000,
-            "venta": 2000
+            "costo": 0,
+            "venta": 0
         },
         {
             "tamano_id": 3,
-            "costo": 3000,
-            "venta": 3000
+            "costo": 0,
+            "venta": 0
         },
         {
             "tamano_id": 4,
-            "costo": 4000,
-            "venta": 4000
+            "costo": 0,
+            "venta": 0
         }
     ],
     "sucursal_id": 1

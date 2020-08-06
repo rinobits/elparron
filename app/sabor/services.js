@@ -7,7 +7,7 @@ class SaborServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -18,47 +18,46 @@ class SaborServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
-    saborCreate(body){
+    saborCreateOrUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
             const { nombre } = body;
-            const id         = 0;
-            const query      = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                CALL addOrEditSabor(@id, @nombre);
-            `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
-                if(!err){
-                    resolve('Done');
+            var query = `
+                SELECT * FROM sabor
+                WHERE id = ?;
+            `;
+            mysqlConnection.query(query, [id], (err, row) => {
+                query = `
+                    SET @id     = ?;
+                    SET @nombre = ?;
+                    CALL addOrEditSabor(@id, @nombre);
+                `;
+                if(row.length == 0){
+                    id = 0;
+                    mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                        if(!err){
+                            resolve('Done');
+                        }else{
+                            reject(err);
+                        }
+                    });
                 }else{
-                    reject('Not found');
+                    mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
+                        if(!err){
+                            resolve('Done');
+                        }else{
+                            reject(err);
+                        }
+                    });
                 }
             });
         });
     }
-    saborUpdateById(id, body){
-        return new Promise((resolve, reject) => {
-            const { nombre } = body;
-            const query = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                CALL addOrEditSabor(@id, @nombre);
-            `
-            mysqlConnection.query(query, [id, nombre], (err, rows, fields) => {
-                if(!err){
-                    resolve('Done');
-                }else{
-                    reject('Not found');
-                }
-            });
-        });
-    }
-    saborDeleteById(id){
+    saborDeleteById(id, body){
         return new Promise((resolve, reject) => {
             if(!body) var estado = 0;
             else      var estado = body.estado;
@@ -66,7 +65,7 @@ class SaborServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

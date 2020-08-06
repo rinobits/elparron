@@ -55,7 +55,7 @@ class ProgramacionServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -76,7 +76,7 @@ class ProgramacionServices{
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
@@ -165,7 +165,7 @@ class ProgramacionServices{
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
                                 await this.programacionAddEdit(tables[_id-1], rr.id);
                                 console.log(`${_id++} U P D A T E D`);
-                                flag = true;
+                                flag = true; 
                             }
                         }
                         if(!flag) reject('No data found')

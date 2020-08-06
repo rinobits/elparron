@@ -1,32 +1,32 @@
 const mysqlConnection = require('../../../lib/database/database');
-
+var schemas           = [];
+var schema            = {};
 class PrecioTortaServices{
     precioTortaFindByStore(sucursal_id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM precioTorta WHERE sucursal_id = ?`, [sucursal_id], (err, rows) => {
+            mysqlConnection.query(`SELECT * FROM precioTorta WHERE sucursal_id = ?`, [sucursal_id], async(err, rows) => {
                 if(!err){
                     if(!rows) reject();
                     else{
-                        var schemas = [];
-                        var schema  = require('./schemas/torta');
-                        var i       = 0;
-                        for(var table of rows){
-                            schema.masaTipo_id               = table.masaTipo_id;
-                            schema.diet                      = table.diet;
-                            schema.cuadrada                  = table.cuadrada;
-                            schema.precioTamano[i].tamano_id = table.tamano_id;
-                            schema.precioTamano[i].costo     = table.costo;
-                            schema.precioTamano[i].venta     = table.venta;
-                            i++;
-                            if(i == 4){
-                                i = 0;
-                                schemas.push(schema);
+                        schemas = []
+                        schema  = require('./schemas/torta');
+                        for(let i = 0; i < rows.length; i+=4){
+                            schema.masaTipo_id               = rows[i].masaTipo_id;
+                            schema.diet                      = rows[i].diet;
+                            schema.cuadrada                  = rows[i].cuadrada;
+                            schema.sucursal_id               = rows[i].sucursal_id;
+                            for(let j = 0; j < 4; j++){
+                                schema.precioTamano[j].tamano_id = rows[i+j].tamano_id;
+                                schema.precioTamano[j].costo     = rows[i+j].costo;
+                                schema.precioTamano[j].venta     = rows[i+j].venta;
                             }
+                            schemas.push(Object.assign({},schema));
+                            schema = require('./schemas/torta');
                         }
                     }
                     resolve(schemas);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

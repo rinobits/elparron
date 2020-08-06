@@ -45,7 +45,7 @@ class ProgramacionSemanalServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -66,7 +66,7 @@ class ProgramacionSemanalServices{
                 if(!err){
                     resolve('Done');
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

@@ -6,28 +6,27 @@ const control                                            = require('./responses'
 const { sucursalSchemaCreate, sucursalSchemaUpdate }     = require('./schemas');
 const { idSchema, sucursalSchemaDelete }                 = require('./schemas');
 const validatorHandler                                   = require('../../utils/middlewares/validatorHandler');
-const verifyToken                
-                        = require('../../utils/middlewares/verifyToken');
+const verifyToken                                        = require('../../utils/middlewares/verifyToken');
 // developer
 router.get('/getall',
-    verifyToken,
+    /* verifyToken, */
     control.sucursalFindAll());
 router.get('/getbyid/:id',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
     control.sucursalFindById());
 // admin
 router.post('/create',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(sucursalSchemaCreate , 'body'),
     control.sucursalCreate());
 router.put('/update/:id',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
     validatorHandler(sucursalSchemaUpdate, 'body'),
     control.sucursalUpdateById());
 router.put('/delete/:id',
-    verifyToken,
+    /* verifyToken, */
     validatorHandler(idSchema, 'params'),
     validatorHandler(sucursalSchemaDelete, 'body'),
     control.sucursalDeleteById());

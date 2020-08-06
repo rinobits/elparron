@@ -7,7 +7,7 @@ class ComunaServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -18,44 +18,48 @@ class ComunaServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
     }
-    comunaCreate(body){
+    comunaCreateOrUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
-            const id         = 0;
-            const query      = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                SET @ciudad = ?;
-                CALL addOrEditComuna(@id, @nombre, @ciudad);
-            `
-            mysqlConnection.query(query, [id, body.nombre, body.ciudad], (err, rows, fields) => {
+            if(!id) id = 0;
+            var query  = `
+                SELECT * FROM comuna
+                WHERE id = ?
+            `;
+            mysqlConnection.query(query, [id], (err, row) => {
                 if(!err){
-                    resolve('Done');
+                    query      = `
+                        SET @id     = ?;
+                        SET @nombre = ?;
+                        SET @ciudad = ?;
+                        CALL addOrEditComuna(@id, @nombre, @ciudad);
+                    `;
+                    if(row.length == 0){
+                        id = 0;
+                        mysqlConnection.query(query, [id, body.nombre, body.ciudad], (err, rows, fields) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }else{
+                        mysqlConnection.query(query, [id, body.nombre, body.ciudad], (err, rows, fields) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
-            });
-        });
-    }
-    comunaUpdateById(id, body){
-        return new Promise((resolve, reject) => {
-            const query      = `
-                SET @id     = ?;
-                SET @nombre = ?;
-                SET @ciudad = ?;
-                CALL addOrEditComuna(@id, @nombre, @ciudad);
-            `
-            mysqlConnection.query(query, [id, body.nombre, body.ciudad], (err, rows, fields) => {
-                if(!err){
-                    resolve('Done');
-                }else{
-                    reject('Not found');
-                }
-            });
+            })
         });
     }
     comunaDeleteById(id, body){
@@ -66,7 +70,7 @@ class ComunaServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });

@@ -30,7 +30,7 @@ const usuarioCreate = () => {
     return (req, res, next) => {
         const {body} = req;
         usuarioServices.usuarioCreate(body)
-            .then(r  => res.json({"CREATED": true}))
+            .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
@@ -39,7 +39,7 @@ const usuarioUpdateById = () => {
         const {body} = req;
         const {id}   = req.params;
         usuarioServices.usuarioUpdateById(id, body) 
-            .then(r  => res.json({"MODIFY DATA": true}))
+            .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }

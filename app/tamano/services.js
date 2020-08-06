@@ -7,7 +7,7 @@ class TamanoServices{
                 if(!err){
                     resolve(rows);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             })
         });
@@ -18,42 +18,46 @@ class TamanoServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
-                }
-            });
-        });
-    }
-    tamanoCreate(body){
-        return new Promise((resolve, reject) => {
-            const id    = 0;
-            const query = `
-                SET @id     = ?;
-                SET @tamano = ?;
-                SET @personas = ?;
-                CALL addOrEditTamano(@id, @tamano, @personas);
-            `
-            mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
-                if(!err){
-                    resolve('Done');
-                }else{
                     reject(err);
                 }
             });
         });
     }
-    tamanoUpdateById(id, body){
+    tamanoCreateOrUpdateById(id = 0, body){
         return new Promise((resolve, reject) => {
-            const query = `
-                SET @id     = ?;
-                SET @tamano = ?;
-                SET @personas = ?;
-                CALL addOrEditTamano(@id, @tamano, @personas);
+            if(!id) id = 0;
+            var query = `
+                SELECT * FROM tamano
+                WHERE id = ?
             `
-            mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
+            mysqlConnection.query(query, [id], (err, row) => {
                 if(!err){
-                    resolve('Done');
+                    query = `
+                        SET @id     = ?;
+                        SET @tamano = ?;
+                        SET @personas = ?;
+                        CALL addOrEditTamano(@id, @tamano, @personas);
+                    `
+                    if(row.length == 0){
+                        id = 0;
+                        mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }else{
+                        mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
+                            if(!err){
+                                resolve('Done');
+                            }else{
+                                reject(err);
+                            }
+                        });
+                    }
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
@@ -66,7 +70,7 @@ class TamanoServices{
                 if(!err){
                     resolve(rows[0]);
                 }else{
-                    reject('Not found');
+                    reject(err);
                 }
             });
         });
