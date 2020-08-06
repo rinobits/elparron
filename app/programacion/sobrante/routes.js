@@ -11,16 +11,16 @@ const validatorHandler               = require('../../../utils/middlewares/valid
 const verifyToken                    = require('../../../utils/middlewares/verifyToken');
 
 router.get('/diaysucursal',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(paramSchema, 'query'),
     control.sobranteFindByDiaYsucursal());
 router.put('/update',
-    /* verifyToken, */ 
+     verifyToken,  
     validatorHandler(paramSchema, 'query'),
     validatorHandler(sobranteSchemaUpdate, 'body'),
     control.sobranteMultipleUpdate());
 router.post('/create',
-    /* verifyToken, */ 
+     verifyToken,  
     validatorHandler(paramSchema, 'query'),
     validatorHandler(sobranteSchemaCreate, 'body'),
     control.sobranteMultipleCreate());

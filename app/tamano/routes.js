@@ -10,24 +10,24 @@ const verifyToken                               = require('../../utils/middlewar
 
 // developer
 router.get('/getall',
-    /* verifyToken, */
+     verifyToken, 
     control.tamanoFindAll());
 router.get('/getbyid/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.tamanoFindById());
 // admin
 router.post('/create',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(tamanoSchemaCreate , 'body'),
     control.tamanoCreateOrUpdateById());
 router.put('/update/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(tamanoSchemaUpdate, 'body'),
     control.tamanoCreateOrUpdateById());
 router.put('/delete/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(tamanoSchemaDelete, 'body'),
     control.tamanoDeleteById());

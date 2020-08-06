@@ -9,15 +9,15 @@ const validatorHandler             = require('../../../utils/middlewares/validat
 const verifyToken                  = require('../../../utils/middlewares/verifyToken');
 
 router.get('/getByStore',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(sucursalSchema, 'query'),
     control.precioProductoFindByStore());
 router.post('/create',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(precioProductoSchema, 'body'),
     control.precioProductoUpdateOrCreate());
 router.put('/update',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(precioProductoSchema, 'body'),
     control.precioProductoUpdateOrCreate());
 module.exports = router;

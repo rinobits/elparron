@@ -11,24 +11,24 @@ const verifyToken                            = require('../../utils/middlewares/
 
 // developer
 router.get('/getall',     
-    /* verifyToken, */
+     verifyToken, 
     control.usuarioFindAll());
 router.get('/getbyid/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.usuarioFindById());
 // admin
 router.post('/create',    
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(usuarioSchemaCreate, 'body'),
     control.usuarioCreate());
 router.put('/update/:id', 
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(usuarioSchemaUpdate, 'body'),
     control.usuarioUpdateById());
 router.put('/delete/:id', 
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(usuarioSchemaDelete, 'body'),
     control.usuarioDeleteById());

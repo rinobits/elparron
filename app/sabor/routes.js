@@ -9,24 +9,24 @@ const validatorHandler                                = require('../../utils/mid
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
 router.get('/getall',
-    /* verifyToken, */
+     verifyToken, 
     control.saborFindAll());
 router.get('/getbyid/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.saborFindById());
 // admin
 router.post('/create',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(saborSchemaCreate , 'body'),
     control.saborCreateOrUpdateById());
 router.put('/update/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(saborSchemaUpdate, 'body'),
     control.saborCreateOrUpdateById());
 router.put('/delete/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(saborSchemaDelete, 'body'),
     control.saborDeleteById());

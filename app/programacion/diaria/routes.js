@@ -11,27 +11,27 @@ const validatorHandler               = require('../../../utils/middlewares/valid
 const verifyToken                    = require('../../../utils/middlewares/verifyToken');
 
 router.get('/diaysucursal',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(paramSchema, 'query'),
     control.programacionFindByDiaYsucursal());
 router.get('/findall',
-    /* verifyToken, */
+     verifyToken, 
     control.programacionFindAll());
 router.put('/update',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(paramSchema, 'query'),
     validatorHandler(programacionSchemaUpdate, 'body'),
     control.programacionMultipleUpdate());
 router.put('/emptyday',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(paramSchema, 'query'),
     control.programacionEmptyOneDay());
 router.put('/emptyweek',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(sucursalSchema, 'query'),
     control.programacionEmptyWeek());
 router.post('/create',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(paramSchema, 'query'),
     validatorHandler(programacionSchemaCreate, 'body'),
     control.programacionMultipleCreate());

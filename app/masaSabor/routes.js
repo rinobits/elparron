@@ -9,24 +9,24 @@ const validatorHandler                                = require('../../utils/mid
 const verifyToken                                     = require('../../utils/middlewares/verifyToken');
 // developer
 router.get('/getall',
-    /* verifyToken, */
+     verifyToken, 
     control.masaSaborFindAll());
 router.get('/getbyid/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.masaSaborFindById());
 // admin
 router.post('/create',   
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(masaSaborSchemaCreate , 'body'),
     control.masaSaborCreateOrUpdateById());
 router.put('/update/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(masaSaborSchemaUpdate, 'body'),
     control.masaSaborCreateOrUpdateById());
 router.put('/delete/:id',
-    /* verifyToken, */
+     verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(masaSaborSchemaDelete, 'body'),
     control.masaSaborDeleteById());
