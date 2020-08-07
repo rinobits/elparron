@@ -38,15 +38,15 @@ class UsuarioServices{
             bcrypt.hash(body.userPassword, 10)
             .then(hash => {
                 const id       = 0
-                const password = hash;
+                const userPassword = hash;
                 const user     = body.userName;
                 const query = `
                     SET @id = ?;
                     SET @userName = ?;
-                    SET @userPassword = ?;
-                    CALL addOrEditUsuario(@id, @userName, @userPassword);
+                    SET @password = ?;
+                    CALL addOrEditUsuario(@id, @userName, @password);
                 `;
-                mysqlConnection.query(query, [id, user, password], (e) => {
+                mysqlConnection.query(query, [id, user, userPassword], (e) => {
                     if(!e){
                         resolve('Done');
                     }else{
@@ -69,8 +69,8 @@ class UsuarioServices{
                             const query = `
                                 SET @id           = ?;
                                 SET @userName     = ?;
-                                SET @userPassword = ?;
-                                CALL addOrEditUsuario(@id, @userName, @userPassword);
+                                SET @password = ?;
+                                CALL addOrEditUsuario(@id, @userName, @password);
                             `;
                             mysqlConnection.query(query, [id, userName, userPassword], (e) => {
                                 if(!e){
