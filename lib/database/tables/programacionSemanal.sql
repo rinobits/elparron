@@ -15,7 +15,7 @@ CREATE TABLE IF NOT EXISTS programacionSemanal (
   updatedAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-ALTER TABLE programacionSemanal ADD UNIQUE programacionSemanalUnique(sucursal_id, dia, createdAt);
+ALTER TABLE programacionSemanal ADD UNIQUE programacionSemanalUnique(sucursal_id, dia, torta_id, tamano_id);
 
 DESCRIBE programacionSemanal;
 

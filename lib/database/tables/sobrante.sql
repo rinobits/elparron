@@ -15,6 +15,6 @@ CREATE TABLE IF NOT EXISTS sobrante (
   updatedAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-ALTER TABLE sobrante ADD UNIQUE sobranteUnique(sucursal_id, dia, createdAt);
+ALTER TABLE sobrante ADD UNIQUE sobranteUnique(sucursal_id, dia, torta_id, tamano_id);
 DESCRIBE sobrante;
 
