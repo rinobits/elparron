@@ -4,14 +4,8 @@ class OpcionServices{
     opcionFindAll(){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT 
-                    opcion.id, opcion.nombre, 
-                    opcion.seccion_id, seccion.nombre AS seccion_nombre,
-                    opcion.icono, opcion.estado;
-                FROM opcion
-                INNER JOIN seccion
-                ON opcion.seccion_id = seccion.id
-                WHERE opcion.estado = 1;
+                SELECT * FROM vw_opcionPerfil
+                WHERE estado = 1;
             `;
             mysqlConnection.query(query, (err, rows) => {
                 if(!err){
@@ -25,14 +19,8 @@ class OpcionServices{
     opcionFindById(id){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT 
-                    opcion.id, opcion.nombre, 
-                    opcion.seccion_id, seccion.nombre AS seccion_nombre,
-                    opcion.icono, opcion.estado;
-                FROM opcion
-                INNER JOIN seccion
-                ON opcion.seccion_id = seccion.id
-                WHERE opcion.id = ?;
+                SELECT * FROM vw_opcionPerfil
+                WHERE id = ?
             `;
             mysqlConnection.query(query, [id], (err, rows, fields) => {
                 if(!err){

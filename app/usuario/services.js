@@ -3,7 +3,11 @@ const bcrypt    = require('bcrypt');
 class UsuarioServices{
     usuarioFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM usuario WHERE estado=1`, (e, r) => {
+            const query = `
+                SELECT * FROM vw_usuarioPerfil
+                WHERE estado = 1
+            `;
+            mysqlConnection.query(query, (e, r) => {
                 if(!e){
                     resolve(r);
                 }
@@ -15,7 +19,11 @@ class UsuarioServices{
     }
     usuarioFindById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM usuario WHERE id = ?`, [id], (e, r) => {
+            const query = `
+                SELECT * FROM vw_usuarioPerfil
+                WHERE id = ?;
+            `;
+            mysqlConnection.query(query, [id], (e, r) => {
                 if(!e){
                     resolve(r);
                 }
