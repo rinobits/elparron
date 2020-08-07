@@ -13,9 +13,6 @@ const sucursal_id = Joi.number().min(0);
 const idSchema          = Joi.object({
     id: id.required()
 });
-const sucursalSchema = Joi.object({
-    sucursal_id: sucursal_id.required()
-});
 const precioTamanoCosto = Joi.object({
     tamano_id: tamano_id.required(),
     costo:     costo.required(),
@@ -35,6 +32,5 @@ const precioTortaSchemaSub = Joi.object({
 const precioTortaSchema = Joi.array().min(1).items(precioTortaSchemaSub);
 module.exports = {
     precioTortaSchema,
-    sucursalSchema,
     idSchema
 }

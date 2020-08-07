@@ -7,6 +7,7 @@ const precioServices = new PrecioServices();
 const precioFindByStore = () => {
     return (req, res, next) => {
         const { sucursal_id } = req.query;
+        if(req.body.masaTipo_id)
         precioServices.precioFindByStore(sucursal_id)
             .then(r => {
                 res.json(r)

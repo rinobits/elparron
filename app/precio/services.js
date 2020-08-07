@@ -1,7 +1,41 @@
 const mysqlConnection = require('../../../lib/database/database');
 var schemas           = [];
 var schema            = {};
-class PrecioTortaServices{
+class PrecioServices{
+    precioProductoFindByStore(sucursal_id){
+        return new Promise((resolve, reject) => {
+            const query = `
+                SELECT 
+                    precioProducto.id,
+                    precioProducto.producto_id, vw_producto.productoTipo_nombre,
+                    precioProducto.costo,
+                    precioProducto.venta,
+                    precioProducto.diet,
+                    precioProduct.sucursal_id,
+                    sucursal.rut            AS sucursal_rut,
+                    sucursal.nombre         AS sucursal_nombre,
+                    sucursal.direccion      AS sucursal_direccion,
+                    sucursal.giro           AS sucursal_gito,
+                    sucursal.contactoNombre AS sucursal_contactoNombre,
+                    sucursal.contactoEmail  AS sucursal_contactoEmail,
+                    precioProducto.estado
+                FROM precioProducto
+                INNER JOIN vw_producto
+                    ON precioProducto.producto_id = vw_producto.producto_id
+                INNER JOIN sucursal
+                    ON precioProducto.sucursal_id = sucursal.id
+                AND sucursal_id = ?;
+            `
+            mysqlConnection.query(query, [sucursal_id], (err, rows) => {
+                if(!err){
+                    rows = rows.slice(-(rows.length-1))[0];
+                    resolve(rows);
+                }else{
+                    reject(err);
+                }
+            });
+        });
+    }
     precioTortaFindByStore(sucursal_id){
         return new Promise((resolve, reject) => {
             const query = `
@@ -161,4 +195,4 @@ class PrecioTortaServices{
         })
     }
 }
-module.exports = PrecioTortaServices;
+module.exports = PrecioServices;
