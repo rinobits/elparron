@@ -42,7 +42,7 @@ const sucursalDeleteById = () => {
         const {id} = req.params;
         sucursalServices.sucursalDeleteById(id, req.body)
             .then(r  => {
-                if(req.body.estado == 1) res.json({'DELETE DATA' : true})
+                if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
             .catch(e => next(boom.badImplementation(e)))

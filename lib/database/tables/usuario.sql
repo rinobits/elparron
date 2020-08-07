@@ -7,6 +7,8 @@ CREATE TABLE usuario (
   userName     VARCHAR(100) NOT NULL UNIQUE,
   password     VARCHAR(100) NOT NULL,
   estado       INT(2)       DEFAULT 1,
+  createdAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
+  updatedAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
 

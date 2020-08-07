@@ -1,41 +1,41 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom            = require('@hapi/boom');
 // imports & consts
-const TamanoServices              = require('./services');
-const tamanoServices              = new TamanoServices();
+const SeccionServices = require('./services');
+const seccionServices = new SeccionServices();
 
-const tamanoFindAll = () => {
+const seccionFindAll = () => {
     return (req, res, next) => {
-        tamanoServices.tamanoFindAll()
+        seccionServices.seccionFindAll()
             .then(r => {
                 res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoFindById = () => {
+const seccionFindById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanoFindById(id)
+        seccionServices.seccionFindById(id)
             .then(r => {
                 res.json(r)
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoCreateOrUpdateById = () => {
+const seccionCreateOrUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        tamanoServices.tamanoCreateOrUpdateById(id, body) 
+        seccionServices.seccionCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoDeleteById = () => {
+const seccionDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanoDeleteById(id, req.body)
+        seccionServices.seccionDeleteById(id, req.body)
             .then(r  => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
@@ -44,9 +44,9 @@ const tamanoDeleteById = () => {
     }
 }
 module.exports = {
-    tamanoFindAll,
-    tamanoFindById,
-    tamanoCreateOrUpdateById,
-    tamanoDeleteById
+    seccionFindAll,
+    seccionFindById,
+    seccionCreateOrUpdateById,
+    seccionDeleteById
 };
 

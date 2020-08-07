@@ -9,24 +9,24 @@ class PrecioServices{
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    precioProducto.id,
-                    precioProducto.producto_id, vw_producto.productoTipo_nombre,
-                    precioProducto.costo,
-                    precioProducto.venta,
-                    precioProducto.diet,
-                    precioProduct.sucursal_id,
+                    precio.id,
+                    precio.producto_id, vw_producto.productoTipo_nombre,
+                    precio.costo,
+                    precio.venta,
+                    precio.diet,
+                    precio.sucursal_id,
                     sucursal.rut            AS sucursal_rut,
                     sucursal.nombre         AS sucursal_nombre,
                     sucursal.direccion      AS sucursal_direccion,
                     sucursal.giro           AS sucursal_gito,
                     sucursal.contactoNombre AS sucursal_contactoNombre,
                     sucursal.contactoEmail  AS sucursal_contactoEmail,
-                    precioProducto.estado
-                FROM precioProducto
+                    precio.estado
+                FROM precio
                 INNER JOIN vw_producto
-                    ON precioProducto.producto_id = vw_producto.producto_id
+                    ON precio.producto_id = vw_producto.producto_id
                 INNER JOIN sucursal
-                    ON precioProducto.sucursal_id = sucursal.id
+                    ON precio.sucursal_id = sucursal.id
                 AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [sucursal_id], (err, rows) => {
@@ -49,7 +49,7 @@ class PrecioServices{
                 sucursal_id,
             } = body;
             var query = `
-                SELECT * FROM precioProducto
+                SELECT * FROM precio
                     WHERE producto_id = ?
                     AND   diet        = ?
                     AND   sucursal_id = ?;
@@ -125,30 +125,30 @@ class PrecioServices{
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
-                    precioTorta.id,
-                    precioTorta.masaTipo_id, masaTipo.nombre AS masaTipo_nombre,
-                    precioTorta.cuadrada,
-                    precioTorta.tamano_id,
+                    precio.id,
+                    precio.masaTipo_id, masaTipo.nombre AS masaTipo_nombre,
+                    precio.cuadrada,
+                    precio.tamano_id,
                     tamano.tamano   AS tamano,
                     tamano.personas AS tamano_personas,
-                    precioTorta.costo,
-                    precioTorta.venta,
-                    precioTorta.diet,
-                    precioTorta.sucursal_id,
+                    precio.costo,
+                    precio.venta,
+                    precio.diet,
+                    precio.sucursal_id,
                     sucursal.rut            AS sucursal_rut,
                     sucursal.nombre         AS sucursal_nombre,
                     sucursal.direccion      AS sucursal_direccion,
                     sucursal.giro           AS sucursal_giro,
                     sucursal.contactoNombre AS sucursal_contactoNombre,
                     sucursal.contactoEmail  AS sucursal_contactoEmail,
-                    precioTorta.estado
-                FROM precioTorta
+                    precio.estado
+                FROM precio
                 INNER JOIN masaTipo
-                    ON precioTorta.masaTipo_id = masaTipo.id
+                    ON precio.masaTipo_id = masaTipo.id
                 INNER JOIN tamano
-                    ON precioTorta.tamano_id   = tamano.id
+                    ON precio.tamano_id   = tamano.id
                 INNER JOIN sucursal
-                    ON precioTorta.sucursal_id = sucursal.id
+                    ON precio.sucursal_id = sucursal.id
                 AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [sucursal_id], async(err, rows) => {
@@ -199,7 +199,7 @@ class PrecioServices{
                 sucursal_id,
             } = body;
             var query = `
-                SELECT * FROM preciotorta
+                SELECT * FROM precio
                     WHERE masaTipo_id = ?
                     AND diet = ?
                     AND cuadrada = ?

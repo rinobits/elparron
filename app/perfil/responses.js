@@ -1,41 +1,41 @@
 // packages
-const boom                      = require('@hapi/boom');
+const boom           = require('@hapi/boom');
 // imports & consts
-const TamanoServices              = require('./services');
-const tamanoServices              = new TamanoServices();
+const PerfilServices = require('./services');
+const perfilServices = new PerfilServices();
 
-const tamanoFindAll = () => {
+const perfilFindAll = () => {
     return (req, res, next) => {
-        tamanoServices.tamanoFindAll()
+        perfilServices.perfilFindAll()
             .then(r => {
                 res.json(r);
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoFindById = () => {
+const perfilFindById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanoFindById(id)
+        perfilServices.perfilFindById(id)
             .then(r => {
                 res.json(r)
             })
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoCreateOrUpdateById = () => {
+const perfilCreateOrUpdateById = () => {
     return (req, res, next) => {
         const {body} = req;
         const {id}   = req.params;
-        tamanoServices.tamanoCreateOrUpdateById(id, body) 
+        perfilServices.perfilCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
             .catch(e => next(boom.badImplementation(e)))
     }
 }
-const tamanoDeleteById = () => {
+const perfilDeleteById = () => {
     return (req, res, next) => {
         const {id} = req.params;
-        tamanoServices.tamanoDeleteById(id, req.body)
+        perfilServices.perfilDeleteById(id, req.body)
             .then(r  => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
@@ -44,9 +44,9 @@ const tamanoDeleteById = () => {
     }
 }
 module.exports = {
-    tamanoFindAll,
-    tamanoFindById,
-    tamanoCreateOrUpdateById,
-    tamanoDeleteById
+    perfilFindAll,
+    perfilFindById,
+    perfilCreateOrUpdateById,
+    perfilDeleteById
 };
 
