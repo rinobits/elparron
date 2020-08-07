@@ -13,7 +13,6 @@ CREATE TABLE precio (
   cuadrada    INT(1)       DEFAULT NULL,
   tamano_id   INT(11)      DEFAULT NULL,
   sucursal_id INT(11)      NOT NULL,
-  diet        INT(1)       NOT NULL,
   estado      INT(1)       DEFAULT 1,
   createdAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   updatedAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
