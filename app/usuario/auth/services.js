@@ -11,7 +11,7 @@ class AuthServices{
                     bcrypt.compare(password, usuario[0].userPassword)
                         .then(r => {
                             if(r == true){
-                                const payload = {check:true};
+                                const payload = { check: true, id: usuario[0].id, nombre: username };
                                 const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'1h'});
                                 resolve(token);
                             }else{
