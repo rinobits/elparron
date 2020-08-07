@@ -6,8 +6,8 @@ const control                   = require('./responses');
 const { precioTortaSchema }     = require('./schemas/JoiTorta');
 const { precioProductoSchema }  = require('./schemas/JoiProducto');
 const { sucursalSchema }        = require('./schemas/JoiProducto');
-const validatorHandler          = require('../../../utils/middlewares/validatorHandler');
-const verifyToken               = require('../../../utils/middlewares/verifyToken');
+const validatorHandler          = require('../../utils/middlewares/validatorHandler');
+const verifyToken               = require('../../utils/middlewares/verifyToken');
 
 router.get('/getByStore',
     verifyToken, 
