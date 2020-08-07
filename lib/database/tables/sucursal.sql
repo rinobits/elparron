@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 USE parron;
 DROP TABLE IF EXISTS sucursal;
 
-CREATE TABLE IF NOT EXISTS sucursal (
+CREATE TABLE sucursal (
   id             INT(11)      NOT NULL AUTO_INCREMENT,
   rut            VARCHAR(12)  NOT NULL UNIQUE,
   razonSocial    VARCHAR(60)  NOT NULL,

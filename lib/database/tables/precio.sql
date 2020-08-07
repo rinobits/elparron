@@ -1,12 +1,17 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
-DROP TABLE IF EXISTS precioProducto;
-CREATE TABLE IF NOT EXISTS precioProducto (
+DROP TABLE IF EXISTS precio;
+
+CREATE TABLE precio (
   id          INT(11)      NOT NULL AUTO_INCREMENT,
-  producto_id INT(11)      NOT NULL,
+  producto_id INT(11)      DEFAULT NULL,
   costo       INT(11)      NOT NULL,
   venta       INT(11)      NOT NULL,
+  masaTipo_id INT(11)      DEFAULT NULL,
+  diet        INT(1)       DEFAULT NULL,
+  cuadrada    INT(1)       DEFAULT NULL,
+  tamano_id   INT(11)      DEFAULT NULL,
   sucursal_id INT(11)      NOT NULL,
   diet        INT(1)       NOT NULL,
   estado      INT(1)       DEFAULT 1,
@@ -14,7 +19,6 @@ CREATE TABLE IF NOT EXISTS precioProducto (
   updatedAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-ALTER TABLE precioProducto ADD UNIQUE precioProductoUnique(sucursal_id, producto_id, diet);
 CREATE OR REPLACE VIEW vw_producto
 AS
     SELECT 

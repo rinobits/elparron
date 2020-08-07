@@ -3,8 +3,8 @@ const express                        = require('express');
 const router                         = express.Router();
 // imports & cons                       
 const control                        = require('./responses');
-const { programacionSchemaUpdate }   = require('./schemas/joiSchema');
-const { programacionSchemaCreate }   = require('./schemas/joiSchema');
+const { programacionDiariaSchemaUpdate }   = require('./schemas/joiSchema');
+const { programacionDiariaSchemaCreate }   = require('./schemas/joiSchema');
 const { paramSchema }                = require('./schemas/joiSchema');
 const { sucursalSchema }             = require('./schemas/joiSchema');
 const validatorHandler               = require('../../../utils/middlewares/validatorHandler');
@@ -13,27 +13,27 @@ const verifyToken                    = require('../../../utils/middlewares/verif
 router.get('/diaysucursal',
      verifyToken, 
     validatorHandler(paramSchema, 'query'),
-    control.programacionFindByDiaYsucursal());
+    control.programacionDiariaFindByDiaYsucursal());
 router.get('/findall',
      verifyToken, 
-    control.programacionFindAll());
+    control.programacionDiariaFindAll());
 router.put('/update',
      verifyToken, 
     validatorHandler(paramSchema, 'query'),
-    validatorHandler(programacionSchemaUpdate, 'body'),
-    control.programacionMultipleUpdate());
+    validatorHandler(programacionDiariaSchemaUpdate, 'body'),
+    control.programacionDiariaMultipleUpdate());
 router.put('/emptyday',
      verifyToken, 
     validatorHandler(paramSchema, 'query'),
-    control.programacionEmptyOneDay());
+    control.programacionDiariaEmptyOneDay());
 router.put('/emptyweek',
      verifyToken, 
     validatorHandler(sucursalSchema, 'query'),
-    control.programacionEmptyWeek());
+    control.programacionDiariaEmptyWeek());
 router.post('/create',
      verifyToken, 
     validatorHandler(paramSchema, 'query'),
-    validatorHandler(programacionSchemaCreate, 'body'),
-    control.programacionMultipleCreate());
+    validatorHandler(programacionDiariaSchemaCreate, 'body'),
+    control.programacionDiariaMultipleCreate());
  
 module.exports = router;

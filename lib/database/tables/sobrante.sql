@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 USE parron;
 DROP TABLE IF EXISTS sobrante;
 
-CREATE TABLE IF NOT EXISTS sobrante (
+CREATE TABLE sobrante (
   id           INT(11)      NOT NULL AUTO_INCREMENT,
   dia          INT(1)       NOT NULL,
   sucursal_id  INT(11)      NOT NULL,

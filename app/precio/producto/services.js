@@ -1,7 +1,7 @@
 const mysqlConnection = require('../../../lib/database/database');
 
 class PrecioProductoServices{
-    precioProductoFindByStore(sucursal){
+    precioProductoFindByStore(sucursal_id){
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT 
@@ -25,7 +25,7 @@ class PrecioProductoServices{
                     ON precioProducto.sucursal_id = sucursal.id
                 AND sucursal_id = ?;
             `
-            mysqlConnection.query(query, [sucursal], (err, rows) => {
+            mysqlConnection.query(query, [sucursal_id], (err, rows) => {
                 if(!err){
                     rows = rows.slice(-(rows.length-1))[0];
                     resolve(rows);

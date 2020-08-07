@@ -1,8 +1,8 @@
 CREATE DATABASE IF NOT EXISTS parron;
 
 USE parron;
-DROP TABLE IF EXISTS programacion;
-CREATE TABLE IF NOT EXISTS programacion (
+DROP TABLE IF EXISTS programacionDiaria;
+CREATE TABLE programacionDiaria (
   id           INT(11)      NOT NULL AUTO_INCREMENT,
   dia          INT(1)       NOT NULL,
   sucursal_id  INT(11)      NOT NULL,
@@ -14,6 +14,6 @@ CREATE TABLE IF NOT EXISTS programacion (
   updatedAt    TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
-ALTER TABLE programacion ADD UNIQUE programacionUnique(sucursal_id, dia, torta_id, tamano_id);
-DESCRIBE programacion;
+ALTER TABLE programacionDiaria ADD UNIQUE programacionDiariaUnique(sucursal_id, dia, torta_id, tamano_id);
+DESCRIBE programacionDiaria;
 

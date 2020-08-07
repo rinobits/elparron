@@ -1,9 +1,9 @@
 USE `parron`;
-DROP PROCEDURE IF EXISTS `addOrEditProgramacion`;
+DROP PROCEDURE IF EXISTS `addOrEditProgramacionDiaria`;
 DELIMITER $$
 
 USE `parron`$$
-CREATE PROCEDURE `addOrEditProgramacion` (
+CREATE PROCEDURE `addOrEditProgramacionDiaria` (
     IN _id INT(11),
     IN _dia VARCHAR(10),
     IN _sucursal_id INT(11),

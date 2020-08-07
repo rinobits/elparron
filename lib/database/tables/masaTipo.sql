@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 USE parron;
 DROP TABLE IF EXISTS masaTipo;
 
-CREATE TABLE IF NOT EXISTS masaTipo (
+CREATE TABLE masaTipo (
   id     INT(11)      NOT NULL AUTO_INCREMENT,
   nombre VARCHAR(100) NOT NULL,
   estado INT(1)       DEFAULT 1,

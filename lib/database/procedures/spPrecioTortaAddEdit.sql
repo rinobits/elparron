@@ -12,7 +12,7 @@ CREATE PROCEDURE `addOrEditPrecioTorta` (
     IN _sucursal_id INT(11))
 BEGIN
     IF _id = 0 THEN
-        INSERT	INTO precioTorta (
+        INSERT	INTO precio (
             tamano_id,
             masaTipo_id,
             diet,
@@ -32,7 +32,7 @@ BEGIN
              );
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE precioTorta
+        UPDATE precio
         SET 
             tamano_id   = _tamano_id,
             masaTipo_id = _masaTipo_id,

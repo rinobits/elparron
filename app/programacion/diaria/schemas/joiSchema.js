@@ -24,21 +24,21 @@ const paramSchema = Joi.object({
 const sucursalSchema = Joi.object({
     sucursal_id: sucursal_id.required()
 });
-const programacionSchemaCreate = Joi.object({
+const programacionDiariaSchemaCreate = Joi.object({
     dia: dia.required(),
     sucursal_id: sucursal_id.required(),
     detalle: detalle.required(),
     estado
 });
-const programacionSchemaUpdate = Joi.object({
+const programacionDiariaSchemaUpdate = Joi.object({
     dia,
     sucursal_id,
     detalle,
     estado
 });
 module.exports = {
-    programacionSchemaCreate,
-    programacionSchemaUpdate,
+    programacionDiariaSchemaCreate,
+    programacionDiariaSchemaUpdate,
     paramSchema,
     sucursalSchema
 }

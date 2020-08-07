@@ -3,7 +3,7 @@ CREATE DATABASE IF NOT EXISTS parron;
 USE parron;
 DROP TABLE IF EXISTS torta;
 
-CREATE TABLE IF NOT EXISTS torta (
+CREATE TABLE torta (
   id            INT(11) NOT NULL AUTO_INCREMENT,
   masaTipo_id   INT(11) NOT NULL,
   masaSabor_id  INT(11) NOT NULL,

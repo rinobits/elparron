@@ -7,7 +7,8 @@ case $yn in
     [YySs\n]* ) break;;
 esac
 git add .
-git commit -m "gitUpdate"
-git pull
+now="$(date +'%b%d_%Y')"
+echo "commiting $(now)..."
+git commit -m $now
 git push origin master
 

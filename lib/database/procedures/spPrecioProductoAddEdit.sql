@@ -10,7 +10,7 @@ CREATE PROCEDURE `addOrEditPrecioProducto` (
     IN _sucursal_id INT(11))
 BEGIN
     IF _id = 0 THEN
-        INSERT	INTO precioProducto (
+        INSERT	INTO precio (
                 producto_id,
                 diet,
                 costo,
@@ -26,7 +26,7 @@ BEGIN
              );
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE precioProducto
+        UPDATE precio
         SET 
             producto_id = _producto_id,
             diet        = _diet,
