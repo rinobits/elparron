@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW vw_usuarioPerfil
 AS
     SELECT
-        usuario.id        AS id,
+        usuario.id        AS usuario_id,
         usuarioPerfil.id,
         usuarioPerfil.usuario_id,
         usuario.userName  AS usuario_userName, 

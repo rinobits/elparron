@@ -21,7 +21,7 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT * FROM vw_usuarioPerfil
-                WHERE id = ?;
+                WHERE usuario_id = ?;
             `;
             mysqlConnection.query(query, [id], (e, r) => {
                 if(!e){

@@ -20,7 +20,7 @@ class OpcionServices{
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT * FROM vw_opcionPerfil
-                WHERE id = ?
+                WHERE opcion_id = ?
             `;
             mysqlConnection.query(query, [id], (err, rows, fields) => {
                 if(!err){
