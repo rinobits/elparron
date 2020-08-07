@@ -8,7 +8,7 @@ case $yn in
 esac
 git add .
 now="$(date +'%b%d_%Y')"
-echo "commiting $(now)..."
+echo "commiting $now..."
 git commit -m $now
 git push origin master
 
