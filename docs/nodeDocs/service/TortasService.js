@@ -25,7 +25,7 @@ exports.createTorta = function(body) {
 
 /**
  * Eliminar torta
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
  * id Long Torta ID
@@ -79,25 +79,34 @@ exports.getTortas = function() {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 5,
-  "masaTipo_id" : 2,
+  "masaTipo_id" : 1,
+  "masaTipo_nombre" : "Bizcocho",
   "masaSabor_id" : 2,
+  "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
+  "sabor_nombre" : "Chocolate",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 3,
-  "masaTipo_id" : 2,
+  "masaTipo_id" : 1,
+  "masaTipo_nombre" : "Bizcocho",
   "masaSabor_id" : 2,
+  "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
+  "sabor_nombre" : "Chocolate",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "masaTipo_id" : 2,
+  "masaTipo_id" : 1,
+  "masaTipo_nombre" : "Bizcocho",
   "masaSabor_id" : 2,
+  "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
+  "sabor_nombre" : "Chocolate",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
@@ -126,9 +135,12 @@ exports.getTortasById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
+  "masaTipo_nombre" : "Bizcocho",
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
   "masaSabor_id" : 1,
+  "sabor_nombre" : "Chocolate",
+  "masaSabor_nombre" : "Vainilla",
   "id" : 5,
   "sabor_id" : 1,
   "masaTipo_id" : 1,

@@ -2,13 +2,13 @@
 
 
 /**
- * Crear producto
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Crear productoTipo
+ * Se requieren privilegios.
  *
- * body Productos  (optional)
+ * body ProductoTipos  (optional)
  * returns createTrue
  **/
-exports.createProductos = function(body) {
+exports.createProductoTipos = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createProductos = function(body) {
 
 
 /**
- * Eliminar productos
+ * Eliminar productoTipos
  * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Producto ID
+ * id Long ProductoTipo ID
  * returns deleteTrue
  **/
-exports.deleteProductos = function(body,id) {
+exports.deleteProductoTipos = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -48,12 +48,12 @@ exports.deleteProductos = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios. 
  *
- * id Long Producto ID
+ * id Long ProductoTipo ID
  * returns modifyTrue
  **/
-exports.editProductos = function(id) {
+exports.editProductoTipos = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -69,22 +69,20 @@ exports.editProductos = function(id) {
 
 
 /**
- * Buscar producto por su id.
+ * Buscar productoTipo por su id.
  * Se requieren privilegos
  *
- * id Long producto ID
- * returns getProducto
+ * id Long productoTipo ID
+ * returns getProductoTipo
  **/
-exports.getProductoById = function(id) {
+exports.getProductoTipoById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
-  "productoTipo_id" : 1,
   "id" : 2,
-  "diet" : 0,
-  "nombre" : "Bizcocho frambuesa nuez",
+  "nombre" : "Empanada de pino",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {
@@ -97,35 +95,29 @@ exports.getProductoById = function(id) {
 
 
 /**
- * Listar producto
+ * Listar productoTipo
  * Se requieren privilegos.
  *
- * returns getProductos
+ * returns getProductoTipos
  **/
-exports.getProductos = function() {
+exports.getProductoTipos = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 1,
-  "productoTipo_id" : 1,
-  "diet" : 1,
-  "cuadrada" : "Bizcocho vainilla chocolate",
+  "nombre" : "Empanada",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "productoTipo_id" : 1,
-  "diet" : 1,
-  "cuadrada" : "Bizcocho vainilla chocolate",
+  "nombre" : "Empanada",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "productoTipo_id" : 1,
-  "diet" : 1,
-  "cuadrada" : "Bizcocho vainilla chocolate",
+  "nombre" : "Empanada",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"

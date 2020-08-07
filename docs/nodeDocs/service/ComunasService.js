@@ -25,7 +25,7 @@ exports.createComunas = function(body) {
 
 /**
  * Eliminar comunas
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
  * body DeleteSchema  (optional)
  * id Long Comuna ID

@@ -25,7 +25,7 @@ exports.createMasaTipo = function(body) {
 
 /**
  * Eliminar tipo de masa
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
  * id Long MasaTipo ID

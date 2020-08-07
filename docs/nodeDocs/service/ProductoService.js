@@ -2,13 +2,13 @@
 
 
 /**
- * Crear precio
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Crear producto
+ * Se requieren privilegios. 
  *
- * body Precios  (optional)
+ * body Productos  (optional)
  * returns createTrue
  **/
-exports.createPrecios = function(body) {
+exports.createProductos = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createPrecios = function(body) {
 
 
 /**
- * Eliminar precios
+ * Eliminar productos
  * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Precio ID
+ * id Long Producto ID
  * returns deleteTrue
  **/
-exports.deletePrecios = function(body,id) {
+exports.deleteProductos = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -48,12 +48,12 @@ exports.deletePrecios = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios. 
  *
- * id Long Precio ID
+ * id Long Producto ID
  * returns modifyTrue
  **/
-exports.editPrecios = function(id) {
+exports.editProductos = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -69,27 +69,23 @@ exports.editPrecios = function(id) {
 
 
 /**
- * Buscar precio por su id.
+ * Buscar producto por su id.
  * Se requieren privilegos
  *
- * id Long precio ID
- * returns getPrecio
+ * id Long producto ID
+ * returns getProducto
  **/
-exports.getPrecioById = function(id) {
+exports.getProductoById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "sucursal_id" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
-  "venta" : 5000,
+  "productoTipo_nombre" : "Empanada",
   "estado" : 1,
-  "costo" : 10000,
-  "cuadrada" : 1,
-  "producto_id" : 1,
+  "productoTipo_id" : 1,
   "id" : 2,
-  "tamano_id" : 1,
   "diet" : 0,
-  "masaTipo_id" : 2,
+  "nombre" : "Empanada de pino",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {
@@ -102,50 +98,41 @@ exports.getPrecioById = function(id) {
 
 
 /**
- * Listar precio
+ * Listar producto
  * Se requieren privilegos.
  *
- * returns getPrecios
+ * returns getProductos
  **/
-exports.getPrecios = function() {
+exports.getProductos = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 1,
-  "producto_id" : 1,
-  "tamano_id" : 1,
-  "masaTipo_id" : 1,
+  "productoTipo_id" : 1,
+  "productoTipo_nombre" : "Empanada",
   "diet" : 1,
-  "cuadrada" : 0,
-  "costo" : 7000,
-  "venta" : 10000,
-  "sucursal_id" : 1,
+  "nombre" : "Bizcocho vainilla chocolate",
+  "cuadrada" : 1,
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "producto_id" : 1,
-  "tamano_id" : 1,
-  "masaTipo_id" : 1,
+  "productoTipo_id" : 1,
+  "productoTipo_nombre" : "Empanada",
   "diet" : 1,
-  "cuadrada" : 0,
-  "costo" : 7000,
-  "venta" : 10000,
-  "sucursal_id" : 1,
+  "nombre" : "Bizcocho vainilla chocolate",
+  "cuadrada" : 1,
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "producto_id" : 1,
-  "tamano_id" : 1,
-  "masaTipo_id" : 1,
+  "productoTipo_id" : 1,
+  "productoTipo_nombre" : "Empanada",
   "diet" : 1,
-  "cuadrada" : 0,
-  "costo" : 7000,
-  "venta" : 10000,
-  "sucursal_id" : 1,
+  "nombre" : "Bizcocho vainilla chocolate",
+  "cuadrada" : 1,
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"

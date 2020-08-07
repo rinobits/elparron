@@ -47,7 +47,7 @@ exports.createUser = function(body) {
 
 /**
  * Eliminar usuario
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
  * id Long Order ID

@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Productos = require('../service/ProductosService');
+var Producto = require('../service/ProductoService');
 
 module.exports.createProductos = function createProductos (req, res, next, body) {
-  Productos.createProductos(body)
+  Producto.createProductos(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -14,7 +14,7 @@ module.exports.createProductos = function createProductos (req, res, next, body)
 };
 
 module.exports.deleteProductos = function deleteProductos (req, res, next, body, id) {
-  Productos.deleteProductos(body, id)
+  Producto.deleteProductos(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -24,7 +24,7 @@ module.exports.deleteProductos = function deleteProductos (req, res, next, body,
 };
 
 module.exports.editProductos = function editProductos (req, res, next, id) {
-  Productos.editProductos(id)
+  Producto.editProductos(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -34,7 +34,7 @@ module.exports.editProductos = function editProductos (req, res, next, id) {
 };
 
 module.exports.getProductoById = function getProductoById (req, res, next, id) {
-  Productos.getProductoById(id)
+  Producto.getProductoById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -44,7 +44,7 @@ module.exports.getProductoById = function getProductoById (req, res, next, id) {
 };
 
 module.exports.getProductos = function getProductos (req, res, next) {
-  Productos.getProductos()
+  Producto.getProductos()
     .then(function (response) {
       utils.writeJson(res, response);
     })

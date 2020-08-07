@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Precios = require('../service/PreciosService');
+var ProductoTipo = require('../service/ProductoTipoService');
 
-module.exports.createPrecios = function createPrecios (req, res, next, body) {
-  Precios.createPrecios(body)
+module.exports.createProductoTipos = function createProductoTipos (req, res, next, body) {
+  ProductoTipo.createProductoTipos(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createPrecios = function createPrecios (req, res, next, body) {
     });
 };
 
-module.exports.deletePrecios = function deletePrecios (req, res, next, body, id) {
-  Precios.deletePrecios(body, id)
+module.exports.deleteProductoTipos = function deleteProductoTipos (req, res, next, body, id) {
+  ProductoTipo.deleteProductoTipos(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deletePrecios = function deletePrecios (req, res, next, body, id)
     });
 };
 
-module.exports.editPrecios = function editPrecios (req, res, next, id) {
-  Precios.editPrecios(id)
+module.exports.editProductoTipos = function editProductoTipos (req, res, next, id) {
+  ProductoTipo.editProductoTipos(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.editPrecios = function editPrecios (req, res, next, id) {
     });
 };
 
-module.exports.getPrecioById = function getPrecioById (req, res, next, id) {
-  Precios.getPrecioById(id)
+module.exports.getProductoTipoById = function getProductoTipoById (req, res, next, id) {
+  ProductoTipo.getProductoTipoById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.getPrecioById = function getPrecioById (req, res, next, id) {
     });
 };
 
-module.exports.getPrecios = function getPrecios (req, res, next) {
-  Precios.getPrecios()
+module.exports.getProductoTipos = function getProductoTipos (req, res, next) {
+  ProductoTipo.getProductoTipos()
     .then(function (response) {
       utils.writeJson(res, response);
     })

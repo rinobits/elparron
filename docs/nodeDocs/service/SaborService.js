@@ -25,7 +25,7 @@ exports.createSabor = function(body) {
 
 /**
  * Eliminar sabor
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * id Long Sabor ID
  * returns deleteTrue

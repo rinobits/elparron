@@ -10,6 +10,7 @@ class PrecioProductoServices{
                     precioProducto.costo,
                     precioProducto.venta,
                     precioProducto.diet,
+                    precioProduct.sucursal_id,
                     sucursal.rut            AS sucursal_rut,
                     sucursal.nombre         AS sucursal_nombre,
                     sucursal.direccion      AS sucursal_direccion,
