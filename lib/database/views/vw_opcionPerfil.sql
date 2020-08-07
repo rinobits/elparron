@@ -2,7 +2,6 @@ CREATE OR REPLACE VIEW vw_opcionPerfil
 AS 
     SELECT 
         opcion.id                         AS opcion_id,
-        opcionPerfil.opcion_id,
         opcion.nombre                     AS opcion_nombre,
         opcion.seccion_id, seccion.nombre AS seccion_nombre,
         opcion.icono,
