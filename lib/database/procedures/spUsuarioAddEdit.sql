@@ -31,7 +31,7 @@ BEGIN
             SET 
                 userName  = _userName,
                 password  = _password,
-                perfil_id = _perfil_id
+                perfil_id = _perfil_id,
                 estado = 1
             WHERE id = _id;
         END IF;
