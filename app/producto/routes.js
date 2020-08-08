@@ -9,23 +9,23 @@ const { idSchema, productoSchemaDelete }     = require('./schemas');
 const validatorHandler                       = require('../../utils/middlewares/validatorHandler');
 const verifyToken                            = require('../../utils/middlewares/verifyToken');
 router.get('/getall',     
-     /* verifyToken,  */
+     verifyToken,  
     control.productoFindAll());
 router.get('/getbyid/:id',
-     /* verifyToken,  */
+     verifyToken,  
     validatorHandler(idSchema, 'params'),
     control.productoFindById());
 router.post('/create',
-     /* verifyToken,  */
+     verifyToken,  
     validatorHandler(productoSchemaCreate, 'body'),
     control.productoCreateOrUpdateById());
 router.put('/update/:id',
-     /* verifyToken,  */
+     verifyToken,  
     validatorHandler(idSchema, 'params'),
     validatorHandler(productoSchemaUpdate, 'body'),
     control.productoCreateOrUpdateById());
 router.put('/delete/:id', 
-     /* verifyToken,  */
+     verifyToken,  
     validatorHandler(idSchema, 'params'),
     validatorHandler(productoSchemaDelete, 'body'),
     control.productoDeleteById());
