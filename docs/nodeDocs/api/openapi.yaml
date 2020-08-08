@@ -4697,13 +4697,19 @@ components:
       - $ref: '#/components/schemas/deleteTrue'
       - $ref: '#/components/schemas/restoreTrue'
     body:
-      oneOf:
-      - $ref: '#/components/schemas/precioProducto'
-      - $ref: '#/components/schemas/precioTorta'
+      type: object
+      properties:
+        precio envía el siguiente array con 1 o más productos:
+          $ref: '#/components/schemas/precioProducto'
+        ó de 1 o más tortas:
+          $ref: '#/components/schemas/precioTorta'
     body_1:
-      oneOf:
-      - $ref: '#/components/schemas/precioProducto'
-      - $ref: '#/components/schemas/precioTorta'
+      type: object
+      properties:
+        precio envía el siguiente array con 1 o más productos:
+          $ref: '#/components/schemas/precioProducto'
+        ó de 1 o más tortas:
+          $ref: '#/components/schemas/precioTorta'
     getUsers_inner:
       type: object
       properties:
