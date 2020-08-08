@@ -14,7 +14,7 @@ ALTER TABLE tamano ADD UNIQUE tamanoUnique(num   );
 
 DESCRIBE tamano;
 
-INSERT INTO tamano(id, tamano, personas, estado) values 
+INSERT INTO tamano(id, num, personas, estado) values 
   (1, '1/2', "6 personas", 1),
   (2, '1',   "12 personas", 1),
   (3, '2',   "18 personas", 1),
