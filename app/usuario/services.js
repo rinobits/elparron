@@ -4,8 +4,16 @@ class UsuarioServices{
     usuarioFindAll(){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM vw_usuarioPerfil
-                WHERE estado = 1
+                SELECT
+                    usuario.id,
+                    usuario.userName  AS usuario_userName, 
+                    usuario.createdAt AS usuario_creadoEl,
+                    perfil.nombre     AS perfil_nombre,
+                    usuario.estado    AS estado
+                FROM usuario
+                    INNER JOIN perfil
+                        ON usuario.perfil_id  = perfil.id
+            WHERE usuario.estado=1;
             `;
             mysqlConnection.query(query, (e, r) => {
                 if(!e){
@@ -20,8 +28,16 @@ class UsuarioServices{
     usuarioFindById(id){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM vw_usuarioPerfil
-                WHERE usuario_id = ?;
+                SELECT
+                    usuario.id,
+                    usuario.userName  AS usuario_userName, 
+                    usuario.createdAt AS usuario_creadoEl,
+                    perfil.nombre     AS perfil_nombre,
+                    usuario.estado    AS estado
+                FROM usuario
+                    INNER JOIN perfil
+                        ON usuario.perfil_id  = perfil.id
+                WHERE usuario.id = ?;
             `;
             mysqlConnection.query(query, [id], (e, r) => {
                 if(!e){
@@ -35,18 +51,20 @@ class UsuarioServices{
     }
     usuarioCreate(body){
         return new Promise((resolve, reject) => {
-            bcrypt.hash(body.userPassword, 10)
+            bcrypt.hash(body.password, 10)
             .then(hash => {
-                const id       = 0
+                const id           = 0
                 const userPassword = hash;
-                const user     = body.userName;
+                const user         = body.userName;
+                const perfil_id    = body.perfil_id;
                 const query = `
                     SET @id = ?;
-                    SET @userName = ?;
-                    SET @password = ?;
-                    CALL addOrEditUsuario(@id, @userName, @password);
+                    SET @userName  = ?;
+                    SET @password  = ?;
+                    SET @perfil_id = ?;
+                    CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
                 `;
-                mysqlConnection.query(query, [id, user, userPassword], (e) => {
+                mysqlConnection.query(query, [id, user, userPassword, perfil_id], (e) => {
                     if(!e){
                         resolve('Done');
                     }else{
@@ -61,18 +79,19 @@ class UsuarioServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario WHERE id=?`, [id], (e, u) => {
                 if(!e){
-                    var { userName, userPassword }  = body;
-                    if(userPassword){
-                        bcrypt.hash(userPassword, 10) 
+                    var { userName, password, perfil_id }  = body;
+                    if(password){
+                        bcrypt.hash(password, 10) 
                         .then(hash => {
-                            userPassword = hash
+                            password = hash
                             const query = `
                                 SET @id           = ?;
                                 SET @userName     = ?;
-                                SET @password = ?;
-                                CALL addOrEditUsuario(@id, @userName, @password);
+                                SET @password     = ?;
+                                SET @perfil_id    = ?;
+                                CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
                             `;
-                            mysqlConnection.query(query, [id, userName, userPassword], (e) => {
+                            mysqlConnection.query(query, [id, userName, password, perfil_id], (e) => {
                                 if(!e){
                                     resolve('Done');
                                 }else{

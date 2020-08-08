@@ -1,7 +1,7 @@
 // packages
 const Joi      = require('@hapi/joi');
 // consts       
-const tamano   = Joi.string();
+const num      = Joi.string();
 const personas = Joi.string();
 const estado   = Joi.number().min(0).max(1);
 const id       = Joi.number().min(0);     
@@ -10,12 +10,12 @@ const idSchema = Joi.object({
     id: id.required()
 })
 const tamanoSchemaCreate = Joi.object({
-    tamano   : tamano.required(),
+    num      : num.required(),
     personas : personas.required()
 })
 
 const tamanoSchemaUpdate = Joi.object({
-    tamano,
+    num,
     personas,
     estado
 });

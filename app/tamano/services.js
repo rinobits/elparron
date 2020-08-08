@@ -34,13 +34,13 @@ class TamanoServices{
                 if(!err){
                     query = `
                         SET @id     = ?;
-                        SET @tamano = ?;
+                        SET @num = ?;
                         SET @personas = ?;
                         CALL addOrEditTamano(@id, @tamano, @personas);
                     `
                     if(row.length == 0){
                         id = 0;
-                        mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
+                        mysqlConnection.query(query, [id, body.num, body.personas], (err, rows, fields) => {
                             if(!err){
                                 resolve('Done');
                             }else{
@@ -48,7 +48,7 @@ class TamanoServices{
                             }
                         });
                     }else{
-                        mysqlConnection.query(query, [id, body.tamano, body.personas], (err, rows, fields) => {
+                        mysqlConnection.query(query, [id, body.num, body.personas], (err, rows, fields) => {
                             if(!err){
                                 resolve('Done');
                             }else{

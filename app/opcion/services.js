@@ -4,8 +4,19 @@ class OpcionServices{
     opcionFindAll(){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM vw_opcionPerfil
-                WHERE estado = 1;
+                SELECT 
+                    opcion.id                         AS opcion_id,
+                    opcion.nombre                     AS opcion_nombre,
+                    opcion.seccion_id, seccion.nombre AS seccion_nombre,
+                    opcion.icono,
+                    perfil.nombre                     AS perfil_nombre,
+                    opcion.estado                     AS estado
+                FROM opcion
+                    INNER JOIN perfil
+                        ON opcion.perfil_id = perfil.id
+                    INNER JOIN seccion
+                        ON seccion.id = opcion.seccion_id
+                WHERE opcion.estado = 1;
             `;
             mysqlConnection.query(query, (err, rows) => {
                 if(!err){
@@ -19,8 +30,19 @@ class OpcionServices{
     opcionFindById(id){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM vw_opcionPerfil
-                WHERE opcion_id = ?
+            SELECT 
+                opcion.id AS opcion_id,
+                opcion.nombre                     AS opcion_nombre,
+                opcion.seccion_id, seccion.nombre AS seccion_nombre,
+                opcion.icono,
+                perfil.nombre                     AS perfil_nombre,
+                opcion.estado                     AS estado
+            FROM opcion
+                INNER JOIN perfil
+                    ON opcion.perfil_id = perfil.id
+                INNER JOIN seccion
+                    ON seccion.id = opcion.seccion_id
+            WHERE opcion.id = ?;
             `;
             mysqlConnection.query(query, [id], (err, rows, fields) => {
                 if(!err){
@@ -37,6 +59,7 @@ class OpcionServices{
             const {
                 nombre,
                 seccion_id,
+                perfil_id,
                 icono
             } = body;
             var query = `
@@ -49,12 +72,13 @@ class OpcionServices{
                         SET @id         = ?;
                         SET @nombre     = ?;
                         SET @seccion_id = ?;
+                        SET @perfil_id  = ?;
                         SET @icono      = ?;
-                        CALL addOrEditOpcion(@id, @nombre, @seccion_id, @icono);
+                        CALL addOrEditOpcion(@id, @nombre, @seccion_id, @perfil_id, @icono);
                     `
                     if(row.length == 0){
                         id = 0;
-                        mysqlConnection.query(query, [id, nombre, seccion_id, icono], (err, rows, fields) => {
+                        mysqlConnection.query(query, [id, nombre, seccion_id, perfil_id, icono], (err) => {
                             if(!err){
                                 resolve('Done');
                             }else{
@@ -62,7 +86,7 @@ class OpcionServices{
                             }
                         });
                     }else{
-                        mysqlConnection.query(query, [id, nombre, seccion_id, icono], (err, rows, fields) => {
+                        mysqlConnection.query(query, [id, nombre, seccion_id, perfil_id, icono], (err, rows, fields) => {
                             if(!err){
                                 resolve('Done');
                             }else{

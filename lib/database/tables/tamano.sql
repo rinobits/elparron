@@ -5,12 +5,12 @@ DROP TABLE IF EXISTS tamano;
 
 CREATE TABLE tamano (
   id       INT(11)      NOT NULL AUTO_INCREMENT,
-  tamano   VARCHAR(100) NOT NULL,
+  num      VARCHAR(100) NOT NULL,
   personas VARCHAR(100) NOT NULL,
   estado   INT(2)       DEFAULT 1,
   PRIMARY KEY(id)
 );
-ALTER TABLE tamano ADD UNIQUE tamanoUnique(tamano);
+ALTER TABLE tamano ADD UNIQUE tamanoUnique(num   );
 
 DESCRIBE tamano;
 

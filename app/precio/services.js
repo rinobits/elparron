@@ -10,7 +10,8 @@ class PrecioServices{
             const query = `
                 SELECT 
                     precio.id,
-                    precio.producto_id, vw_producto.productoTipo_nombre,
+                    precio.producto_id,
+                    productoTipo.nombre     AS productoTipo_nombre,
                     precio.costo,
                     precio.venta,
                     precio.diet,
@@ -23,15 +24,16 @@ class PrecioServices{
                     sucursal.contactoEmail  AS sucursal_contactoEmail,
                     precio.estado
                 FROM precio
-                INNER JOIN vw_producto
-                    ON precio.producto_id = vw_producto.producto_id
                 INNER JOIN sucursal
-                    ON precio.sucursal_id = sucursal.id
+                    ON precio.sucursal_id       = sucursal.id
+                INNER JOIN producto
+                    ON precio.producto_id = producto.id
+                INNER JOIN productoTipo
+                    ON producto.productoTipo_id = productoTipo.id
                 AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [sucursal_id], (err, rows) => {
                 if(!err){
-                    rows = rows.slice(-(rows.length-1))[0];
                     resolve(rows);
                 }else{
                     reject(err);
@@ -150,13 +152,15 @@ class PrecioServices{
                 INNER JOIN sucursal
                     ON precio.sucursal_id = sucursal.id
                 AND sucursal_id = ?;
-            `
+            `;
             mysqlConnection.query(query, [sucursal_id], async(err, rows) => {
                 if(!err){
-                    if(!rows) reject();
+                    if(rows.length == 0) resolve([]);
+                    if(!rows[0].masaTipo_id) reject([]);
                     else{
-                        schemas = []
-                        schema  = require('./schemas/torta');
+                        schemas = [];
+                        var schemaTorta = require('./schemas/torta');
+                        schema = schemaTorta;
                         for(let i = 0; i < rows.length; i+=4){
                             schema.masaTipo_id               = rows[i].masaTipo_id;
                             schema.masaTipo_nombre           = rows[i].masaTipo_nombre;
@@ -176,8 +180,9 @@ class PrecioServices{
                                 schema.precioTamano[j].costo           = rows[i+j].costo;
                                 schema.precioTamano[j].venta           = rows[i+j].venta;
                             }
-                            schemas.push(Object.assign({},schema));
-                            schema = require('./schemas/torta');
+                            schemas.push(JSON.parse(JSON.stringify(schema)));
+                            schema = schemaTorta;
+                            
                         }
                     }
                     resolve(schemas);

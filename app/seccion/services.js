@@ -29,7 +29,7 @@ class SeccionServices{
             var query = `
                 SELECT * FROM seccion
                 WHERE id = ?
-            `
+            `;
             mysqlConnection.query(query, [id], (err, row) => {
                 if(!err){
                     query = `

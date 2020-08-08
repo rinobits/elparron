@@ -17,7 +17,9 @@ const productoTipo          = require('./productoTipo/routes');
 const programacionDiaria    = require('./programacion/diaria/routes');
 const programacionSemanal   = require('./programacion/semanal/routes');
 const programacionSobrantes = require('./programacion/sobrante/routes');
-
+const perfil                = require('./perfil/routes');
+const opcion                = require('./opcion/routes');
+const seccion               = require('./seccion/routes');
 const index = (app) => {
     const router = express.Router();
     app.use('/api', router);
@@ -36,5 +38,8 @@ const index = (app) => {
     router.use('/programacion/diaria',    programacionDiaria);
     router.use('/programacion/semanal',   programacionSemanal);
     router.use('/programacion/sobrante',  programacionSobrantes);
+    router.use('/perfil',                 perfil);
+    router.use('/opcion',                 opcion);
+    router.use('/seccion',                seccion);
 }
 module.exports = index;

@@ -10,24 +10,24 @@ const verifyToken                                 = require('../../utils/middlew
 
 // developer
 router.get('/getall',
-     verifyToken, 
+    verifyToken, 
     control.seccionFindAll());
 router.get('/getbyid/:id',
-     verifyToken, 
+    verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.seccionFindById());
 // admin
 router.post('/create',
-     verifyToken, 
+    verifyToken, 
     validatorHandler(seccionSchemaCreate , 'body'),
     control.seccionCreateOrUpdateById());
 router.put('/update/:id',
-     verifyToken, 
+    verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(seccionSchemaUpdate, 'body'),
     control.seccionCreateOrUpdateById());
 router.put('/delete/:id',
-     verifyToken, 
+    verifyToken, 
     validatorHandler(idSchema, 'params'),
     validatorHandler(seccionSchemaDelete, 'body'),
     control.seccionDeleteById());
