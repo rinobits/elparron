@@ -2,13 +2,13 @@
 
 
 /**
- * Crear producto
- * Se requieren privilegios. 
+ * Crear seccion
+ * Se requieren privilegios.
  *
- * body Productos  (optional)
+ * body Seccion  (optional)
  * returns createTrue
  **/
-exports.createProductos = function(body) {
+exports.createSecciones = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createProductos = function(body) {
 
 
 /**
- * Eliminar productos
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Eliminar seccion
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Producto ID
+ * id Long Seccion ID
  * returns inline_response_200
  **/
-exports.deleteProductos = function(body,id) {
+exports.deleteSecciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -46,13 +46,13 @@ exports.deleteProductos = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios. 
+ * Se requieren privilegios.
  *
- * body Productos  (optional)
- * id Long Producto ID
+ * body Seccion  (optional)
+ * id Long Seccion ID
  * returns modifyTrue
  **/
-exports.editProductos = function(body,id) {
+exports.editSecciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,24 +68,19 @@ exports.editProductos = function(body,id) {
 
 
 /**
- * Buscar producto por su id.
+ * Buscar seccion por su id.
  * Se requieren privilegos
  *
- * id Long producto ID
- * returns getProducto
+ * id Long seccion ID
+ * returns getSeccion
  **/
-exports.getProductoById = function(id) {
+exports.getSeccionById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "productoTipo_nombre" : "Empanada",
   "estado" : 1,
-  "productoTipo_id" : 1,
-  "id" : 2,
-  "diet" : 0,
-  "nombre" : "Empanada de pino",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "id" : 5,
+  "nombre" : "seccion1"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -97,44 +92,26 @@ exports.getProductoById = function(id) {
 
 
 /**
- * Listar producto
+ * Listar seccion
  * Se requieren privilegos.
  *
- * returns getProductos
+ * returns getSecciones
  **/
-exports.getProductos = function() {
+exports.getSecciones = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "id" : 1,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "id" : 5,
+  "nombre" : "seccion1",
+  "estado" : 1
+}, {
+  "id" : 3,
+  "nombre" : "seccion2",
+  "estado" : 1
 }, {
   "id" : 2,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
-}, {
-  "id" : 2,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "nombre" : "seccion3",
+  "estado" : 1
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

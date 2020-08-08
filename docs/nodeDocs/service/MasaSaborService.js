@@ -12,7 +12,7 @@ exports.createMasaSabor = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -29,14 +29,12 @@ exports.createMasaSabor = function(body) {
  *
  * body DeleteSchema  (optional)
  * id Long MasaSabor ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteMasaSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -50,14 +48,15 @@ exports.deleteMasaSabor = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body MasaSabor  (optional)
  * id Long MasaSabor ID
  * returns modifyTrue
  **/
-exports.editMasaSabor = function(id) {
+exports.editMasaSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

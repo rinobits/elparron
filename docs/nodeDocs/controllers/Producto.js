@@ -23,8 +23,8 @@ module.exports.deleteProductos = function deleteProductos (req, res, next, body,
     });
 };
 
-module.exports.editProductos = function editProductos (req, res, next, id) {
-  Producto.editProductos(id)
+module.exports.editProductos = function editProductos (req, res, next, body, id) {
+  Producto.editProductos(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

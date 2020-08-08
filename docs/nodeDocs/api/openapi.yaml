@@ -9,7 +9,7 @@ servers:
 tags:
 - name: usuarios
   description: Operaciones con usuarios
-- name: tortas
+- name: torta
   description: Operaciones con tortas
 - name: masaTipo
   description: Operaciones con tipos de masa
@@ -23,10 +23,8 @@ tags:
   description: Operaciones con sucursales
 - name: comunas
   description: Operaciones con comunas
-- name: precioTortas
-  description: Operaciones con precioTortas
-- name: precioProductos
-  description: Operaciones con precioProductos
+- name: precio
+  description: Operaciones con precios
 - name: producto
   description: Operaciones con productos
 - name: productoTipo
@@ -37,8 +35,12 @@ tags:
   description: Operaciones con programación semanal
 - name: sobrante
   description: Operaciones con sobrantes
+- name: opcion
+  description: Operaciones con opcion
+- name: seccion
+  description: Operaciones con seccion
 paths:
-  /usuario/validate:
+  /api/usuario/validate:
     post:
       tags:
       - usuarios
@@ -71,7 +73,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /usuario/getbyid/{id}:
+  /api/usuario/getbyid/{id}:
     get:
       tags:
       - usuarios
@@ -114,7 +116,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /usuario/update/{id}:
+  /api/usuario/update/{id}:
     put:
       tags:
       - usuarios
@@ -131,6 +133,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/usuarioEdit'
       responses:
         "200":
           description: Usuario editado exitosamente.
@@ -157,7 +164,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /usuario/delete/{id}:
+  /api/usuario/delete/{id}:
     put:
       tags:
       - usuarios
@@ -185,7 +192,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -205,7 +212,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /usuario/getall:
+  /api/usuario/getall:
     get:
       tags:
       - usuarios
@@ -232,7 +239,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /usuario/create:
+  /api/usuario/create:
     post:
       tags:
       - usuarios
@@ -270,10 +277,10 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Usuarios
-  /tortas/getbyid/{id}:
+  /api/torta/getbyid/{id}:
     get:
       tags:
-      - tortas
+      - torta
       summary: Buscar tortas por su id.
       description: Se requieren privilegos.
       operationId: getTortasById
@@ -312,11 +319,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Tortas
-  /tortas/update/{id}:
+      x-swagger-router-controller: Torta
+  /api/torta/update/{id}:
     put:
       tags:
-      - tortas
+      - torta
       summary: Editar información
       description: Se requieren privilegios.
       operationId: editTorta
@@ -330,6 +337,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tortas'
       responses:
         "200":
           description: Torta editado exitosamente.
@@ -355,11 +367,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Tortas
-  /tortas/delete/{id}:
+      x-swagger-router-controller: Torta
+  /api/torta/delete/{id}:
     put:
       tags:
-      - tortas
+      - torta
       summary: Eliminar torta
       description: Se requieren privilegios.  0 para eliminar y 1 para recuperar
       operationId: deleteTorta
@@ -384,7 +396,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -403,11 +415,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Tortas
-  /tortas/getall:
+      x-swagger-router-controller: Torta
+  /api/torta/getall:
     get:
       tags:
-      - tortas
+      - torta
       summary: Listar tortas
       description: Se requieren privilegos.
       operationId: getTortas
@@ -430,11 +442,11 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Tortas
-  /tortas/create:
+      x-swagger-router-controller: Torta
+  /api/torta/create:
     post:
       tags:
-      - tortas
+      - torta
       summary: Crear torta
       description: Se requieren privilegios.
       operationId: createTorta
@@ -468,8 +480,8 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: Tortas
-  /masatipo/getbyid/{id}:
+      x-swagger-router-controller: Torta
+  /api/masatipo/getbyid/{id}:
     get:
       tags:
       - masaTipo
@@ -512,7 +524,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaTipo
-  /masatipo/update/{id}:
+  /api/masatipo/update/{id}:
     put:
       tags:
       - masaTipo
@@ -529,6 +541,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/masaTipo'
       responses:
         "200":
           description: Tipo de masa editado exitosamente.
@@ -555,7 +572,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaTipo
-  /masatipo/delete/{id}:
+  /api/masatipo/delete/{id}:
     put:
       tags:
       - masaTipo
@@ -583,7 +600,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -603,7 +620,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaTipo
-  /masatipo/getall:
+  /api/masatipo/getall:
     get:
       tags:
       - masaTipo
@@ -630,7 +647,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaTipo
-  /masatipo/create:
+  /api/masatipo/create:
     post:
       tags:
       - masaTipo
@@ -668,7 +685,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaTipo
-  /masasabor/getbyid/{id}:
+  /api/masasabor/getbyid/{id}:
     get:
       tags:
       - masaSabor
@@ -711,7 +728,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaSabor
-  /masasabor/edit/{id}:
+  /api/masasabor/update/{id}:
     put:
       tags:
       - masaSabor
@@ -728,6 +745,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/masaSabor'
       responses:
         "200":
           description: Tipo de masa editado exitosamente.
@@ -754,7 +776,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaSabor
-  /masasabor/delete/{id}:
+  /api/masasabor/delete/{id}:
     put:
       tags:
       - masaSabor
@@ -782,7 +804,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -802,7 +824,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaSabor
-  /masasabor/getall:
+  /api/masasabor/getall:
     get:
       tags:
       - masaSabor
@@ -829,7 +851,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaSabor
-  /masasabor/create:
+  /api/masasabor/create:
     post:
       tags:
       - masaSabor
@@ -867,7 +889,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: MasaSabor
-  /sabor/getbyid/{id}:
+  /api/sabor/getbyid/{id}:
     get:
       tags:
       - sabor
@@ -910,7 +932,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sabor
-  /sabor/update/{id}:
+  /api/sabor/update/{id}:
     put:
       tags:
       - sabor
@@ -927,6 +949,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sabor'
       responses:
         "200":
           description: Sabor editado exitosamente.
@@ -953,7 +980,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sabor
-  /sabor/delete/{id}:
+  /api/sabor/delete/{id}:
     put:
       tags:
       - sabor
@@ -976,7 +1003,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -996,7 +1023,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sabor
-  /sabor/getall:
+  /api/sabor/getall:
     get:
       tags:
       - sabor
@@ -1023,7 +1050,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sabor
-  /sabor/create:
+  /api/sabor/create:
     post:
       tags:
       - sabor
@@ -1061,7 +1088,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sabor
-  /tamano/getbyid/{id}:
+  /api/tamano/getbyid/{id}:
     get:
       tags:
       - tamano
@@ -1104,7 +1131,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /tamano/update/{id}:
+  /api/tamano/update/{id}:
     put:
       tags:
       - tamano
@@ -1121,6 +1148,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/tamano'
       responses:
         "200":
           description: Tamaño editado exitosamente.
@@ -1147,7 +1179,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /tamano/delete/{id}:
+  /api/tamano/delete/{id}:
     put:
       tags:
       - tamano
@@ -1175,7 +1207,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -1195,7 +1227,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /tamano/getall:
+  /api/tamano/getall:
     get:
       tags:
       - tamano
@@ -1222,7 +1254,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /tamano/create:
+  /api/tamano/create:
     post:
       tags:
       - tamano
@@ -1260,7 +1292,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Tamano
-  /sucursal/getbyid/{id}:
+  /api/sucursal/getbyid/{id}:
     get:
       tags:
       - sucursales
@@ -1303,7 +1335,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursal/update/{id}:
+  /api/sucursal/update/{id}:
     put:
       tags:
       - sucursales
@@ -1320,6 +1352,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/sucursales'
       responses:
         "200":
           description: Sucursal editada exitosamente.
@@ -1346,7 +1383,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursal/delete/{id}:
+  /api/sucursal/delete/{id}:
     put:
       tags:
       - sucursales
@@ -1374,7 +1411,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -1394,7 +1431,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursal/getall:
+  /api/sucursal/getall:
     get:
       tags:
       - sucursales
@@ -1421,7 +1458,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /sucursal/create:
+  /api/sucursal/create:
     post:
       tags:
       - sucursales
@@ -1459,7 +1496,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sucursales
-  /comuna/getbyid/{id}:
+  /api/comuna/getbyid/{id}:
     get:
       tags:
       - comunas
@@ -1502,7 +1539,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comuna/update/{id}:
+  /api/comuna/update/{id}:
     put:
       tags:
       - comunas
@@ -1519,6 +1556,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/comunas'
       responses:
         "200":
           description: Comuna editada exitosamente.
@@ -1545,7 +1587,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comuna/delete/{id}:
+  /api/comuna/delete/{id}:
     put:
       tags:
       - comunas
@@ -1573,7 +1615,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -1593,7 +1635,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comuna/getall:
+  /api/comuna/getall:
     get:
       tags:
       - comunas
@@ -1620,7 +1662,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /comuna/create:
+  /api/comuna/create:
     post:
       tags:
       - comunas
@@ -1658,7 +1700,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Comunas
-  /programacion/diaria/diaysucursal:
+  /api/programacion/diaria/diaysucursal:
     get:
       tags:
       - diaria
@@ -1709,7 +1751,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/diaria/update:
+  /api/programacion/diaria/update:
     put:
       tags:
       - diaria
@@ -1764,7 +1806,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/diaria/getall:
+  /api/programacion/diaria/getall:
     get:
       tags:
       - diaria
@@ -1792,7 +1834,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/diaria/create:
+  /api/programacion/diaria/create:
     post:
       tags:
       - diaria
@@ -1847,7 +1889,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/diaria/emptyday:
+  /api/programacion/diaria/emptyday:
     put:
       tags:
       - diaria
@@ -1897,7 +1939,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/diaria/emptyweek:
+  /api/programacion/diaria/emptyweek:
     put:
       tags:
       - diaria
@@ -1939,7 +1981,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Diaria
-  /programacion/sobrante/diaysucursal:
+  /api/programacion/sobrante/diaysucursal:
     get:
       tags:
       - sobrante
@@ -1989,7 +2031,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sobrante
-  /programacion/sobrante/update:
+  /api/programacion/sobrante/update:
     put:
       tags:
       - sobrante
@@ -2044,7 +2086,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sobrante
-  /programacion/sobrante/create:
+  /api/programacion/sobrante/create:
     post:
       tags:
       - sobrante
@@ -2099,7 +2141,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Sobrante
-  /programacion/semanal/diaysucursal:
+  /api/programacion/semanal/diaysucursal:
     get:
       tags:
       - semanal
@@ -2149,7 +2191,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Semanal
-  /programacion/semanal/update:
+  /api/programacion/semanal/update:
     put:
       tags:
       - semanal
@@ -2204,7 +2246,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Semanal
-  /programacion/semanal/create:
+  /api/programacion/semanal/create:
     post:
       tags:
       - semanal
@@ -2259,7 +2301,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Semanal
-  /producto/getbyid/{id}:
+  /api/producto/getbyid/{id}:
     get:
       tags:
       - producto
@@ -2302,7 +2344,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Producto
-  /producto/update/{id}:
+  /api/producto/update/{id}:
     put:
       tags:
       - producto
@@ -2319,6 +2361,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productos'
       responses:
         "200":
           description: Producto editada exitosamente.
@@ -2345,7 +2392,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Producto
-  /producto/delete/{id}:
+  /api/producto/delete/{id}:
     put:
       tags:
       - producto
@@ -2373,7 +2420,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -2393,7 +2440,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Producto
-  /producto/getall:
+  /api/producto/getall:
     get:
       tags:
       - producto
@@ -2420,7 +2467,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Producto
-  /producto/create:
+  /api/producto/create:
     post:
       tags:
       - producto
@@ -2458,7 +2505,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: Producto
-  /productoTipo/getbyid/{id}:
+  /api/productoTipo/getbyid/{id}:
     get:
       tags:
       - productoTipo
@@ -2501,7 +2548,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: ProductoTipo
-  /productoTipo/update/{id}:
+  /api/productoTipo/update/{id}:
     put:
       tags:
       - productoTipo
@@ -2518,6 +2565,11 @@ paths:
         schema:
           type: integer
           format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/productoTipos'
       responses:
         "200":
           description: ProductoTipo editada exitosamente.
@@ -2544,7 +2596,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: ProductoTipo
-  /productoTipo/delete/{id}:
+  /api/productoTipo/delete/{id}:
     put:
       tags:
       - productoTipo
@@ -2572,7 +2624,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/deleteTrue'
+                $ref: '#/components/schemas/inline_response_200'
         "400":
           description: Solicitud inválida
           content:
@@ -2592,7 +2644,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: ProductoTipo
-  /productoTipo/getall:
+  /api/productoTipo/getall:
     get:
       tags:
       - productoTipo
@@ -2619,7 +2671,7 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: ProductoTipo
-  /productoTipo/create:
+  /api/productoTipo/create:
     post:
       tags:
       - productoTipo
@@ -2657,123 +2709,21 @@ paths:
               schema:
                 $ref: '#/components/schemas/internalError'
       x-swagger-router-controller: ProductoTipo
-  /precioTorta/update:
+  /api/precio/update:
     put:
       tags:
-      - precioTortas
-      summary: Editar información
-      description: Se requieren privilegios. Edita una o varias tortas
-      operationId: editprecioTortas
-      responses:
-        "200":
-          description: precioTorta editada exitosamente.
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/modifyTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/precioTortaBadRequest'
-        "401":
-          description: Autenticación fallida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioTortas
-  /precioTorta/getbystore:
-    get:
-      tags:
-      - precioTortas
-      summary: Listar precioTorta
-      description: Se requieren privilegos.
-      operationId: getprecioTortas
-      parameters:
-      - name: sucursal_id
-        in: query
-        description: 'id de la sucursal, vgr: /?sucursal_id=1'
-        required: false
-        style: form
-        explode: true
-        schema:
-          type: integer
-      responses:
-        "200":
-          description: Lista generada exitosamente
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/getprecioTortas'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioTortas
-  /precioTorta/create:
-    post:
-      tags:
-      - precioTortas
-      summary: Crear precioTorta
-      description: Se requieren privilegios. Crea una o varias tortas.
-      operationId: createprecioTorta
+      - precio
+      summary: Editar información de uno o varios productos/tortas
+      description: Se requieren privilegios. Envia productos ó tortas
+      operationId: editprecio
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/precioTorta'
+              $ref: '#/components/schemas/body'
       responses:
         "200":
-          description: Se requieren privilegios
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/createTrue'
-        "400":
-          description: Solicitud inválida
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/precioTortaBadRequest'
-        "401":
-          description: No autenticado
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/notAuth'
-        "500":
-          description: Error en el servidor
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioTortas
-  /precioProducto/update:
-    put:
-      tags:
-      - precioProductos
-      summary: Editar información de uno o varios productos
-      description: 'Se requieren privilegios. '
-      operationId: editprecioProductos
-      responses:
-        "200":
-          description: precioProducto editada exitosamente.
+          description: precio editada exitosamente.
           content:
             application/json:
               schema:
@@ -2796,14 +2746,14 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioProductos
-  /precioProducto/getbystore:
+      x-swagger-router-controller: Precio
+  /api/precio/getbystore:
     get:
       tags:
-      - precioProductos
-      summary: Listar precioProducto por sucursal
+      - precio
+      summary: Listar precios por sucursal
       description: Se requieren privilegos.
-      operationId: getprecioProductos
+      operationId: getprecio
       parameters:
       - name: sucursal_id
         in: query
@@ -2832,19 +2782,19 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioProductos
-  /precioProducto/create:
+      x-swagger-router-controller: Precio
+  /api/precio/create:
     post:
       tags:
-      - precioProductos
-      summary: Crear precioProducto
-      description: Se requieren privilegios. Crea uno o varios productos
+      - precio
+      summary: Crear precios para tortas ó productos
+      description: Se requieren privilegios. Crea uno o varios productos/tortas
       operationId: createprecioProducto
       requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/precioProducto'
+              $ref: '#/components/schemas/body_1'
       responses:
         "200":
           description: Se requieren privilegios
@@ -2870,9 +2820,457 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/internalError'
-      x-swagger-router-controller: PrecioProductos
+      x-swagger-router-controller: Precio
+  /api/opcion/getbyid/{id}:
+    get:
+      tags:
+      - opcion
+      summary: Buscar opcion por su id.
+      description: Se requieren privilegos
+      operationId: getOpcionById
+      parameters:
+      - name: id
+        in: path
+        description: opcion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOpcion'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Opcion
+  /api/opcion/update/{id}:
+    put:
+      tags:
+      - opcion
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editOpciones
+      parameters:
+      - name: id
+        in: path
+        description: Opcion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opcion'
+      responses:
+        "200":
+          description: Opcion editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opcionBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Opcion
+  /api/opcion/delete/{id}:
+    put:
+      tags:
+      - opcion
+      summary: Eliminar opcion
+      description: Se requieren privilegios. 0 para eliminar 1 y para recuperar
+      operationId: deleteOpciones
+      parameters:
+      - name: id
+        in: path
+        description: Opcion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
+      responses:
+        "200":
+          description: Opcionor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Opcion
+  /api/opcion/getall:
+    get:
+      tags:
+      - opcion
+      summary: Listar opcion
+      description: Se requieren privilegos.
+      operationId: getOpciones
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getOpciones'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Opcion
+  /api/opcion/create:
+    post:
+      tags:
+      - opcion
+      summary: Crear opcion
+      description: Se requieren privilegios.
+      operationId: createOpciones
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/opcion'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/opcionBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Opcion
+  /api/seccion/getbyid/{id}:
+    get:
+      tags:
+      - seccion
+      summary: Buscar seccion por su id.
+      description: Se requieren privilegos
+      operationId: getSeccionById
+      parameters:
+      - name: id
+        in: path
+        description: seccion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: Solicitud exitosa.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSeccion'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Seccion
+  /api/seccion/update/{id}:
+    put:
+      tags:
+      - seccion
+      summary: Editar información
+      description: Se requieren privilegios.
+      operationId: editSecciones
+      parameters:
+      - name: id
+        in: path
+        description: Seccion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/seccion'
+      responses:
+        "200":
+          description: Seccion editada exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/modifyTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/seccionBadRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Seccion
+  /api/seccion/delete/{id}:
+    put:
+      tags:
+      - seccion
+      summary: Eliminar seccion
+      description: Se requieren privilegios. 0 para eliminar 1 y para recuperar
+      operationId: deleteSecciones
+      parameters:
+      - name: id
+        in: path
+        description: Seccion ID
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/deleteSchema'
+      responses:
+        "200":
+          description: Seccionor eliminado exitosamente.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/inline_response_200'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/badRequest'
+        "401":
+          description: Autenticación fallida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Seccion
+  /api/seccion/getall:
+    get:
+      tags:
+      - seccion
+      summary: Listar seccion
+      description: Se requieren privilegos.
+      operationId: getSecciones
+      responses:
+        "200":
+          description: Lista generada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/getSecciones'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Seccion
+  /api/seccion/create:
+    post:
+      tags:
+      - seccion
+      summary: Crear seccion
+      description: Se requieren privilegios.
+      operationId: createSecciones
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/seccion'
+      responses:
+        "200":
+          description: Se requieren privilegios
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/createTrue'
+        "400":
+          description: Solicitud inválida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/seccionBadRequest'
+        "401":
+          description: No autenticado
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/notAuth'
+        "500":
+          description: Error en el servidor
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/internalError'
+      x-swagger-router-controller: Seccion
 components:
   schemas:
+    badRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: Bad Request
+    modifyTrue:
+      type: object
+      properties:
+        restore:
+          type: string
+          example: created/updated sucessfully
+      example:
+        restore: created/updated sucessfully
+    createTrue:
+      type: object
+      properties:
+        response:
+          type: string
+          example: created/updated sucessfully
+      example:
+        response: created/updated sucessfully
+    deleteTrue:
+      type: object
+      properties:
+        DELETE DATA:
+          type: boolean
+          example: true
+    restoreTrue:
+      type: object
+      properties:
+        RESTORE DATA:
+          type: boolean
+          example: true
     emptyTrue:
       type: object
       properties:
@@ -2943,6 +3341,7 @@ components:
           example: Unauthorized
     usuarios:
       required:
+      - perfil_id
       - userName
       - userPassword
       type: object
@@ -2951,49 +3350,78 @@ components:
           maxLength: 30
           minLength: 3
           type: string
-        userPassword:
+        password:
           maxLength: 32
           minLength: 8
           type: string
+        perfil_id:
+          minimum: 0
+          type: integer
+    usuarioEdit:
+      required:
+      - perfil_id
+      - userName
+      type: object
+      properties:
+        userName:
+          maxLength: 30
+          minLength: 3
+          type: string
+        password:
+          maxLength: 32
+          minLength: 8
+          type: string
+          example: Here, this field is optional
+        perfil_id:
+          minimum: 0
+          type: integer
     getUser:
       type: object
       properties:
         id:
           type: integer
           example: 1
-        userName:
+        usuario_userName:
           type: string
           example: Arath
-        createdAt:
+        usuario_creadoEl:
           type: string
-          example: 2020-06-15T21:33:42.000Z
-        updatedAt:
+          example: 2020-08-07T23:04:42.000Z
+        perfil_id:
+          type: integer
+          example: 1
+        perfil_nombre:
           type: string
-          example: 2020-06-15T21:33:42.000Z
+          example: profileName
       example:
-        createdAt: 2020-06-15T21:33:42.000Z
+        usuario_creadoEl: 2020-08-07T23:04:42.000Z
+        perfil_nombre: profileName
+        perfil_id: 1
+        usuario_userName: Arath
         id: 1
-        userName: Arath
-        updatedAt: 2020-06-15T21:33:42.000Z
     getUsers:
       type: array
       example:
       - id: 0
-        userName: User
-        createdAt: 2020-06-16T23:05:14.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
+        usuario_userName: User
+        usuario_creadoEl: 2020-06-16T23:05:14.000Z
+        perfil_id: 1
+        perfil_nombre: proifleName
       - id: 3
-        userName: User
-        createdAt: 2020-06-16T23:05:14.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
+        usuario_userName: User
+        usuario_creadoEl: 2020-06-16T23:05:14.000Z
+        perfil_id: 1
+        perfil_nombre: proifleName
       - id: 17
-        userName: User
-        createdAt: 2020-06-16T23:05:14.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
+        usuario_userName: User
+        usuario_creadoEl: 2020-06-16T23:05:14.000Z
+        perfil_id: 1
+        perfil_nombre: proifleName
       - id: 21
-        userName: User
-        createdAt: 2020-06-16T23:05:14.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
+        usuario_userName: User
+        usuario_creadoEl: 2020-06-16T23:05:14.000Z
+        perfil_id: 1
+        perfil_nombre: proifleName
       items:
         $ref: '#/components/schemas/getUsers_inner'
     userBadRequest:
@@ -3306,11 +3734,11 @@ components:
           example: '"nombre" is required'
     tamano:
       required:
+      - num
       - personas
-      - tamano
       type: object
       properties:
-        tamano:
+        num:
           type: string
         personas:
           type: string
@@ -3319,7 +3747,7 @@ components:
         id:
           type: integer
           example: 5
-        tamano:
+        num:
           type: string
           example: 1/2
         personas:
@@ -3337,33 +3765,33 @@ components:
       example:
         createdAt: 2020-06-16T20:05:48.000Z
         estado: 1
+        num: 1/2
         id: 5
         personas: 6 personas
-        tamano: 1/2
         updatedAt: 2020-06-16T23:05:14.000Z
     getTamanos:
       type: array
       example:
       - id: 1
-        tamano: 1/2
+        num: 1/2
         personas: "6"
         estado: 1
         createdAt: 2020-06-16T20:05:48.000Z
         updatedAt: 2020-06-16T23:05:14.000Z
       - id: 2
-        tamano: "1"
+        num: "1"
         personas: "12"
         estado: 1
         createdAt: 2020-06-16T20:05:48.000Z
         updatedAt: 2020-06-16T23:05:14.000Z
       - id: 3
-        tamano: "2"
+        num: "2"
         personas: "18"
         estado: 1
         createdAt: 2020-06-16T20:05:48.000Z
         updatedAt: 2020-06-16T23:05:14.000Z
       - id: 4
-        tamano: "3"
+        num: "3"
         personas: "24"
         estado: 1
         createdAt: 2020-06-16T20:05:48.000Z
@@ -3604,42 +4032,6 @@ components:
         message:
           type: string
           example: '"ciudad" is required'
-    badRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 400
-        error:
-          type: string
-          example: Bad Request
-        message:
-          type: string
-          example: Bad Request
-    modifyTrue:
-      type: object
-      properties:
-        MODIFY DATA:
-          type: boolean
-          example: true
-      example:
-        MODIFY DATA: true
-    createTrue:
-      type: object
-      properties:
-        CREATED:
-          type: boolean
-          example: true
-      example:
-        CREATED: true
-    deleteTrue:
-      type: object
-      properties:
-        DELETE DATA:
-          type: boolean
-          example: true
-      example:
-        DELETE DATA: true
     getJsonData:
       properties:
         id:
@@ -3960,142 +4352,6 @@ components:
         message:
           type: string
           example: '"productoTipo_id" is required'
-    precioTorta:
-      type: array
-      items:
-        minimum: 1
-        oneOf:
-        - $ref: '#/components/schemas/precioTortaObj'
-    precioTortaObj:
-      required:
-      - cuadrada
-      - diet
-      - masaTipo_id
-      - precioTamano
-      - sucursal_id
-      type: object
-      properties:
-        masaTipo_id:
-          minimum: 0
-          type: integer
-        diet:
-          maximum: 1
-          minimum: 0
-          type: integer
-        cuadrada:
-          maximum: 1
-          minimum: 0
-          type: integer
-        precioTamano:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-        sucursal_id:
-          minimum: 0
-          type: integer
-    precioTamano:
-      required:
-      - costo
-      - tamano_id
-      - venta
-      type: object
-      properties:
-        tamano_id:
-          minimum: 0
-          type: integer
-        costo:
-          minimum: 0
-          type: integer
-        venta:
-          minimum: 0
-          type: integer
-    getprecioTorta:
-      type: object
-      properties:
-        masaTipo_id:
-          type: integer
-          example: 1
-        masaTipo_nombre:
-          type: string
-          example: Bizcocho
-        diet:
-          type: string
-          example: "1"
-        cuadrada:
-          type: string
-          example: "1"
-        precioTamano:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/precioTamanoExample'
-            - $ref: '#/components/schemas/precioTamanoExample'
-            - $ref: '#/components/schemas/precioTamanoExample'
-            - $ref: '#/components/schemas/precioTamanoExample'
-        sucursal_id:
-          type: integer
-          example: 1
-        sucursal_rut:
-          type: string
-          example: 2.323-232-8
-        sucursal_nombre:
-          type: string
-          example: Pudahuel Sur
-        sucursal_direccion:
-          type: string
-          example: Pudahuel, las camelias 394
-        sucursal_giro:
-          type: string
-          example: Servicios
-        sucursal_contactoNombre:
-          type: string
-          example: Django Reinhardt
-        sucursal_contactoEmail:
-          type: string
-          example: "1"
-    precioTamanoExample:
-      type: object
-      properties:
-        tamano_id:
-          type: integer
-          example: 1
-        tamano:
-          type: string
-          example: 1/2
-        tamano_personas:
-          type: string
-          example: 6 personas
-        costo:
-          type: integer
-          example: 1950
-        venta:
-          type: integer
-          example: 1200
-    getprecioTortas:
-      type: array
-      items:
-        type: array
-        items:
-          oneOf:
-          - $ref: '#/components/schemas/getprecioTorta'
-          - $ref: '#/components/schemas/getprecioTorta'
-          - $ref: '#/components/schemas/getprecioTorta'
-    precioTortaBadRequest:
-      type: object
-      properties:
-        statusCode:
-          type: integer
-          example: 400
-        error:
-          type: string
-          example: Bad Request
-        message:
-          type: string
-          example: '"masaTipo_id" is required'
     precioProducto:
       type: array
       items:
@@ -4169,12 +4425,13 @@ components:
     getprecioProductos:
       type: array
       items:
-        type: array
-        items:
-          oneOf:
-          - $ref: '#/components/schemas/getprecioProducto'
-          - $ref: '#/components/schemas/getprecioProducto'
-          - $ref: '#/components/schemas/getprecioProducto'
+        oneOf:
+        - $ref: '#/components/schemas/getprecioTortas'
+        - $ref: '#/components/schemas/getprecioTortas'
+        - $ref: '#/components/schemas/getprecioProducto'
+        - $ref: '#/components/schemas/getprecioProducto'
+        - $ref: '#/components/schemas/getprecioProducto'
+        - $ref: '#/components/schemas/getprecioProducto'
     precioProductoBadRequest:
       type: object
       properties:
@@ -4187,16 +4444,292 @@ components:
         message:
           type: string
           example: '"producto_id" is required'
+    getprecioTorta:
+      type: object
+      properties:
+        masaTipo_id:
+          type: integer
+          example: 1
+        masaTipo_nombre:
+          type: string
+          example: Bizcocho
+        diet:
+          type: string
+          example: "1"
+        cuadrada:
+          type: string
+          example: "1"
+        precioTamano:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/precioTamanoExample'
+            - $ref: '#/components/schemas/precioTamanoExample'
+            - $ref: '#/components/schemas/precioTamanoExample'
+            - $ref: '#/components/schemas/precioTamanoExample'
+        sucursal_id:
+          type: integer
+          example: 1
+        sucursal_rut:
+          type: string
+          example: 2.323-232-8
+        sucursal_nombre:
+          type: string
+          example: Pudahuel Sur
+        sucursal_direccion:
+          type: string
+          example: Pudahuel, las camelias 394
+        sucursal_giro:
+          type: string
+          example: Servicios
+        sucursal_contactoNombre:
+          type: string
+          example: Django Reinhardt
+        sucursal_contactoEmail:
+          type: string
+          example: "1"
+    precioTamanoExample:
+      type: object
+      properties:
+        tamano_id:
+          type: integer
+          example: 1
+        tamano:
+          type: string
+          example: 1/2
+        tamano_personas:
+          type: string
+          example: 6 personas
+        costo:
+          type: integer
+          example: 1950
+        venta:
+          type: integer
+          example: 1200
+    getprecioTortas:
+      type: array
+      items:
+        oneOf:
+        - $ref: '#/components/schemas/getprecioTorta'
+        - $ref: '#/components/schemas/getprecioTorta'
+        - $ref: '#/components/schemas/getprecioTorta'
+    precioTorta:
+      type: array
+      items:
+        minimum: 1
+        oneOf:
+        - $ref: '#/components/schemas/precioTortaObj'
+    precioTortaObj:
+      required:
+      - cuadrada
+      - diet
+      - masaTipo_id
+      - precioTamano
+      - sucursal_id
+      type: object
+      properties:
+        masaTipo_id:
+          minimum: 0
+          type: integer
+        diet:
+          maximum: 1
+          minimum: 0
+          type: integer
+        cuadrada:
+          maximum: 1
+          minimum: 0
+          type: integer
+        precioTamano:
+          type: array
+          items:
+            oneOf:
+            - $ref: '#/components/schemas/precioTamano'
+            - $ref: '#/components/schemas/precioTamano'
+            - $ref: '#/components/schemas/precioTamano'
+            - $ref: '#/components/schemas/precioTamano'
+        sucursal_id:
+          minimum: 0
+          type: integer
+    precioTamano:
+      required:
+      - costo
+      - tamano_id
+      - venta
+      type: object
+      properties:
+        tamano_id:
+          minimum: 0
+          type: integer
+        costo:
+          minimum: 0
+          type: integer
+        venta:
+          minimum: 0
+          type: integer
+    opcion:
+      required:
+      - icono
+      - nombre
+      - perfil_id
+      - seccion_id
+      type: object
+      properties:
+        nombre:
+          type: string
+        seccion_id:
+          type: integer
+        perfil_id:
+          type: integer
+        icono:
+          type: string
+    getOpcion:
+      properties:
+        id:
+          type: integer
+          example: 5
+        opcion_nombre:
+          type: string
+          example: opcion1
+        seccion_id:
+          type: integer
+          example: 1
+        seccion_nombre:
+          type: string
+          example: section name
+        perfil_id:
+          type: integer
+          example: 1
+        perfil_nombre:
+          type: string
+          example: profile name
+        icono:
+          type: string
+          example: MKFemk4kwfmfd
+        estado:
+          type: integer
+          example: 1
+      example:
+        icono: MKFemk4kwfmfd
+        estado: 1
+        seccion_id: 1
+        perfil_nombre: profile name
+        opcion_nombre: opcion1
+        perfil_id: 1
+        seccion_nombre: section name
+        id: 5
+    getOpciones:
+      type: array
+      example:
+      - opcion_id: 5
+        opcion_nombre: opcion1
+        seccion_id: 1
+        seccion_nombre: sectionName
+        perfil_id: 1
+        perfil_nombre: profileName
+        icono: 1
+        estado: 1
+      - opcion_id: 3
+        opcion_nombre: opcion2
+        seccion_id: 1
+        seccion_nombre: sectionName
+        perfil_id: 1
+        perfil_nombre: profileName
+        icono: 1
+        estado: 1
+      - opcion_id: 2
+        opcion_nombre: opcion3
+        seccion_id: 1
+        seccion_nombre: sectionName
+        perfil_id: 1
+        perfil_nombre: profileName
+        icono: 1
+        estado: 1
+      items:
+        $ref: '#/components/schemas/getOpciones_inner'
+    opcionBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    seccion:
+      required:
+      - nombre
+      type: object
+      properties:
+        nombre:
+          type: string
+    getSeccion:
+      properties:
+        id:
+          type: integer
+          example: 5
+        nombre:
+          type: string
+          example: seccion1
+        estado:
+          type: integer
+          example: 1
+      example:
+        estado: 1
+        id: 5
+        nombre: seccion1
+    getSecciones:
+      type: array
+      example:
+      - id: 5
+        nombre: seccion1
+        estado: 1
+      - id: 3
+        nombre: seccion2
+        estado: 1
+      - id: 2
+        nombre: seccion3
+        estado: 1
+      items:
+        $ref: '#/components/schemas/getSecciones_inner'
+    seccionBadRequest:
+      type: object
+      properties:
+        statusCode:
+          type: integer
+          example: 400
+        error:
+          type: string
+          example: Bad Request
+        message:
+          type: string
+          example: '"nombre" is required'
+    inline_response_200:
+      oneOf:
+      - $ref: '#/components/schemas/deleteTrue'
+      - $ref: '#/components/schemas/restoreTrue'
+    body:
+      oneOf:
+      - $ref: '#/components/schemas/precioProducto'
+      - $ref: '#/components/schemas/precioTorta'
+    body_1:
+      oneOf:
+      - $ref: '#/components/schemas/precioProducto'
+      - $ref: '#/components/schemas/precioTorta'
     getUsers_inner:
       type: object
       properties:
         id:
           type: integer
-        userName:
+        usuario_userName:
           type: string
-        createdAt:
+        usuario:creadoEl:
           type: string
-        updatedAt:
+        perfil_id:
+          type: integer
+        perfil_nombre:
           type: string
     getTortas_inner:
       type: object
@@ -4233,7 +4766,7 @@ components:
     getTamanos_inner:
       type: object
       properties:
-        tamano:
+        num:
           type: string
         personas:
           type: string
@@ -4315,3 +4848,27 @@ components:
           type: string
         updatedAt:
           type: string
+    getOpciones_inner:
+      type: object
+      properties:
+        opcion_nombre:
+          type: string
+        seccion_id:
+          type: integer
+        seccion_nombre:
+          type: string
+        perfil_id:
+          type: integer
+        perfil_nombre:
+          type: string
+        icono:
+          type: string
+        estado:
+          type: integer
+    getSecciones_inner:
+      type: object
+      properties:
+        nombre:
+          type: string
+        estado:
+          type: integer

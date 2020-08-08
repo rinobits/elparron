@@ -23,8 +23,8 @@ module.exports.deleteTamano = function deleteTamano (req, res, next, body, id) {
     });
 };
 
-module.exports.editTamano = function editTamano (req, res, next, id) {
-  Tamano.editTamano(id)
+module.exports.editTamano = function editTamano (req, res, next, body, id) {
+  Tamano.editTamano(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var PrecioTortas = require('../service/PrecioTortasService');
+var Precio = require('../service/PrecioService');
 
-module.exports.createprecioTorta = function createprecioTorta (req, res, next, body) {
-  PrecioTortas.createprecioTorta(body)
+module.exports.createprecioProducto = function createprecioProducto (req, res, next, body) {
+  Precio.createprecioProducto(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createprecioTorta = function createprecioTorta (req, res, next, b
     });
 };
 
-module.exports.editprecioTortas = function editprecioTortas (req, res, next) {
-  PrecioTortas.editprecioTortas()
+module.exports.editprecio = function editprecio (req, res, next, body) {
+  Precio.editprecio(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.editprecioTortas = function editprecioTortas (req, res, next) {
     });
 };
 
-module.exports.getprecioTortas = function getprecioTortas (req, res, next, sucursal_id) {
-  PrecioTortas.getprecioTortas(sucursal_id)
+module.exports.getprecio = function getprecio (req, res, next, sucursal_id) {
+  Precio.getprecio(sucursal_id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

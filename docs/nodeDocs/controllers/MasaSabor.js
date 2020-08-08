@@ -23,8 +23,8 @@ module.exports.deleteMasaSabor = function deleteMasaSabor (req, res, next, body,
     });
 };
 
-module.exports.editMasaSabor = function editMasaSabor (req, res, next, id) {
-  MasaSabor.editMasaSabor(id)
+module.exports.editMasaSabor = function editMasaSabor (req, res, next, body, id) {
+  MasaSabor.editMasaSabor(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

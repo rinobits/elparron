@@ -23,8 +23,8 @@ module.exports.deleteMasaTipo = function deleteMasaTipo (req, res, next, body, i
     });
 };
 
-module.exports.editMasaTipo = function editMasaTipo (req, res, next, id) {
-  MasaTipo.editMasaTipo(id)
+module.exports.editMasaTipo = function editMasaTipo (req, res, next, body, id) {
+  MasaTipo.editMasaTipo(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

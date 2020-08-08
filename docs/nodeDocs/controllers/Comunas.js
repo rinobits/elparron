@@ -23,8 +23,8 @@ module.exports.deleteComunas = function deleteComunas (req, res, next, body, id)
     });
 };
 
-module.exports.editComunas = function editComunas (req, res, next, id) {
-  Comunas.editComunas(id)
+module.exports.editComunas = function editComunas (req, res, next, body, id) {
+  Comunas.editComunas(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

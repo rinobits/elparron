@@ -12,7 +12,7 @@ exports.createSabor = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -28,14 +28,12 @@ exports.createSabor = function(body) {
  * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * id Long Sabor ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteSabor = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -49,14 +47,15 @@ exports.deleteSabor = function(id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body Sabor  (optional)
  * id Long Sabor ID
  * returns modifyTrue
  **/
-exports.editSabor = function(id) {
+exports.editSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

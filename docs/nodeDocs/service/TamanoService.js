@@ -12,7 +12,7 @@ exports.createTamano = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -29,14 +29,12 @@ exports.createTamano = function(body) {
  *
  * body DeleteSchema  (optional)
  * id Long Tamano ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteTamano = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -50,14 +48,15 @@ exports.deleteTamano = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body Tamano  (optional)
  * id Long Tamano ID
  * returns modifyTrue
  **/
-exports.editTamano = function(id) {
+exports.editTamano = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -79,28 +78,28 @@ exports.getTamano = function() {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 1,
-  "tamano" : "1/2",
+  "num" : "1/2",
   "personas" : "6",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "tamano" : "1",
+  "num" : "1",
   "personas" : "12",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 3,
-  "tamano" : "2",
+  "num" : "2",
   "personas" : "18",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 4,
-  "tamano" : "3",
+  "num" : "3",
   "personas" : "24",
   "estado" : 1,
   "createdAt" : "2020-06-16T20:05:48.000Z",
@@ -128,9 +127,9 @@ exports.getTamanoById = function(id) {
     examples['application/json'] = {
   "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
+  "num" : "1/2",
   "id" : 5,
   "personas" : "6 personas",
-  "tamano" : "1/2",
   "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {

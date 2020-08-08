@@ -2,17 +2,17 @@
 
 
 /**
- * Crear precioProducto
- * Se requieren privilegios. Crea uno o varios productos
+ * Crear precios para tortas ó productos
+ * Se requieren privilegios. Crea uno o varios productos/tortas
  *
- * body List  (optional)
+ * body Body_1  (optional)
  * returns createTrue
  **/
 exports.createprecioProducto = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -24,16 +24,17 @@ exports.createprecioProducto = function(body) {
 
 
 /**
- * Editar información de uno o varios productos
- * Se requieren privilegios. 
+ * Editar información de uno o varios productos/tortas
+ * Se requieren privilegios. Envia productos ó tortas
  *
+ * body Body  (optional)
  * returns modifyTrue
  **/
-exports.editprecioProductos = function() {
+exports.editprecio = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -45,16 +46,16 @@ exports.editprecioProductos = function() {
 
 
 /**
- * Listar precioProducto por sucursal
+ * Listar precios por sucursal
  * Se requieren privilegos.
  *
  * sucursal_id Integer id de la sucursal, vgr: /?sucursal_id=1 (optional)
  * returns getprecioProductos
  **/
-exports.getprecioProductos = function(sucursal_id) {
+exports.getprecio = function(sucursal_id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ [ "", "" ], [ "", "" ] ];
+    examples['application/json'] = [ "", "" ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

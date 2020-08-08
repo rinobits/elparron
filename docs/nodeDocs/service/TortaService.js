@@ -12,7 +12,7 @@ exports.createTorta = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -29,14 +29,12 @@ exports.createTorta = function(body) {
  *
  * body DeleteSchema  (optional)
  * id Long Torta ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteTorta = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -50,14 +48,15 @@ exports.deleteTorta = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body Tortas  (optional)
  * id Long Torta ID
  * returns modifyTrue
  **/
-exports.editTorta = function(id) {
+exports.editTorta = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

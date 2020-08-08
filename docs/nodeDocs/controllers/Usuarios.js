@@ -33,8 +33,8 @@ module.exports.deleteUser = function deleteUser (req, res, next, body, id) {
     });
 };
 
-module.exports.editUser = function editUser (req, res, next, id) {
-  Usuarios.editUser(id)
+module.exports.editUser = function editUser (req, res, next, body, id) {
+  Usuarios.editUser(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

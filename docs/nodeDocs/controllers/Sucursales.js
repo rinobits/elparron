@@ -23,8 +23,8 @@ module.exports.deleteSucursales = function deleteSucursales (req, res, next, bod
     });
 };
 
-module.exports.editSucursales = function editSucursales (req, res, next, id) {
-  Sucursales.editSucursales(id)
+module.exports.editSucursales = function editSucursales (req, res, next, body, id) {
+  Sucursales.editSucursales(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

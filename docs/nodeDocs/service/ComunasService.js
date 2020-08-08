@@ -12,7 +12,7 @@ exports.createComunas = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -29,14 +29,12 @@ exports.createComunas = function(body) {
  *
  * body DeleteSchema  (optional)
  * id Long Comuna ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteComunas = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -50,14 +48,15 @@ exports.deleteComunas = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body Comunas  (optional)
  * id Long Comuna ID
  * returns modifyTrue
  **/
-exports.editComunas = function(id) {
+exports.editComunas = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

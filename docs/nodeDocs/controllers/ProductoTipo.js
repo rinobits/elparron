@@ -23,8 +23,8 @@ module.exports.deleteProductoTipos = function deleteProductoTipos (req, res, nex
     });
 };
 
-module.exports.editProductoTipos = function editProductoTipos (req, res, next, id) {
-  ProductoTipo.editProductoTipos(id)
+module.exports.editProductoTipos = function editProductoTipos (req, res, next, body, id) {
+  ProductoTipo.editProductoTipos(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

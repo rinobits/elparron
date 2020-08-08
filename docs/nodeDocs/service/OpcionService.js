@@ -2,13 +2,13 @@
 
 
 /**
- * Crear producto
- * Se requieren privilegios. 
+ * Crear opcion
+ * Se requieren privilegios.
  *
- * body Productos  (optional)
+ * body Opcion  (optional)
  * returns createTrue
  **/
-exports.createProductos = function(body) {
+exports.createOpciones = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createProductos = function(body) {
 
 
 /**
- * Eliminar productos
- * Se requieren privilegios. 0 para eliminar y 1 para recuperar
+ * Eliminar opcion
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Producto ID
+ * id Long Opcion ID
  * returns inline_response_200
  **/
-exports.deleteProductos = function(body,id) {
+exports.deleteOpciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -46,13 +46,13 @@ exports.deleteProductos = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios. 
+ * Se requieren privilegios.
  *
- * body Productos  (optional)
- * id Long Producto ID
+ * body Opcion  (optional)
+ * id Long Opcion ID
  * returns modifyTrue
  **/
-exports.editProductos = function(body,id) {
+exports.editOpciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,24 +68,24 @@ exports.editProductos = function(body,id) {
 
 
 /**
- * Buscar producto por su id.
+ * Buscar opcion por su id.
  * Se requieren privilegos
  *
- * id Long producto ID
- * returns getProducto
+ * id Long opcion ID
+ * returns getOpcion
  **/
-exports.getProductoById = function(id) {
+exports.getOpcionById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "productoTipo_nombre" : "Empanada",
+  "icono" : "MKFemk4kwfmfd",
   "estado" : 1,
-  "productoTipo_id" : 1,
-  "id" : 2,
-  "diet" : 0,
-  "nombre" : "Empanada de pino",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "seccion_id" : 1,
+  "perfil_nombre" : "profile name",
+  "opcion_nombre" : "opcion1",
+  "perfil_id" : 1,
+  "seccion_nombre" : "section name",
+  "id" : 5
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -97,44 +97,41 @@ exports.getProductoById = function(id) {
 
 
 /**
- * Listar producto
+ * Listar opcion
  * Se requieren privilegos.
  *
- * returns getProductos
+ * returns getOpciones
  **/
-exports.getProductos = function() {
+exports.getOpciones = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "id" : 1,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "opcion_id" : 5,
+  "opcion_nombre" : "opcion1",
+  "seccion_id" : 1,
+  "seccion_nombre" : "sectionName",
+  "perfil_id" : 1,
+  "perfil_nombre" : "profileName",
+  "icono" : 1,
+  "estado" : 1
 }, {
-  "id" : 2,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "opcion_id" : 3,
+  "opcion_nombre" : "opcion2",
+  "seccion_id" : 1,
+  "seccion_nombre" : "sectionName",
+  "perfil_id" : 1,
+  "perfil_nombre" : "profileName",
+  "icono" : 1,
+  "estado" : 1
 }, {
-  "id" : 2,
-  "productoTipo_id" : 1,
-  "productoTipo_nombre" : "Empanada",
-  "diet" : 1,
-  "nombre" : "Bizcocho vainilla chocolate",
-  "cuadrada" : 1,
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "opcion_id" : 2,
+  "opcion_nombre" : "opcion3",
+  "seccion_id" : 1,
+  "seccion_nombre" : "sectionName",
+  "perfil_id" : 1,
+  "perfil_nombre" : "profileName",
+  "icono" : 1,
+  "estado" : 1
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

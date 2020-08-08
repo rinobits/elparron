@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Sabor = require('../service/SaborService');
+var Torta = require('../service/TortaService');
 
-module.exports.createSabor = function createSabor (req, res, next, body) {
-  Sabor.createSabor(body)
+module.exports.createTorta = function createTorta (req, res, next, body) {
+  Torta.createTorta(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createSabor = function createSabor (req, res, next, body) {
     });
 };
 
-module.exports.deleteSabor = function deleteSabor (req, res, next, id) {
-  Sabor.deleteSabor(id)
+module.exports.deleteTorta = function deleteTorta (req, res, next, body, id) {
+  Torta.deleteTorta(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deleteSabor = function deleteSabor (req, res, next, id) {
     });
 };
 
-module.exports.editSabor = function editSabor (req, res, next, body, id) {
-  Sabor.editSabor(body, id)
+module.exports.editTorta = function editTorta (req, res, next, body, id) {
+  Torta.editTorta(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.editSabor = function editSabor (req, res, next, body, id) {
     });
 };
 
-module.exports.getSabor = function getSabor (req, res, next) {
-  Sabor.getSabor()
+module.exports.getTortas = function getTortas (req, res, next) {
+  Torta.getTortas()
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.getSabor = function getSabor (req, res, next) {
     });
 };
 
-module.exports.getSaborById = function getSaborById (req, res, next, id) {
-  Sabor.getSaborById(id)
+module.exports.getTortasById = function getTortasById (req, res, next, id) {
+  Torta.getTortasById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })

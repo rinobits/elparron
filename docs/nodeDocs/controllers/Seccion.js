@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Tortas = require('../service/TortasService');
+var Seccion = require('../service/SeccionService');
 
-module.exports.createTorta = function createTorta (req, res, next, body) {
-  Tortas.createTorta(body)
+module.exports.createSecciones = function createSecciones (req, res, next, body) {
+  Seccion.createSecciones(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createTorta = function createTorta (req, res, next, body) {
     });
 };
 
-module.exports.deleteTorta = function deleteTorta (req, res, next, body, id) {
-  Tortas.deleteTorta(body, id)
+module.exports.deleteSecciones = function deleteSecciones (req, res, next, body, id) {
+  Seccion.deleteSecciones(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deleteTorta = function deleteTorta (req, res, next, body, id) {
     });
 };
 
-module.exports.editTorta = function editTorta (req, res, next, id) {
-  Tortas.editTorta(id)
+module.exports.editSecciones = function editSecciones (req, res, next, body, id) {
+  Seccion.editSecciones(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.editTorta = function editTorta (req, res, next, id) {
     });
 };
 
-module.exports.getTortas = function getTortas (req, res, next) {
-  Tortas.getTortas()
+module.exports.getSeccionById = function getSeccionById (req, res, next, id) {
+  Seccion.getSeccionById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.getTortas = function getTortas (req, res, next) {
     });
 };
 
-module.exports.getTortasById = function getTortasById (req, res, next, id) {
-  Tortas.getTortasById(id)
+module.exports.getSecciones = function getSecciones (req, res, next) {
+  Seccion.getSecciones()
     .then(function (response) {
       utils.writeJson(res, response);
     })

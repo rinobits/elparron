@@ -1,10 +1,10 @@
 'use strict';
 
 var utils = require('../utils/writer.js');
-var Sabor = require('../service/SaborService');
+var Opcion = require('../service/OpcionService');
 
-module.exports.createSabor = function createSabor (req, res, next, body) {
-  Sabor.createSabor(body)
+module.exports.createOpciones = function createOpciones (req, res, next, body) {
+  Opcion.createOpciones(body)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -13,8 +13,8 @@ module.exports.createSabor = function createSabor (req, res, next, body) {
     });
 };
 
-module.exports.deleteSabor = function deleteSabor (req, res, next, id) {
-  Sabor.deleteSabor(id)
+module.exports.deleteOpciones = function deleteOpciones (req, res, next, body, id) {
+  Opcion.deleteOpciones(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -23,8 +23,8 @@ module.exports.deleteSabor = function deleteSabor (req, res, next, id) {
     });
 };
 
-module.exports.editSabor = function editSabor (req, res, next, body, id) {
-  Sabor.editSabor(body, id)
+module.exports.editOpciones = function editOpciones (req, res, next, body, id) {
+  Opcion.editOpciones(body, id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -33,8 +33,8 @@ module.exports.editSabor = function editSabor (req, res, next, body, id) {
     });
 };
 
-module.exports.getSabor = function getSabor (req, res, next) {
-  Sabor.getSabor()
+module.exports.getOpcionById = function getOpcionById (req, res, next, id) {
+  Opcion.getOpcionById(id)
     .then(function (response) {
       utils.writeJson(res, response);
     })
@@ -43,8 +43,8 @@ module.exports.getSabor = function getSabor (req, res, next) {
     });
 };
 
-module.exports.getSaborById = function getSaborById (req, res, next, id) {
-  Sabor.getSaborById(id)
+module.exports.getOpciones = function getOpciones (req, res, next) {
+  Opcion.getOpciones()
     .then(function (response) {
       utils.writeJson(res, response);
     })

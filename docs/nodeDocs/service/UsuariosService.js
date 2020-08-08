@@ -34,7 +34,7 @@ exports.createUser = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "CREATED" : true
+  "response" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -51,14 +51,12 @@ exports.createUser = function(body) {
  *
  * body DeleteSchema  (optional)
  * id Long Order ID
- * returns deleteTrue
+ * returns inline_response_200
  **/
 exports.deleteUser = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "DELETE DATA" : true
-};
+    examples['application/json'] = "";
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -72,14 +70,15 @@ exports.deleteUser = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
+ * body UsuarioEdit  (optional)
  * id Long Users ID
  * returns modifyTrue
  **/
-exports.editUser = function(id) {
+exports.editUser = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "MODIFY DATA" : true
+  "restore" : "created/updated sucessfully"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -101,10 +100,11 @@ exports.getUserById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "createdAt" : "2020-06-15T21:33:42.000Z",
-  "id" : 1,
-  "userName" : "Arath",
-  "updatedAt" : "2020-06-15T21:33:42.000Z"
+  "usuario_creadoEl" : "2020-08-07T23:04:42.000Z",
+  "perfil_nombre" : "profileName",
+  "perfil_id" : 1,
+  "usuario_userName" : "Arath",
+  "id" : 1
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -126,24 +126,28 @@ exports.getUsers = function() {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 0,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "usuario_userName" : "User",
+  "usuario_creadoEl" : "2020-06-16T23:05:14.000Z",
+  "perfil_id" : 1,
+  "perfil_nombre" : "proifleName"
 }, {
   "id" : 3,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "usuario_userName" : "User",
+  "usuario_creadoEl" : "2020-06-16T23:05:14.000Z",
+  "perfil_id" : 1,
+  "perfil_nombre" : "proifleName"
 }, {
   "id" : 17,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "usuario_userName" : "User",
+  "usuario_creadoEl" : "2020-06-16T23:05:14.000Z",
+  "perfil_id" : 1,
+  "perfil_nombre" : "proifleName"
 }, {
   "id" : 21,
-  "userName" : "User",
-  "createdAt" : "2020-06-16T23:05:14.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "usuario_userName" : "User",
+  "usuario_creadoEl" : "2020-06-16T23:05:14.000Z",
+  "perfil_id" : 1,
+  "perfil_nombre" : "proifleName"
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
