@@ -19,11 +19,11 @@ BEGIN
         );
         SET _id = LAST_INSERT_ID();
     ELSE
-        IF _password = "" THEN        
+        IF _password = '' THEN        
             UPDATE usuario
             SET 
                 userName  = _userName,
-                perfil_id = _perfil_id
+                perfil_id = _perfil_id,
                 estado = 1
             WHERE id = _id;
         ELSE
