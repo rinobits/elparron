@@ -3,7 +3,15 @@ const mysqlConnection = require('../../lib/database/database');
 class SeccionServices{
     seccionFindAll(){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM seccion WHERE estado = 1`, (err, rows, fields) => {
+            const query = `
+                SELECT 
+                    seccion.id, seccion.nombre, seccion.estado
+                FROM
+                    seccion
+                WHERE 
+                    estado = 1;
+            `;
+            mysqlConnection.query(query, (err, rows, fields) => {
                 if(!err){
                     resolve(rows);
                 }else{
@@ -14,7 +22,15 @@ class SeccionServices{
     }
     seccionFindById(id){
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM seccion WHERE ID = ?`, [id], (err, rows, fields) => {
+            const query = `
+                SELECT 
+                    seccion.id, seccion.nombre, seccion.estado
+                FROM
+                    seccion
+                WHERE 
+                    seccion.id = ?;
+            `;
+            mysqlConnection.query(query, [id], (err, rows, fields) => {
                 if(!err){
                     resolve(rows[0]);
                 }else{

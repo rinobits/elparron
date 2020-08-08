@@ -9,6 +9,7 @@ class OpcionServices{
                     opcion.nombre                     AS opcion_nombre,
                     opcion.seccion_id, seccion.nombre AS seccion_nombre,
                     opcion.icono,
+                    perfil.id                         AS perfil_id,
                     perfil.nombre                     AS perfil_nombre,
                     opcion.estado                     AS estado
                 FROM opcion
@@ -35,6 +36,7 @@ class OpcionServices{
                 opcion.nombre                     AS opcion_nombre,
                 opcion.seccion_id, seccion.nombre AS seccion_nombre,
                 opcion.icono,
+                perfil.id                         AS perfil_id,
                 perfil.nombre                     AS perfil_nombre,
                 opcion.estado                     AS estado
             FROM opcion

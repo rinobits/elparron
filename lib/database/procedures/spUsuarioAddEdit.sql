@@ -19,13 +19,22 @@ BEGIN
         );
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE usuario
-        SET 
-            userName  = _userName,
-            password  = _password,
-            perfil_id = _perfil_id,
-            estado = 1
-        WHERE id = _id;
+        IF _password = "" THEN        
+            UPDATE usuario
+            SET 
+                userName  = _userName,
+                perfil_id = _perfil_id
+                estado = 1
+            WHERE id = _id;
+        ELSE
+            UPDATE usuario
+            SET 
+                userName  = _userName,
+                password  = _password,
+                perfil_id = _perfil_id
+                estado = 1
+            WHERE id = _id;
+        END IF;
     END IF;
     SELECT _id as id;
 END;$$

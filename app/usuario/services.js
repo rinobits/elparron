@@ -8,6 +8,7 @@ class UsuarioServices{
                     usuario.id,
                     usuario.userName  AS usuario_userName, 
                     usuario.createdAt AS usuario_creadoEl,
+                    perfil.id         AS perfil_id,
                     perfil.nombre     AS perfil_nombre,
                     usuario.estado    AS estado
                 FROM usuario
@@ -32,6 +33,7 @@ class UsuarioServices{
                     usuario.id,
                     usuario.userName  AS usuario_userName, 
                     usuario.createdAt AS usuario_creadoEl,
+                    perfil.id         AS perfil_id,
                     perfil.nombre     AS perfil_nombre,
                     usuario.estado    AS estado
                 FROM usuario
@@ -100,6 +102,22 @@ class UsuarioServices{
                             })
                         })
                         .catch(e => reject(e));
+                    }else{
+                        password = "";
+                        const query = `
+                            SET @id           = ?;
+                            SET @userName     = ?;
+                            SET @password     = ?;
+                            SET @perfil_id    = ?;
+                            CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
+                        `;
+                        mysqlConnection.query(query, [id, userName, password, perfil_id], (e) => {
+                            if(!e){
+                                resolve('Done');
+                            }else{
+                                reject(e);
+                            }
+                        })
                     }
                 }else{
                     reject(e);
