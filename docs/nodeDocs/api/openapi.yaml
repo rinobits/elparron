@@ -3479,15 +3479,8 @@ components:
         estado:
           type: integer
           example: 1
-        createdAt:
-          type: string
-          example: 2020-06-16T20:05:48.000Z
-        updatedAt:
-          type: string
-          example: 2020-06-16T23:05:14.000Z
       example:
         masaTipo_nombre: Bizcocho
-        createdAt: 2020-06-16T20:05:48.000Z
         estado: 1
         masaSabor_id: 1
         sabor_nombre: Chocolate
@@ -3495,7 +3488,6 @@ components:
         id: 5
         sabor_id: 1
         masaTipo_id: 1
-        updatedAt: 2020-06-16T23:05:14.000Z
     getTortas:
       type: array
       example:
@@ -3507,8 +3499,6 @@ components:
         sabor_id: 2
         sabor_nombre: Chocolate
         estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
       - id: 3
         masaTipo_id: 1
         masaTipo_nombre: Bizcocho
@@ -3517,8 +3507,6 @@ components:
         sabor_id: 2
         sabor_nombre: Chocolate
         estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
       - id: 2
         masaTipo_id: 1
         masaTipo_nombre: Bizcocho
@@ -3527,8 +3515,6 @@ components:
         sabor_id: 2
         sabor_nombre: Chocolate
         estado: 1
-        createdAt: 2020-06-16T20:05:48.000Z
-        updatedAt: 2020-06-16T23:05:14.000Z
       - id: 10
         masaTipo_id: 2
         masaSabor_id: 2
@@ -4747,10 +4733,6 @@ components:
         sabor_nombre:
           type: string
         estado:
-          type: string
-        createdAt:
-          type: string
-        updatedAt:
           type: string
     getMasaTipos_inner:
       type: object

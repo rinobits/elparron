@@ -84,9 +84,7 @@ exports.getTortas = function() {
   "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
   "sabor_nombre" : "Chocolate",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "estado" : 1
 }, {
   "id" : 3,
   "masaTipo_id" : 1,
@@ -95,9 +93,7 @@ exports.getTortas = function() {
   "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
   "sabor_nombre" : "Chocolate",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "estado" : 1
 }, {
   "id" : 2,
   "masaTipo_id" : 1,
@@ -106,9 +102,7 @@ exports.getTortas = function() {
   "masaSabor_nombre" : "Vainilla",
   "sabor_id" : 2,
   "sabor_nombre" : "Chocolate",
-  "estado" : 1,
-  "createdAt" : "2020-06-16T20:05:48.000Z",
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "estado" : 1
 }, {
   "id" : 10,
   "masaTipo_id" : 2,
@@ -135,15 +129,13 @@ exports.getTortasById = function(id) {
     var examples = {};
     examples['application/json'] = {
   "masaTipo_nombre" : "Bizcocho",
-  "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
   "masaSabor_id" : 1,
   "sabor_nombre" : "Chocolate",
   "masaSabor_nombre" : "Vainilla",
   "id" : 5,
   "sabor_id" : 1,
-  "masaTipo_id" : 1,
-  "updatedAt" : "2020-06-16T23:05:14.000Z"
+  "masaTipo_id" : 1
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
