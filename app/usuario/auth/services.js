@@ -7,7 +7,6 @@ class AuthServices{
         return new Promise((resolve, reject) => {
             mysqlConnection.query(`SELECT * FROM usuario WHERE userName = ?`, [username], (err, usuario) => {
                 if(!err){
-                    console.log(usuario[0].perfil_id);
                     bcrypt.compare(password, usuario[0].password)
                         .then(r => {
                             if(r == true){
