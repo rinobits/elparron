@@ -15,7 +15,6 @@ router.get('/getbyid/:id',
      verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.masaTipoFindById());
-
 router.post('/create',
      verifyToken, 
     validatorHandler(masaTipoSchemaCreate , 'body'),

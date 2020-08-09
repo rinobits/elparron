@@ -10,7 +10,7 @@ const tamanoFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const tamanoFindById = () => {
@@ -20,7 +20,7 @@ const tamanoFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const tamanoCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const tamanoCreateOrUpdateById = () => {
         const {id}   = req.params;
         tamanoServices.tamanoCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const tamanoDeleteById = () => {
@@ -40,7 +40,7 @@ const tamanoDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 module.exports = {

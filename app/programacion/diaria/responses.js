@@ -32,13 +32,13 @@ const programacionDiariaFindByDiaYsucursal = () => {
             }else{
                 programacionDiariaServices.sortTables(r)
                 .then(tables => {
-                    if(!tables) next(boom.badImplementation(e))
+                    if(!tables) next(boom.badRequest(e))
                     programacionDiariaServices.tablesToJson(tables)
                         .then(tables => res.json(tables));
                 })
             }
         })
-        .catch(e => next(boom.badImplementation(e)))
+        .catch(e => next(boom.badRequest(e)))
     }
 }
 const programacionDiariaMultipleUpdate = () => {

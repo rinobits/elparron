@@ -24,7 +24,7 @@ const sobranteFindByDiaYsucursal = () => {
                 })
             }
         })
-        .catch(e => next(boom.badImplementation(e)))
+        .catch(e => next(boom.badRequest(e)))
     }
 }
 const sobranteMultipleUpdate = () => {

@@ -15,13 +15,13 @@ const programacionSemanalFindByDiaYsucursal = () => {
             }else{
                 programacionSemanalServices.sortTables(r)
                 .then(tables => {
-                    if(!tables) next(boom.badImplementation(e))
+                    if(!tables) next(boom.badRequest(e))
                     programacionSemanalServices.tablesToJson(tables)
                     .then(tables => res.json(tables));
                 })
             }
         })
-        .catch(e => next(boom.badImplementation(e)))
+        .catch(e => next(boom.badRequest(e)))
     }
 }
 const programacionSemanalMultipleUpdate = () => {

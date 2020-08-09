@@ -10,7 +10,7 @@ const perfilFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const perfilFindById = () => {
@@ -20,7 +20,7 @@ const perfilFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const perfilCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const perfilCreateOrUpdateById = () => {
         const {id}   = req.params;
         perfilServices.perfilCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 const perfilDeleteById = () => {
@@ -40,7 +40,7 @@ const perfilDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badImplementation(e)))
+            .catch(e => next(boom.badRequest(e)))
     }
 }
 module.exports = {
