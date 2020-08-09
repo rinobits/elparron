@@ -2,13 +2,13 @@
 
 
 /**
- * Crear torta
+ * Crear tamaño
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
+ * body Tamano  (optional)
  * returns createTrue
  **/
-exports.createTorta = function(body) {
+exports.createTamano = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createTorta = function(body) {
 
 
 /**
- * Eliminar torta
+ * Eliminar tamano
  * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Torta ID
+ * id Long Tamano ID
  * returns inline_response_200
  **/
-exports.deleteTorta = function(body,id) {
+exports.deleteTamano = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -48,11 +48,11 @@ exports.deleteTorta = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
- * id Long Torta ID
+ * body Tamano  (optional)
+ * id Long Tamano ID
  * returns modifyTrue
  **/
-exports.editTorta = function(body,id) {
+exports.editTamano = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,41 +68,42 @@ exports.editTorta = function(body,id) {
 
 
 /**
- * Listar tortas
+ * Listar tamaño
  * Se requieren privilegos.
  *
- * returns getTortas
+ * returns getTamanos
  **/
-exports.getTortas = function() {
+exports.getTamano = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
-  "id" : 5,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 3,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
+  "id" : 1,
+  "num" : "1/2",
+  "personas" : "6",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
+  "num" : "1",
+  "personas" : "12",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 3,
+  "num" : "2",
+  "personas" : "18",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 4,
+  "num" : "3",
+  "personas" : "24",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -114,24 +115,22 @@ exports.getTortas = function() {
 
 
 /**
- * Buscar tortas por su id.
- * Se requieren privilegos.
+ * Buscar tamaño por su id.
+ * Se requieren privilegos
  *
- * id Long torta ID
- * returns getTorta
+ * id Long tamano ID
+ * returns getTamano
  **/
-exports.getTortasById = function(id) {
+exports.getTamanoById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "masaTipo_nombre" : "Bizcocho",
+  "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
-  "masaSabor_id" : 1,
-  "sabor_nombre" : "Chocolate",
-  "masaSabor_nombre" : "Vainilla",
+  "num" : "1/2",
   "id" : 5,
-  "sabor_id" : 1,
-  "masaTipo_id" : 1
+  "personas" : "6 personas",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

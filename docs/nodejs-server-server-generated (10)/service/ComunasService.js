@@ -2,13 +2,13 @@
 
 
 /**
- * Crear torta
+ * Crear comuna
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
+ * body Comunas  (optional)
  * returns createTrue
  **/
-exports.createTorta = function(body) {
+exports.createComunas = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createTorta = function(body) {
 
 
 /**
- * Eliminar torta
- * Se requieren privilegios.  0 para eliminar y 1 para recuperar
+ * Eliminar comunas
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Torta ID
+ * id Long Comuna ID
  * returns inline_response_200
  **/
-exports.deleteTorta = function(body,id) {
+exports.deleteComunas = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -48,11 +48,11 @@ exports.deleteTorta = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
- * id Long Torta ID
+ * body Comunas  (optional)
+ * id Long Comuna ID
  * returns modifyTrue
  **/
-exports.editTorta = function(body,id) {
+exports.editComunas = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,42 +68,23 @@ exports.editTorta = function(body,id) {
 
 
 /**
- * Listar tortas
- * Se requieren privilegos.
+ * Buscar comuna por su id.
+ * Se requieren privilegos
  *
- * returns getTortas
+ * id Long comuna ID
+ * returns getComuna
  **/
-exports.getTortas = function() {
+exports.getComunaById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
+    examples['application/json'] = {
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "estado" : 1,
+  "ciudad" : "Santiago",
   "id" : 5,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 3,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 2,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-} ];
+  "nombre" : "Pudahuel",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -114,25 +95,43 @@ exports.getTortas = function() {
 
 
 /**
- * Buscar tortas por su id.
+ * Listar comuna
  * Se requieren privilegos.
  *
- * id Long torta ID
- * returns getTorta
+ * returns getComunas
  **/
-exports.getTortasById = function(id) {
+exports.getComunas = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "masaTipo_nombre" : "Bizcocho",
+    examples['application/json'] = [ {
+  "id" : 1,
+  "nombre" : "Pudahuel",
+  "ciudad" : "Santiago",
   "estado" : 1,
-  "masaSabor_id" : 1,
-  "sabor_nombre" : "Chocolate",
-  "masaSabor_nombre" : "Vainilla",
-  "id" : 5,
-  "sabor_id" : 1,
-  "masaTipo_id" : 1
-};
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 2,
+  "nombre" : "Pudahuel",
+  "ciudad" : "Santiago",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 2,
+  "nombre" : "Providencia",
+  "ciudad" : "Santiago",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 2,
+  "nombre" : "Las Condes",
+  "ciudad" : "Santiago",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+} ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

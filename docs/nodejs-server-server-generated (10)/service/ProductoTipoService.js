@@ -2,13 +2,13 @@
 
 
 /**
- * Crear torta
+ * Crear productoTipo
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
+ * body ProductoTipos  (optional)
  * returns createTrue
  **/
-exports.createTorta = function(body) {
+exports.createProductoTipos = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createTorta = function(body) {
 
 
 /**
- * Eliminar torta
- * Se requieren privilegios.  0 para eliminar y 1 para recuperar
+ * Eliminar productoTipos
+ * Se requieren privilegios. 0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Torta ID
+ * id Long ProductoTipo ID
  * returns inline_response_200
  **/
-exports.deleteTorta = function(body,id) {
+exports.deleteProductoTipos = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -46,13 +46,13 @@ exports.deleteTorta = function(body,id) {
 
 /**
  * Editar información
- * Se requieren privilegios.
+ * Se requieren privilegios. 
  *
- * body Tortas  (optional)
- * id Long Torta ID
+ * body ProductoTipos  (optional)
+ * id Long ProductoTipo ID
  * returns modifyTrue
  **/
-exports.editTorta = function(body,id) {
+exports.editProductoTipos = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,42 +68,22 @@ exports.editTorta = function(body,id) {
 
 
 /**
- * Listar tortas
- * Se requieren privilegos.
+ * Buscar productoTipo por su id.
+ * Se requieren privilegos
  *
- * returns getTortas
+ * id Long productoTipo ID
+ * returns getProductoTipo
  **/
-exports.getTortas = function() {
+exports.getProductoTipoById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
-  "id" : 5,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 3,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
+    examples['application/json'] = {
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "estado" : 1,
   "id" : 2,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-} ];
+  "nombre" : "Empanada de pino",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -114,25 +94,33 @@ exports.getTortas = function() {
 
 
 /**
- * Buscar tortas por su id.
+ * Listar productoTipo
  * Se requieren privilegos.
  *
- * id Long torta ID
- * returns getTorta
+ * returns getProductoTipos
  **/
-exports.getTortasById = function(id) {
+exports.getProductoTipos = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "masaTipo_nombre" : "Bizcocho",
+    examples['application/json'] = [ {
+  "id" : 1,
+  "nombre" : "Empanada",
   "estado" : 1,
-  "masaSabor_id" : 1,
-  "sabor_nombre" : "Chocolate",
-  "masaSabor_nombre" : "Vainilla",
-  "id" : 5,
-  "sabor_id" : 1,
-  "masaTipo_id" : 1
-};
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 2,
+  "nombre" : "Empanada",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+}, {
+  "id" : 2,
+  "nombre" : "Empanada",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
+} ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {

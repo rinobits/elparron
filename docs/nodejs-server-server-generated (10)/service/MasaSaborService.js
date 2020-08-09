@@ -2,13 +2,13 @@
 
 
 /**
- * Crear torta
+ * Crear sabor de masa
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
+ * body MasaSabor  (optional)
  * returns createTrue
  **/
-exports.createTorta = function(body) {
+exports.createMasaSabor = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createTorta = function(body) {
 
 
 /**
- * Eliminar torta
+ * Eliminar sabor de masa
  * Se requieren privilegios.  0 para eliminar y 1 para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Torta ID
+ * id Long MasaSabor ID
  * returns inline_response_200
  **/
-exports.deleteTorta = function(body,id) {
+exports.deleteMasaSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -48,11 +48,11 @@ exports.deleteTorta = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
- * id Long Torta ID
+ * body MasaSabor  (optional)
+ * id Long MasaSabor ID
  * returns modifyTrue
  **/
-exports.editTorta = function(body,id) {
+exports.editMasaSabor = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,41 +68,32 @@ exports.editTorta = function(body,id) {
 
 
 /**
- * Listar tortas
+ * Listar sabor de masa
  * Se requieren privilegos.
  *
- * returns getTortas
+ * returns getMasaSabors
  **/
-exports.getTortas = function() {
+exports.getMasaSabor = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = [ {
   "id" : 5,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
+  "nombre" : "nuez",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 3,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
+  "nombre" : "chocolate",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 }, {
   "id" : 2,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
+  "nombre" : "vainilla",
+  "estado" : 1,
+  "createdAt" : "2020-06-16T20:05:48.000Z",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 } ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
@@ -114,24 +105,21 @@ exports.getTortas = function() {
 
 
 /**
- * Buscar tortas por su id.
+ * Buscar sabor de masa por su id.
  * Se requieren privilegos.
  *
- * id Long torta ID
- * returns getTorta
+ * id Long masaSabor ID
+ * returns getMasaSabor
  **/
-exports.getTortasById = function(id) {
+exports.getMasaSaborById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
-  "masaTipo_nombre" : "Bizcocho",
+  "createdAt" : "2020-06-16T20:05:48.000Z",
   "estado" : 1,
-  "masaSabor_id" : 1,
-  "sabor_nombre" : "Chocolate",
-  "masaSabor_nombre" : "Vainilla",
   "id" : 5,
-  "sabor_id" : 1,
-  "masaTipo_id" : 1
+  "nombre" : "bizcocho",
+  "updatedAt" : "2020-06-16T23:05:14.000Z"
 };
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);

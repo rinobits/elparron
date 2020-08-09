@@ -2,13 +2,13 @@
 
 
 /**
- * Crear torta
+ * Crear seccion
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
+ * body Seccion  (optional)
  * returns createTrue
  **/
-exports.createTorta = function(body) {
+exports.createSecciones = function(body) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -24,14 +24,14 @@ exports.createTorta = function(body) {
 
 
 /**
- * Eliminar torta
- * Se requieren privilegios.  0 para eliminar y 1 para recuperar
+ * Eliminar seccion
+ * Se requieren privilegios. 0 para eliminar 1 y para recuperar
  *
  * body DeleteSchema  (optional)
- * id Long Torta ID
+ * id Long Seccion ID
  * returns inline_response_200
  **/
-exports.deleteTorta = function(body,id) {
+exports.deleteSecciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = "";
@@ -48,11 +48,11 @@ exports.deleteTorta = function(body,id) {
  * Editar información
  * Se requieren privilegios.
  *
- * body Tortas  (optional)
- * id Long Torta ID
+ * body Seccion  (optional)
+ * id Long Seccion ID
  * returns modifyTrue
  **/
-exports.editTorta = function(body,id) {
+exports.editSecciones = function(body,id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
     examples['application/json'] = {
@@ -68,42 +68,20 @@ exports.editTorta = function(body,id) {
 
 
 /**
- * Listar tortas
- * Se requieren privilegos.
+ * Buscar seccion por su id.
+ * Se requieren privilegos
  *
- * returns getTortas
+ * id Long seccion ID
+ * returns getSeccion
  **/
-exports.getTortas = function() {
+exports.getSeccionById = function(id) {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = [ {
+    examples['application/json'] = {
+  "estado" : 1,
   "id" : 5,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 3,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-}, {
-  "id" : 2,
-  "masaTipo_id" : 1,
-  "masaTipo_nombre" : "Bizcocho",
-  "masaSabor_id" : 2,
-  "masaSabor_nombre" : "Vainilla",
-  "sabor_id" : 2,
-  "sabor_nombre" : "Chocolate",
-  "estado" : 1
-} ];
+  "nombre" : "seccion1"
+};
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
@@ -114,25 +92,27 @@ exports.getTortas = function() {
 
 
 /**
- * Buscar tortas por su id.
+ * Listar seccion
  * Se requieren privilegos.
  *
- * id Long torta ID
- * returns getTorta
+ * returns getSecciones
  **/
-exports.getTortasById = function(id) {
+exports.getSecciones = function() {
   return new Promise(function(resolve, reject) {
     var examples = {};
-    examples['application/json'] = {
-  "masaTipo_nombre" : "Bizcocho",
-  "estado" : 1,
-  "masaSabor_id" : 1,
-  "sabor_nombre" : "Chocolate",
-  "masaSabor_nombre" : "Vainilla",
+    examples['application/json'] = [ {
   "id" : 5,
-  "sabor_id" : 1,
-  "masaTipo_id" : 1
-};
+  "nombre" : "seccion1",
+  "estado" : 1
+}, {
+  "id" : 3,
+  "nombre" : "seccion2",
+  "estado" : 1
+}, {
+  "id" : 2,
+  "nombre" : "seccion3",
+  "estado" : 1
+} ];
     if (Object.keys(examples).length > 0) {
       resolve(examples[Object.keys(examples)[0]]);
     } else {
