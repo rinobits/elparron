@@ -10,7 +10,7 @@ const productoFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoFindById = () => {
@@ -20,7 +20,7 @@ const productoFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoCreateOrUpdateById = () => {
@@ -28,7 +28,7 @@ const productoCreateOrUpdateById = () => {
         const {id}   = req.params;
         productoServices.productoCreateOrUpdateById(id, req.body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoDeleteById = () => {
@@ -39,7 +39,7 @@ const productoDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

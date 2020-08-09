@@ -10,7 +10,7 @@ const productoTipoFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoTipoFindById = () => {
@@ -20,7 +20,7 @@ const productoTipoFindById = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoTipoCreateOrUpdateById = () => {
@@ -28,7 +28,7 @@ const productoTipoCreateOrUpdateById = () => {
         const {id}   = req.params;
         productoTipoServices.productoTipoCreateOrUpdateById(id, req.body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const productoTipoDeleteById = () => {
@@ -39,7 +39,7 @@ const productoTipoDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

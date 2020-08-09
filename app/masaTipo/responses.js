@@ -10,7 +10,7 @@ const masaTipoFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaTipoFindById = () => {
@@ -20,14 +20,14 @@ const masaTipoFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaTipoCreateOrUpdateById = () => {
     return (req, res, next) => {
         masaTipoServices.masaTipoCreateOrUpdateById(req.params.id, req.body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaTipoDeleteById = () => {
@@ -38,7 +38,7 @@ const masaTipoDeleteById = () => {
                 if(req.body.estado == 1) res.json({'RESTORE DATA': true})
                 else                     res.json({'DELETE DATA' : true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

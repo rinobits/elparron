@@ -10,7 +10,7 @@ const opcionFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const opcionFindById = () => {
@@ -20,7 +20,7 @@ const opcionFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const opcionCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const opcionCreateOrUpdateById = () => {
         const {id}   = req.params;
         opcionServices.opcionCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const opcionDeleteById = () => {
@@ -40,7 +40,7 @@ const opcionDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

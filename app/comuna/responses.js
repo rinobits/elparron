@@ -10,7 +10,7 @@ const comunaFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const comunaFindById = () => {
@@ -20,7 +20,7 @@ const comunaFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const comunaCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const comunaCreateOrUpdateById = () => {
         const {id}   = req.params;
         comunaServices.comunaCreateOrUpdateById(id, body) 
             .then(r  => res.json({response: 'created and/or updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const comunaDeleteById = () => {
@@ -40,7 +40,7 @@ const comunaDeleteById = () => {
                 if(req.body.estado == 1) res.json({'RESTORE DATA': true})
                 else                     res.json({'DELETE DATA' : true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

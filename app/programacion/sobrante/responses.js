@@ -24,21 +24,21 @@ const sobranteFindByDiaYsucursal = () => {
                 })
             }
         })
-        .catch(e => next(boom.badRequest(e)))
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 const sobranteMultipleUpdate = () => {
     return (req, res, next) => {
         sobranteServices.jsonToTables('update', req.body, req.query)
         .then(r => res.json({'TABLES UPDATED': true}))
-        .catch(e => next(boom.badRequest(e)))
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 const sobranteMultipleCreate = () => {
     return (req, res, next) => {
         sobranteServices.jsonToTables('create', req.body, req.query)
         .then(r => res.json({'TABLES CREATED': true}))
-        .catch(e => next(boom.badRequest(e)))
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

@@ -12,7 +12,7 @@ const usuarioFindAll = () => {
                 }
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const usuarioFindById = () => {
@@ -23,7 +23,7 @@ const usuarioFindById = () => {
                 delete r[0].userPassword;
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const usuarioUpdateOrCreateById = () => {
@@ -32,7 +32,7 @@ const usuarioUpdateOrCreateById = () => {
         const {id}   = req.params;
         usuarioServices.usuarioUpdateOrCreateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const usuarioDeleteById = () => {
@@ -43,7 +43,7 @@ const usuarioDeleteById = () => {
                 if(req.body.estado == 0) res.json({'DELETE DATA' : true})
                 else                     res.json({'RESTORE DATA': true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

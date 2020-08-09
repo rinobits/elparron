@@ -10,7 +10,7 @@ const masaSaborFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaSaborFindById = () => {
@@ -20,7 +20,7 @@ const masaSaborFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaSaborCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const masaSaborCreateOrUpdateById = () => {
         const {id}   = req.params;
         masaSaborServices.masaSaborCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const masaSaborDeleteById = () => {
@@ -40,7 +40,7 @@ const masaSaborDeleteById = () => {
                 if(req.body.estado == 1) res.json({'RESTORE DATA': true})
                 else                     res.json({'DELETE DATA' : true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {

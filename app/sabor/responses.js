@@ -10,7 +10,7 @@ const saborFindAll = () => {
             .then(r => {
                 res.json(r);
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const saborFindById = () => {
@@ -20,7 +20,7 @@ const saborFindById = () => {
             .then(r => {
                 res.json(r)
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const saborCreateOrUpdateById = () => {
@@ -29,7 +29,7 @@ const saborCreateOrUpdateById = () => {
         const {id}   = req.params;
         saborServices.saborCreateOrUpdateById(id, body) 
             .then(r  => res.json({'response': 'created/updated sucessfully'}))
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 const saborDeleteById = () => {
@@ -40,7 +40,7 @@ const saborDeleteById = () => {
                 if(req.body.estado == 1) res.json({'RESTORE DATA': true})
                 else                     res.json({'DELETE DATA' : true})
             })
-            .catch(e => next(boom.badRequest(e)))
+            .catch(e => next(boom.badImplementation(e)))
     }
 }
 module.exports = {
