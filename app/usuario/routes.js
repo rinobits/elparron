@@ -21,12 +21,12 @@ router.get('/getbyid/:id',
 router.post('/create',    
      verifyToken,  
     validatorHandler(usuarioSchemaCreate, 'body'),
-    control.usuarioCreate());
+    control.usuarioUpdateOrCreateById());
 router.put('/update/:id', 
      verifyToken,  
     validatorHandler(idSchema, 'params'),
     validatorHandler(usuarioSchemaUpdate, 'body'),
-    control.usuarioUpdateById());
+    control.usuarioUpdateOrCreateById());
 router.put('/delete/:id', 
      verifyToken,  
     validatorHandler(idSchema, 'params'),

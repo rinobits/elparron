@@ -51,41 +51,57 @@ class UsuarioServices{
             });
         });
     }
-    usuarioCreate(body){
+    usuarioUpdateOrCreateById(id = 0, body){
         return new Promise((resolve, reject) => {
-            bcrypt.hash(body.password, 10)
-            .then(hash => {
-                const id           = 0
-                const userPassword = hash;
-                const user         = body.userName;
-                const perfil_id    = body.perfil_id;
-                const query = `
-                    SET @id = ?;
-                    SET @userName  = ?;
-                    SET @password  = ?;
-                    SET @perfil_id = ?;
-                    CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
-                `;
-                mysqlConnection.query(query, [id, user, userPassword, perfil_id], (e) => {
-                    if(!e){
-                        resolve('Done');
-                    }else{
-                        reject(e);
-                    }
+            if(!id){
+                bcrypt.hash(body.password, 10)
+                .then(hash => {
+                    const userPassword = hash;
+                    const user         = body.userName;
+                    const perfil_id    = body.perfil_id;
+                    const query = `
+                        SET @id = ?;
+                        SET @userName  = ?;
+                        SET @password  = ?;
+                        SET @perfil_id = ?;
+                        CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
+                    `;
+                    mysqlConnection.query(query, [id, user, userPassword, perfil_id], (e) => {
+                        if(!e){
+                            resolve('Done');
+                        }else{
+                            reject(e);
+                        }
+                    })
                 })
-            })
-            .catch(e => reject(e));
-        });
-    }
-    usuarioUpdateById(id = 0, body){
-        return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM usuario WHERE id=?`, [id], (e, u) => {
-                if(!e){
-                    var { userName, password, perfil_id }  = body;
-                    if(password){
-                        bcrypt.hash(password, 10) 
-                        .then(hash => {
-                            password = hash
+                .catch(e => reject(e));
+
+            }else{
+                mysqlConnection.query(`SELECT * FROM usuario WHERE id=?`, [id], (e, u) => {
+                    if(!e){
+                        var { userName, password, perfil_id }  = body;
+                        if(password){
+                            bcrypt.hash(password, 10) 
+                            .then(hash => {
+                                password = hash
+                                const query = `
+                                    SET @id           = ?;
+                                    SET @userName     = ?;
+                                    SET @password     = ?;
+                                    SET @perfil_id    = ?;
+                                    CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
+                                `;
+                                mysqlConnection.query(query, [id, userName, password, perfil_id], (e) => {
+                                    if(!e){
+                                        resolve('Done');
+                                    }else{
+                                        reject(e);
+                                    }
+                                })
+                            })
+                            .catch(e => reject(e));
+                        }else{
+                            password = "";
                             const query = `
                                 SET @id           = ?;
                                 SET @userName     = ?;
@@ -100,29 +116,12 @@ class UsuarioServices{
                                     reject(e);
                                 }
                             })
-                        })
-                        .catch(e => reject(e));
+                        }
                     }else{
-                        password = "";
-                        const query = `
-                            SET @id           = ?;
-                            SET @userName     = ?;
-                            SET @password     = ?;
-                            SET @perfil_id    = ?;
-                            CALL addOrEditUsuario(@id, @userName, @password, @perfil_id);
-                        `;
-                        mysqlConnection.query(query, [id, userName, password, perfil_id], (e) => {
-                            if(!e){
-                                resolve('Done');
-                            }else{
-                                reject(e);
-                            }
-                        })
+                        reject(e);
                     }
-                }else{
-                    reject(e);
-                }
-            });
+                });
+            }
         });
     }
     usuarioDeleteById(id, body){
