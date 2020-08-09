@@ -12,4 +12,6 @@ CREATE TABLE perfil (
   PRIMARY KEY(id)
 );
 
+ALTER TABLE perfil ADD UNIQUE perfilUnique(nombre);
 
+DESCRIBE perfil;

@@ -12,4 +12,4 @@ CREATE TABLE seccion (
   PRIMARY KEY(id)
 );
 
-
+DESCRIBE seccion

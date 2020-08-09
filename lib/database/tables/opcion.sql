@@ -14,3 +14,6 @@ CREATE TABLE opcion (
   updatedAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
+ALTER TABLE opcion ADD UNIQUE opcionUnique(nombre, seccion_id, perfil_id);
+
+DESCRIBE opcion;

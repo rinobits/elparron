@@ -18,6 +18,8 @@ CREATE TABLE precio (
   updatedAt   TIMESTAMP    DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY(id)
 );
+ALTER TABLE precio ADD UNIQUE percioTortaUnique(masaTipo_id, sucursal_id, tamano_id, cuadrada, diet);
+ALTER TABLE precio ADD UNIQUE precioProductoUnique(producto_id, sucursal_id, diet);
 DESCRIBE precioProducto;
 
 
