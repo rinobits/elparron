@@ -7,7 +7,7 @@ const { sucursalSchemaCreate, sucursalSchemaUpdate }     = require('./schemas');
 const { idSchema, sucursalSchemaDelete }                 = require('./schemas');
 const validatorHandler                                   = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                        = require('../../utils/middlewares/verifyToken');
-// developer
+
 router.get('/getall',
      verifyToken,  
     control.sucursalFindAll());
@@ -15,7 +15,7 @@ router.get('/getbyid/:id',
      verifyToken,  
     validatorHandler(idSchema, 'params'),
     control.sucursalFindById());
-// admin
+
 router.post('/create',
      verifyToken,  
     validatorHandler(sucursalSchemaCreate , 'body'),

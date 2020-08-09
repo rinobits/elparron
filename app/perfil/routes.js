@@ -8,7 +8,7 @@ const { idSchema, perfilSchemaDelete}            = require('./schemas');
 const validatorHandler                            = require('../../utils/middlewares/validatorHandler');
 const verifyToken                                 = require('../../utils/middlewares/verifyToken');
 
-// developer
+
 router.get('/getall',
      verifyToken, 
     control.perfilFindAll());
@@ -16,7 +16,7 @@ router.get('/getbyid/:id',
      verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.perfilFindById());
-// admin
+
 router.post('/create',
      verifyToken, 
     validatorHandler(perfilSchemaCreate , 'body'),

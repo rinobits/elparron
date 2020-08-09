@@ -8,7 +8,7 @@ const { idSchema, tamanoSchemaDelete}           = require('./schemas');
 const validatorHandler                          = require('../../utils/middlewares/validatorHandler');
 const verifyToken                               = require('../../utils/middlewares/verifyToken');
 
-// developer
+
 router.get('/getall',
      verifyToken, 
     control.tamanoFindAll());
@@ -16,7 +16,7 @@ router.get('/getbyid/:id',
      verifyToken, 
     validatorHandler(idSchema, 'params'),
     control.tamanoFindById());
-// admin
+
 router.post('/create',
      verifyToken, 
     validatorHandler(tamanoSchemaCreate , 'body'),

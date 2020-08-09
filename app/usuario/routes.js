@@ -9,7 +9,7 @@ const { idSchema, usuarioSchemaDelete }      = require('./schemas');
 const validatorHandler                       = require('../../utils/middlewares/validatorHandler');
 const verifyToken                            = require('../../utils/middlewares/verifyToken');
 
-// developer
+
 router.get('/getall',     
      verifyToken,  
     control.usuarioFindAll());
@@ -17,7 +17,7 @@ router.get('/getbyid/:id',
      verifyToken,  
     validatorHandler(idSchema, 'params'),
     control.usuarioFindById());
-// admin
+
 router.post('/create',    
      verifyToken,  
     validatorHandler(usuarioSchemaCreate, 'body'),
