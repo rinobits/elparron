@@ -2720,7 +2720,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body'
+              type: object
+            examples:
+              producto:
+                value:
+                  producto_id: 1
+                  costo: 9000
+                  venta: 10000
+                  diet: 1
+                  sucursal_id: 1
+              torta:
+                value:
+                  masaTipo_id: 1
+                  diet: 1
+                  cuadrada: 1
+                  precioTamano:
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  sucursal_id: 1
       responses:
         "200":
           description: precio editada exitosamente.
@@ -2794,7 +2821,34 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/body_1'
+              type: object
+            examples:
+              producto:
+                value:
+                  producto_id: 1
+                  costo: 9000
+                  venta: 10000
+                  diet: 1
+                  sucursal_id: 1
+              torta:
+                value:
+                  masaTipo_id: 1
+                  diet: 1
+                  cuadrada: 1
+                  precioTamano:
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  - tamano_id: 1
+                    costo: 10000
+                    venta: 10000
+                  sucursal_id: 1
       responses:
         "200":
           description: Se requieren privilegios
@@ -4338,37 +4392,6 @@ components:
         message:
           type: string
           example: '"productoTipo_id" is required'
-    precioProducto:
-      type: array
-      items:
-        minimum: 1
-        oneOf:
-        - $ref: '#/components/schemas/precioProductoObj'
-    precioProductoObj:
-      required:
-      - costo
-      - diet
-      - producto_id
-      - sucursal_id
-      - venta
-      type: object
-      properties:
-        producto_id:
-          minimum: 0
-          type: integer
-        diet:
-          maximum: 1
-          minimum: 0
-          type: integer
-        costo:
-          minimum: 0
-          type: integer
-        venta:
-          minimum: 0
-          type: integer
-        sucursal_id:
-          minimum: 0
-          type: integer
     getprecioProducto:
       type: object
       properties:
@@ -4499,59 +4522,6 @@ components:
         - $ref: '#/components/schemas/getprecioTorta'
         - $ref: '#/components/schemas/getprecioTorta'
         - $ref: '#/components/schemas/getprecioTorta'
-    precioTorta:
-      type: array
-      items:
-        minimum: 1
-        oneOf:
-        - $ref: '#/components/schemas/precioTortaObj'
-    precioTortaObj:
-      required:
-      - cuadrada
-      - diet
-      - masaTipo_id
-      - precioTamano
-      - sucursal_id
-      type: object
-      properties:
-        masaTipo_id:
-          minimum: 0
-          type: integer
-        diet:
-          maximum: 1
-          minimum: 0
-          type: integer
-        cuadrada:
-          maximum: 1
-          minimum: 0
-          type: integer
-        precioTamano:
-          type: array
-          items:
-            oneOf:
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-            - $ref: '#/components/schemas/precioTamano'
-        sucursal_id:
-          minimum: 0
-          type: integer
-    precioTamano:
-      required:
-      - costo
-      - tamano_id
-      - venta
-      type: object
-      properties:
-        tamano_id:
-          minimum: 0
-          type: integer
-        costo:
-          minimum: 0
-          type: integer
-        venta:
-          minimum: 0
-          type: integer
     opcion:
       required:
       - icono
@@ -4696,20 +4666,6 @@ components:
       oneOf:
       - $ref: '#/components/schemas/deleteTrue'
       - $ref: '#/components/schemas/restoreTrue'
-    body:
-      type: object
-      properties:
-        precio envía el siguiente array con 1 o más productos:
-          $ref: '#/components/schemas/precioProducto'
-        ó de 1 o más tortas:
-          $ref: '#/components/schemas/precioTorta'
-    body_1:
-      type: object
-      properties:
-        precio envía el siguiente array con 1 o más productos:
-          $ref: '#/components/schemas/precioProducto'
-        ó de 1 o más tortas:
-          $ref: '#/components/schemas/precioTorta'
     getUsers_inner:
       type: object
       properties:

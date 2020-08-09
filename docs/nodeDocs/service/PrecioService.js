@@ -5,7 +5,7 @@
  * Crear precios para tortas ó productos
  * Se requieren privilegios. Crea uno o varios productos/tortas
  *
- * body Body_1  (optional)
+ * body Object  (optional)
  * returns createTrue
  **/
 exports.createprecioProducto = function(body) {
@@ -27,7 +27,7 @@ exports.createprecioProducto = function(body) {
  * Editar información de uno o varios productos/tortas
  * Se requieren privilegios. Envia productos ó tortas
  *
- * body Body  (optional)
+ * body Object  (optional)
  * returns modifyTrue
  **/
 exports.editprecio = function(body) {
