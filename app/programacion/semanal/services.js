@@ -2,37 +2,28 @@ const mysqlConnection = require('../../../lib/database/database');
 class ProgramacionSemanalServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
-            try{
-                const tableLen = tables.length;
-                for(let i = 0; i < tableLen - 1; i++){
-                    for(let j = i+1; j < tableLen; j++){
-                        if(tables[i].torta_id > tables[j].torta_id){
-                            let swap = tables[i].torta_id;
-                            tables[i].torta_id = tables[j].torta_id;
-                            tables[j].torta_id = swap;
-                        }
-                    }
-                }
-                for(let i = 0; i < tableLen; i+=4){
-                    let tmp = [tables[i], tables[i+1], tables[i+2], tables[i+3]];
-                    for(let j = 0; j < 3; j++){
-                        for(let k = j + 1; k < 4; k++){
-                            if(tmp[i] > tmp[j]){
-                                let swap = tmp[i];
-                                tmp[i]   = tmp[j];
-                                tmp[j]   = swap;
-                            }
-                        }
-                    }
-                    tables[i]   = tmp[0];
-                    tables[i+1] = tmp[1];
-                    tables[i+2] = tmp[2];
-                    tables[i+3] = tmp[3];
-                }
-                resolve(tables);
-            }catch(e){
-                reject(e);
+            if(!tables) reject("Wrong call");
+            if(tables.length > 52){
+                tables
+                .sort((x, y) =>
+                    (x.dia > y.dia) ? 1 :
+                    (x.dia === y.dia)?
+                        ((x.sucursal_id > y.sucursal_id) ? 1 :
+                            -1) : -1);
+                tables
+                .sort((x, y) =>
+                    (x.torta_id > y.torta_id) ? 1 :
+                    (x.torta_id === y.torta_id)?
+                        ((x.tamano_id > y.tamano_id) ? 1 :
+                            -1) : -1);
             }
+            resolve(tables
+                    .sort((x, y) =>
+                        (x.torta_id > y.torta_id) ? 1 :
+                        (x.torta_id === y.torta_id)?
+                            ((x.tamano_id > y.tamano_id) ? 1 :
+                                -1) : -1))
+            
         })
     }
     programacionSemanalFindByDiaYsucursal(dia, sucursal_id){
@@ -95,17 +86,25 @@ class ProgramacionSemanalServices{
                     _id = 1;
                     if(action === 'create'){
                         for(const table of tables){
-                            await this.programacionSemanalAddEdit(table);
-                            console.log(`${_id++} C R E A T E D`);
+                            try{
+                                await this.programacionSemanalAddEdit(table);
+                                console.log(`${_id++} C R E A T E D`);
+                            }catch(e){
+                                reject(e);
+                            }
                         }
                         flag = true;
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
                         for(var rr of r){
                             if(dia == rr.dia && sucursal_id == rr.sucursal_id){
-                                await this.programacionSemanalAddEdit(tables[_id-1], rr.id);
-                                console.log(`${_id++} U P D A T E D`);
-                                flag = true;
+                                try{
+                                    await this.programacionSemanalAddEdit(tables[_id-1], rr.id);
+                                    console.log(`${_id++} U P D A T E D`);
+                                    flag = true;
+                                }catch(e){
+                                    reject(e);
+                                }
                             }
                         }
                         if(!flag) reject('No data found')

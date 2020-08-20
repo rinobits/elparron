@@ -11,7 +11,7 @@ class AuthServices{
                         .then(r => {
                             if(r == true){
                                 const payload = { check: true, id: usuario[0].id, nombre: username };
-                                const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'1h'});
+                                const token   = jwt.sign(payload, authJwtSecret, {expiresIn:'12h'});
                                 resolve(token);
                             }else{
                                 reject("can't authenticate") 

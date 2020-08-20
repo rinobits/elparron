@@ -2,6 +2,7 @@ const boom = require('@hapi/boom');
 const {config} = require('../../config');
 
 const logError = (err, req, res, next) => {
+    console.log("HERE WORKS");
     console.log(err);
     next(err);
 }
@@ -25,7 +26,8 @@ const wrapError = (err, req, res, next) => {
     return {error: err}
 } */
 const errorHandler = (err, req, res, next) => {
-    const {output: {statusCode, payload}} = err;
+    if(!err.isBoom) err = boom.badImplementation(err);
+    var {output: {statusCode, payload}} = err;
     res.status(statusCode).json(payload);
 }
 module.exports = {

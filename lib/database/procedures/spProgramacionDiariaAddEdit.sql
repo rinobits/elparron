@@ -12,7 +12,7 @@ CREATE PROCEDURE `addOrEditProgramacionDiaria` (
     IN _cantidad INT(3))
 BEGIN
     IF _id = 0 THEN
-        INSERT	INTO programacion (
+        INSERT	INTO programaciondiaria (
 		    dia,
             sucursal_id,
             torta_id,
@@ -26,7 +26,7 @@ BEGIN
             _cantidad);
         SET _id = LAST_INSERT_ID();
     ELSE
-        UPDATE programacion
+        UPDATE programaciondiaria
         SET 
             dia         = _dia,
             sucursal_id = _sucursal_id,

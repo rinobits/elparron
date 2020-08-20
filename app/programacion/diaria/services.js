@@ -3,42 +3,33 @@ const moment          = require('moment');
 class ProgramacionDiariaServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
-            try{
-                const tableLen = tables.length;
-                for(let i = 0; i < tableLen - 1; i++){
-                    for(let j = i+1; j < tableLen; j++){
-                        if(tables[i].torta_id > tables[j].torta_id){
-                            let swap = tables[i].torta_id;
-                            tables[i].torta_id = tables[j].torta_id;
-                            tables[j].torta_id = swap;
-                        }
-                    }
-                }
-                for(let i = 0; i < tableLen; i+=4){
-                    let tmp = [tables[i], tables[i+1], tables[i+2], tables[i+3]];
-                    for(let j = 0; j < 3; j++){
-                        for(let k = j + 1; k < 4; k++){
-                            if(tmp[i] > tmp[j]){
-                                let swap = tmp[i];
-                                tmp[i]   = tmp[j];
-                                tmp[j]   = swap;
-                            }
-                        }
-                    }
-                    tables[i]   = tmp[0];
-                    tables[i+1] = tmp[1];
-                    tables[i+2] = tmp[2];
-                    tables[i+3] = tmp[3];
-                }
-                resolve(tables);
-            }catch(e){
-                reject(e);
+            if(!tables) reject("Wrong call");
+            if(tables.length > 52){
+                tables
+                .sort((x, y) =>
+                    (x.dia > y.dia) ? 1 :
+                    (x.dia === y.dia)?
+                        ((x.sucursal_id > y.sucursal_id) ? 1 :
+                            -1) : -1);
+                tables
+                .sort((x, y) =>
+                    (x.torta_id > y.torta_id) ? 1 :
+                    (x.torta_id === y.torta_id)?
+                        ((x.tamano_id > y.tamano_id) ? 1 :
+                            -1) : -1);
             }
+            resolve(tables
+                    .sort((x, y) =>
+                        (x.torta_id > y.torta_id) ? 1 :
+                        (x.torta_id === y.torta_id)?
+                            ((x.tamano_id > y.tamano_id) ? 1 :
+                                -1) : -1))
+            
         })
     }
     programacionDiariaFindAll(){
         return new Promise((resolve, reject) => {
-            const query = `SELECT * FROM programacionDiaria`;
+            const query = `SELECT * FROM programaciondiaria`;
             mysqlConnection.query(query, (e, r) => {
                 if(!e) resolve(r)
                 else   reject(e)
@@ -48,7 +39,7 @@ class ProgramacionDiariaServices{
     programacionDiariaFindByDiaYsucursal(dia, sucursal_id){
         return new Promise((resolve, reject) => {
             const query = `
-                SELECT * FROM programacionDiaria WHERE dia = ? AND sucursal_id = ?;
+                SELECT * FROM programaciondiaria WHERE dia = ? AND sucursal_id = ?;
             `
             mysqlConnection.query(query, [dia, sucursal_id], (err, rows) => {
                 if(rows.length == 0) reject('No data found');
@@ -74,7 +65,7 @@ class ProgramacionDiariaServices{
             `
             mysqlConnection.query(query, [id, dia, sucursal_id, torta_id, tamano_id, cantidad], (err) => {
                 if(!err){
-                    resolve('Done');
+                    resolve('done');
                 }else{
                     reject(err);
                 }
@@ -87,9 +78,9 @@ class ProgramacionDiariaServices{
                 if(fecha) if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
                 var flag = false;
                 const query = `
-                    UPDATE programacionDiaria SET cantidad = 0 WHERE id = ?
+                    UPDATE programaciondiaria SET cantidad = 0 WHERE id = ?
                 `
-                mysqlConnection.query(`SELECT * FROM programacionDiaria WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
+                mysqlConnection.query(`SELECT * FROM programaciondiaria WHERE sucursal_id = ?`, [sucursal_id], (e, r) => {
                     if(r.length == 0) reject(Error('No data found'));
                     if(!e){
                         if(!fecha){
@@ -130,12 +121,12 @@ class ProgramacionDiariaServices{
     }
     jsonToTables(action, body, params) {
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM programacionDiaria`, async(e, r) => {
+            mysqlConnection.query(`SELECT * FROM programaciondiaria`, async(e, r) => {
                 if(!e){
                     var { fecha, sucursal_id } = params;
                     if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
                     fecha = fecha.split('-');
-                    fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
+                    fecha = fecha[1]   + '-' + fecha[0] + '-' + fecha[2];
                     const _dia         = moment(fecha).format('e');
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
@@ -156,16 +147,23 @@ class ProgramacionDiariaServices{
                     _id = 1;
                     if(action === 'create'){
                         for(const table of tables){
-                            await this.programacionDiariaAddEdit(table);
-                            console.log(`${_id++} C R E A T E D`);
+                            try{
+                                let r = await this.programacionDiariaAddEdit(table)
+                                if(r === 'done') console.log(`${_id++} C R E A T E D`);
+                            }catch(e){
+                                reject(e);
+                            }
                         }
-                        console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
-                        for(var rr of r){
+                        for(const rr of r){
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
-                                await this.programacionDiariaAddEdit(tables[_id-1], rr.id);
-                                console.log(`${_id++} U P D A T E D`);
-                                flag = true; 
+                                try{
+                                    let r = await this.programacionDiariaAddEdit(tables[_id-1], rr.id)
+                                    console.log(`${_id++} U P D A T E D`);
+                                    flag = true;
+                                }catch(e){
+                                    reject(e)
+                                }
                             }
                         }
                         if(!flag) reject('No data found')

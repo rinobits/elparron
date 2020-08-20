@@ -13,9 +13,9 @@ const programacionDiariaFindAll = () => {
                     .then(tables => {
                         res.json(tables);
                     })                
-                    .catch(e => next(boom.badRequest(e)));
+                    .catch(e => next(boom.badImplementation(e)));
             })
-            .catch(e => next(boom.badRequest(e)));
+            .catch(e => next(boom.badImplementation(e)));
     }
 }
 const programacionDiariaFindByDiaYsucursal = () => {
@@ -32,20 +32,20 @@ const programacionDiariaFindByDiaYsucursal = () => {
             }else{
                 programacionDiariaServices.sortTables(r)
                 .then(tables => {
-                    if(!tables) next(boom.badRequest(e))
+                    if(!tables) next(boom.badImplementation(e))
                     programacionDiariaServices.tablesToJson(tables)
                         .then(tables => res.json(tables));
                 })
             }
         })
-        .catch(e => next(boom.badRequest(e)))
+        .catch(e => next(boom.badImplementation(e)));
     }
 }
 const programacionDiariaMultipleUpdate = () => {
     return (req, res, next) => {
         programacionDiariaServices.jsonToTables('update', req.body, req.query)
         .then(r => res.json({'TABLES UPDATED': true}))
-        .catch(e => next(boom.badRequest(e)))
+        .catch(e => next(boom.badImplementation(e)))
     }
 }
 const programacionDiariaEmptyOneDay = () => {
@@ -53,22 +53,22 @@ const programacionDiariaEmptyOneDay = () => {
         req.query.dia = moment(req.query.dia).format('e');
         programacionDiariaServices.empty(req.query)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badRequest(e)));
+        .catch(e => next(boom.badImplementation(e)));
     }
 }
 const programacionDiariaEmptyWeek = () => {
     return (req, res, next) => {
         programacionDiariaServices.empty(req.query)
         .then(r => res.json({'OPERATION': 'SUCCESS'}))
-        .catch(e => next(boom.badRequest(e)));
+        .catch(e => next(boom.badImplementation(e)));
     }
 }
 const programacionDiariaMultipleCreate = () => { 
     return (req, res, next) => { 
         programacionDiariaServices.jsonToTables('create', req.body, req.query)
         .then(r => res.json({'TABLES CREATED': true}))
-        .catch(e => next(boom.badRequest(e)))
-    } 
+        .catch(e => next(boom.badImplementation(e)))
+    }
 } 
 module.exports = {
     programacionDiariaFindByDiaYsucursal,

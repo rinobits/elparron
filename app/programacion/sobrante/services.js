@@ -1,40 +1,31 @@
-// ADD JOINS AFTER END
 const mysqlConnection = require('../../../lib/database/database');
 const moment          = require('moment');
+
 class SobranteServices{
     sortTables(tables){
         return new Promise((resolve, reject) => {
-            try{
-                const tableLen = tables.length;
-                for(let i = 0; i < tableLen - 1; i++){
-                    for(let j = i+1; j < tableLen; j++){
-                        if(tables[i].torta_id > tables[j].torta_id){
-                            let swap = tables[i].torta_id;
-                            tables[i].torta_id = tables[j].torta_id;
-                            tables[j].torta_id = swap;
-                        }
-                    }
-                }
-                for(let i = 0; i < tableLen; i+=4){
-                    let tmp = [tables[i], tables[i+1], tables[i+2], tables[i+3]];
-                    for(let j = 0; j < 3; j++){
-                        for(let k = j + 1; k < 4; k++){
-                            if(tmp[i] > tmp[j]){
-                                let swap = tmp[i];
-                                tmp[i]   = tmp[j];
-                                tmp[j]   = swap;
-                            }
-                        }
-                    }
-                    tables[i]   = tmp[0];
-                    tables[i+1] = tmp[1];
-                    tables[i+2] = tmp[2];
-                    tables[i+3] = tmp[3];
-                }
-                resolve(tables);
-            }catch(e){
-                reject(e);
+            if(!tables) reject("Wrong call");
+            if(tables.length > 52){
+                tables
+                .sort((x, y) =>
+                    (x.dia > y.dia) ? 1 :
+                    (x.dia === y.dia)?
+                        ((x.sucursal_id > y.sucursal_id) ? 1 :
+                            -1) : -1);
+                tables
+                .sort((x, y) =>
+                    (x.torta_id > y.torta_id) ? 1 :
+                    (x.torta_id === y.torta_id)?
+                        ((x.tamano_id > y.tamano_id) ? 1 :
+                            -1) : -1);
             }
+            resolve(tables
+                    .sort((x, y) =>
+                        (x.torta_id > y.torta_id) ? 1 :
+                        (x.torta_id === y.torta_id)?
+                            ((x.tamano_id > y.tamano_id) ? 1 :
+                                -1) : -1))
+            
         })
     }
     sobranteFindByDiaYsucursal(dia, sucursal_id){
@@ -55,40 +46,53 @@ class SobranteServices{
     sobranteAddEdit(body, id = 0){
         return new Promise((resolve, reject) => { 
             const { dia, sucursal_id, torta_id, tamano_id, cantidad } = body;
-            const query = `
-                SET @id          = ?;
-                SET @dia         = ?;
-                SET @sucursal_id = ?;
-                SET @torta_id    = ?;
-                SET @tamano_id   = ?;
-                SET @cantidad    = ?;
-                CALL addOrEditSobrante(@id, @dia, @sucursal_id, @torta_id, @tamano_id, @cantidad);
-            `;
-            mysqlConnection.query(query, [id, dia, sucursal_id, torta_id, tamano_id, cantidad], (err) => {
+            mysqlConnection.query('SELECT * FROM sobrante WHERE dia = ? AND sucursal_id = ?', [dia, sucursal_id], (err, rows) => {
                 if(!err){
-                    resolve('Done');
+                    if(rows.length == 0) id = 0;
+                    var query = `
+                         SET @id          = ?;
+                         SET @dia         = ?;
+                         SET @sucursal_id = ?;
+                         SET @torta_id    = ?;
+                         SET @tamano_id   = ?;
+                         SET @cantidad    = ?;
+                         CALL addOrEditSobrante(@id, @dia, @sucursal_id, @torta_id, @tamano_id, @cantidad);
+                     `;
+                     mysqlConnection.query(query, [id, dia, sucursal_id, torta_id, tamano_id, cantidad], (err) => {
+                         if(!err){
+                             resolve('Done');
+                         }else{
+                             reject(err);
+                         }
+                     });
                 }else{
                     reject(err);
                 }
-            });
+            })
         });
     }
     jsonToTables(action, body, params) {
         return new Promise((resolve, reject) => {
-            mysqlConnection.query(`SELECT * FROM sobrante`, async(e, r) => {
+            var { fecha, sucursal_id } = params;
+            fecha                      = fecha.split('-');
+            var   _dia                 = Number(moment(fecha[1] + '-' + fecha[0] + '-' + fecha[2]).format('e'));
+            var query                  = `SELECT * FROM sobrante WHERE sucursal_id=? AND dia=?`;
+            if(action === 'update'){
+                let [ HH, mm ] = 
+                    moment().locale('cl').format('HH:mm').split(' ')[0].split(':')
+                    .map((n) => { return Number(n) });
+                if((HH >= 18 && mm >= 30 || HH >= 19) && moment().format('e') == _dia){
+                    if(_dia == 6) _dia = 1;
+                    else          _dia++;
+                }
+            }
+            mysqlConnection.query(query, [sucursal_id, _dia], async(e, r) => {
                 if(!e){
-                    var { fecha, sucursal_id } = params;
                     if(!moment(fecha, "DD-MM-YYYY").isValid()) reject('Invalid date');
-                    fecha = fecha.split('-');
-                    fecha = fecha[1] + '-' + fecha[0] + '-' + fecha[2];
-                    var   _dia         = moment(fecha).format('e');
+                    if(r.length == 0 && action === 'update'){ action = 'create' }
                     var   detalle      = [...body.detalle];
                     var   tables       = [];
                     var   _id          = 1;
-                    if(action == 'update'){
-                        if(_dia == 6) _dia = 1;
-                        else          _dia++;
-                    }
                     detalle.forEach(torta => {
                         let _torta_id = torta.torta_id;
                         for(let i = 0; i < 4; i++){
@@ -101,23 +105,30 @@ class SobranteServices{
                             });
                         }
                     });
-                    _id = 1;
                     if(action === 'create'){
                         for(const table of tables){
-                            await this.sobranteAddEdit(table);
-                            console.log(`${_id++} C R E A T E D`);
+                            try{
+                                await this.sobranteAddEdit(table); 
+                                console.log(`${_id++} C R E A T E D`);
+                            }catch(e){
+                                reject(e);
+                            }
                         }
                         console.log('ALL TABLES INSERTED');
                     }else if(action === 'update'){
                         var flag = false;
                         for(const rr of r){
                             if(_dia == rr.dia && sucursal_id == rr.sucursal_id){
-                                await this.sobranteAddEdit(tables[_id-1], rr.id);
-                                console.log(`${_id++} U P D A T E D`);
-                                flag = true;
+                                try{
+                                    await this.sobranteAddEdit(tables[_id-1], rr.id);
+                                    console.log(`${_id++} U P D A T E D`);
+                                    flag = true;
+                                }catch(e){
+                                    reject(e);
+                                }
                             }
                         }
-                        if(!flag) reject('No data found');
+                        if(!flag) reject('Something went wrong\nFrom /programacion/sobrante/services/jsonToTables');
                     }
                     resolve('done')
                 }else{

@@ -4,7 +4,6 @@ const moment               = require('moment');
 // imports & consts
 const SobranteServices = require('./services');
 const sobranteServices = new SobranteServices();
-
 const sobranteFindByDiaYsucursal = () => {
     return (req, res, next) => {
         var { fecha, sucursal_id } = req.query;
