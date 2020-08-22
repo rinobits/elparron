@@ -6,10 +6,12 @@ const control                             = require('./responses');
 const { programacionSemanalSchemaUpdate } = require('./schemas/joiSchema');
 const { programacionSemanalSchemaCreate } = require('./schemas/joiSchema');
 const { paramSchema }                     = require('./schemas/joiSchema');
-
 const validatorHandler                    = require('../../../utils/middlewares/validatorHandler');
 const verifyToken                         = require('../../../utils/middlewares/verifyToken');
 
+router.get('/findall',
+     verifyToken, 
+    control.programacionSemanalFindAll());
 router.get('/diaysucursal',
      verifyToken,  
     validatorHandler(paramSchema, 'query'),

@@ -26,11 +26,20 @@ class ProgramacionSemanalServices{
             
         })
     }
+    programacionDiariaFindAll(){
+        return new Promise((resolve, reject) => {
+            const query = `SELECT * FROM programacionSemanal`;
+            mysqlConnection.query(query, (e, r) => {
+                if(!e) resolve(r)
+                else   reject(e)
+            })
+        })
+    }
     programacionSemanalFindByDiaYsucursal(dia, sucursal_id){
         return new Promise((resolve, reject) => {
             const query = `
                 SELECT * FROM programacionSemanal WHERE dia = ? AND sucursal_id = ?;
-            `
+            `;
             mysqlConnection.query(query, [dia, sucursal_id], (err, rows) => {
                 if(rows.length == 0) reject('No data found');
                 if(!err){
@@ -131,7 +140,7 @@ class ProgramacionSemanalServices{
                 i++;
                 if(i == 4){
                     i = 0;
-                    j++
+                    j++;
                 }
             }     
             resolve(schema);

@@ -1,4 +1,5 @@
-require('dotenv').config();
+require('dotenv').config({path:__dirname+'/.env'});
+//require('dotenv').config();
 const config = {
     db:                   process.env.DB_NAME,
     user:                 process.env.DB_USER,

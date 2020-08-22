@@ -5,6 +5,19 @@ const moment               = require('moment');
 const ProgramacionSemanalServices = require('./services');
 const programacionSemanalServices = new ProgramacionSemanalServices();
 
+const programacionSemanalFindAll = () => {
+    return (req, res, next) => {
+        programacionDiariaServices.programacionSemanalFindAll()
+            .then(r => {
+                programacionSemanalServices.sortTables(r)
+                    .then(tables => {
+                        res.json(tables);
+                    })                
+                    .catch(e => next(boom.badImplementation(e)));
+            })
+            .catch(e => next(boom.badImplementation(e)));
+    }
+}
 const programacionSemanalFindByDiaYsucursal = () => {
     return (req, res, next) => {
         var { dia, sucursal_id } = req.query;
@@ -39,6 +52,7 @@ const programacionSemanalMultipleCreate = () => {
     } 
 } 
 module.exports = {
+    programacionSemanalFindAll,
     programacionSemanalFindByDiaYsucursal,
     programacionSemanalMultipleUpdate,
     programacionSemanalMultipleCreate
