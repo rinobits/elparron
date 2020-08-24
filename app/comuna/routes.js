@@ -15,9 +15,8 @@ router.get('/getbyid/:id',
      verifyToken,  
     validatorHandler(idSchema, 'params'),
     control.comunaFindById());
-
 router.post('/create',
-     verifyToken,  
+     verifyToken,
     validatorHandler(comunaSchemaCreate , 'body'),
     control.comunaCreateOrUpdateById());
 router.put('/update/:id',
@@ -30,5 +29,4 @@ router.put('/delete/:id',
     validatorHandler(idSchema, 'params'),
     validatorHandler(comunaSchemaDelete, 'body'),
     control.comunaDeleteById());
-    
 module.exports = router;

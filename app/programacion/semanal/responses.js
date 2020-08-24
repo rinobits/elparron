@@ -7,7 +7,7 @@ const programacionSemanalServices = new ProgramacionSemanalServices();
 
 const programacionSemanalFindAll = () => {
     return (req, res, next) => {
-        programacionDiariaServices.programacionSemanalFindAll()
+        programacionSemanalServices.programacionSemanalFindAll()
             .then(r => {
                 programacionSemanalServices.sortTables(r)
                     .then(tables => {

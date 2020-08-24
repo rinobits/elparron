@@ -19,7 +19,7 @@ router.get('/getbyid/:id',
     control.usuarioFindById());
 
 router.post('/create',    
-     verifyToken,  
+    verifyToken,  
     validatorHandler(usuarioSchemaCreate, 'body'),
     control.usuarioUpdateOrCreateById());
 router.put('/update/:id', 
